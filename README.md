@@ -12,6 +12,7 @@ src/components/
 │   ├── PostButton.tsx   # 投稿ボタン
 │   ├── Profile.tsx      # プロフィール表示
 │   ├── SearchForm.tsx   # 検索フォーム
+│   ├── SideNavBar.tsx   # Navbarのサイドバー表示バージョン
 │   ├── Setting.tsx      # 設定コンポーネント
 │   ├── SideActionButton.tsx  # サイドアクションボタン（いいね、シェアなど）
 │   ├── SwapActionButton.tsx  # スワップアクションボタン

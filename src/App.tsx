@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import { NavBar, SideNavBar, SwapActionButton, PostButton, Profile, SearchForm, SideActionButton, ViewSwapActionButton, Chanel, Tab } from './components'
+import { NavBar, SideNavBar, SwapActionButton, PostButton, Profile, SearchForm, SideActionButton, ViewSwapActionButton, Chanel, Tab, AppBar } from './components'
 import { ThemeProvider } from './theme/ThemeContext'
 import { IoWalletOutline, IoSettingsOutline, IoDocumentOutline, IoNewspaperOutline } from 'react-icons/io5'
 import './App.css'
@@ -15,6 +15,14 @@ function App() {
 
   const handleNavSwap = (isPlayRight: boolean) => {
     setShowSideNav(isPlayRight);
+  };
+
+  const handleDirectionChange = (isUpArrow: boolean) => {
+    console.log('Direction changed:', isUpArrow ? 'Up' : 'Down');
+  };
+
+  const handlePlayDirectionChange = (isPlayRight: boolean) => {
+    console.log('Play direction changed:', isPlayRight ? 'Right' : 'Up');
   };
 
   return (
@@ -66,6 +74,13 @@ function App() {
               </div>
             </div>
             <SideActionButton />
+          </div>
+          <div style={{ width: '100%', maxWidth: '800px', marginTop: '40px' }}>
+            <AppBar
+              username="@testuser"
+              onDirectionChange={handleDirectionChange}
+              onPlayDirectionChange={handlePlayDirectionChange}
+            />
           </div>
         </div>
         {showSideNav ? <SideNavBar /> : <NavBar />}
