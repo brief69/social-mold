@@ -22,10 +22,6 @@ src/components/
 ├── layout/          # レイアウト関連のコンポーネント
 │   ├── Chat.tsx         # チャット画面レイアウト
 │   └── SideAction.tsx   # サイドアクション領域レイアウト
-│
-├── swap/           # スワップ機能関連のコンポーネント
-│   ├── LGSwap.tsx     # listview表示/gridview表示の切り替え処理
-│   └── LRLSwap.tsx    # listview表示/左右スワイプview表示の切り替え処理
 └── index.ts        # コンポーネントのエクスポート定義
 ```
 
