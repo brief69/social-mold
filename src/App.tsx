@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import { NavBar, SwapActionButton, PostButton } from './components'
+import { NavBar, SwapActionButton, PostButton, Profile } from './components'
 import { ThemeProvider } from './theme/ThemeContext'
 import './App.css'
 
@@ -20,6 +20,7 @@ function App() {
           alignItems: 'center', 
           minHeight: '100vh' 
         }}>
+          <Profile />
           <PostButton />
           <SwapActionButton />
         </div>
