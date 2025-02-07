@@ -1,6 +1,7 @@
 import React from 'react';
 import { IoHeartOutline, IoShareSocialOutline, IoChatbubbleOutline, IoPersonOutline } from 'react-icons/io5';
 import { useTheme } from '../../theme/ThemeContext';
+import { createIconButtonStyle, createIconStyle } from '../../styles/IconStyles';
 import '../../styles/animations.css';
 
 interface SideActionButtonProps {
@@ -21,20 +22,8 @@ const SideActionButton: React.FC<SideActionButtonProps> = ({
   const containerStyle = {
     display: 'flex',
     flexDirection: 'column' as const,
-    gap: '32px',
-    padding: '16px',
-  };
-
-  const buttonStyle = {
-    background: 'none',
-    border: 'none',
-    width: '64px',
-    height: '64px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: theme.primary,
-    cursor: 'pointer',
+    gap: theme.icons.spacing.large,
+    padding: theme.icons.spacing.medium,
   };
 
   return (
@@ -42,41 +31,49 @@ const SideActionButton: React.FC<SideActionButtonProps> = ({
       <button
         className="tap-animation"
         onClick={onLike}
-        style={buttonStyle}
+        style={createIconButtonStyle(theme, 'medium')}
         title="Like"
         aria-label="Like"
       >
-        <IoHeartOutline size={48} />
+        <div style={createIconStyle()}>
+          <IoHeartOutline size={theme.icons.sizes.medium} color={theme.primary} />
+        </div>
       </button>
 
       <button
         className="tap-animation"
         onClick={onShare}
-        style={buttonStyle}
+        style={createIconButtonStyle(theme, 'medium')}
         title="Share"
         aria-label="Share"
       >
-        <IoShareSocialOutline size={48} />
+        <div style={createIconStyle()}>
+          <IoShareSocialOutline size={theme.icons.sizes.medium} color={theme.primary} />
+        </div>
       </button>
 
       <button
         className="tap-animation"
         onClick={onComment}
-        style={buttonStyle}
+        style={createIconButtonStyle(theme, 'medium')}
         title="Comment"
         aria-label="Comment"
       >
-        <IoChatbubbleOutline size={48} />
+        <div style={createIconStyle()}>
+          <IoChatbubbleOutline size={theme.icons.sizes.medium} color={theme.primary} />
+        </div>
       </button>
 
       <button
         className="tap-animation"
         onClick={onProfile}
-        style={buttonStyle}
+        style={createIconButtonStyle(theme, 'medium')}
         title="Profile"
         aria-label="Profile"
       >
-        <IoPersonOutline size={48} />
+        <div style={createIconStyle()}>
+          <IoPersonOutline size={theme.icons.sizes.medium} color={theme.primary} />
+        </div>
       </button>
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ListView from './ListView';
 import GridView from './GridView';
 import SwipeView from './SwipeView';
-import ViewSwapActionButton from '../common/ViewSwapActionButton';
+import SwapActionButton from '../common/SwapActionButton';
 import '../../styles/Layout.css';
 
 type ViewMode = 'list' | 'grid' | 'swipe';
@@ -12,7 +12,7 @@ interface SearchProps {
 }
 
 const Search: React.FC<SearchProps> = ({ onAction }) => {
-  const [viewMode, setViewMode] = useState<ViewMode>('grid');
+  const [viewMode, setViewMode] = useState<ViewMode>('list');
 
   const handleAction = (action: 'like' | 'comment' | 'share' | 'profile', itemId: string) => {
     onAction?.(action, itemId);
@@ -27,7 +27,7 @@ const Search: React.FC<SearchProps> = ({ onAction }) => {
       case 'swipe':
         return <SwipeView onAction={handleAction} />;
       default:
-        return <GridView onAction={handleAction} />;
+        return <ListView onAction={handleAction} />;
     }
   };
 
@@ -35,10 +35,16 @@ const Search: React.FC<SearchProps> = ({ onAction }) => {
     <div className="layout-container">
       <div className="content-container">
         <div className="content-inner">
-          <div className="view-swap-button">
-            <ViewSwapActionButton
+          <div style={{
+            position: 'absolute',
+            top: '20px',
+            right: '20px',
+            zIndex: 1000,
+          }}>
+            <SwapActionButton
+              mode="view"
               onViewChange={setViewMode}
-              defaultMode={viewMode}
+              defaultViewMode={viewMode}
             />
           </div>
           {renderContent()}

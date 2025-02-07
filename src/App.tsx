@@ -8,8 +8,6 @@ import {
   Search,
   Chat,
   Profile,
-  SwipeView,
-  GridView,
 } from './components'
 import { ThemeProvider } from './theme/ThemeContext'
 import './App.css'
@@ -41,7 +39,11 @@ function App() {
       case 'chat':
         return <Chat />;
       case 'profile':
-        return <Profile onGalleryClick={handleGalleryClick} />;
+        return <Profile 
+          onGalleryClick={handleGalleryClick} 
+          onNavSwap={handleNavSwap}
+          isShowingSideNav={showSideNav}
+        />;
       case 'gallery':
         return <ComponentGallery />;
       default:

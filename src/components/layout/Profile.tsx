@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ListView from './ListView';
 import GridView from './GridView';
 import SwipeView from './SwipeView';
-import ViewSwapActionButton from '../common/ViewSwapActionButton';
+import SwapActionButton from '../common/SwapActionButton';
 import AppBar from './AppBar';
 import '../../styles/Layout.css';
 
@@ -11,9 +11,16 @@ type ViewMode = 'list' | 'grid' | 'swipe';
 interface ProfileProps {
   onAction?: (action: 'like' | 'comment' | 'share' | 'profile', itemId: string) => void;
   onGalleryClick?: () => void;
+  onNavSwap?: (isPlayRight: boolean) => void;
+  isShowingSideNav?: boolean;
 }
 
-const Profile: React.FC<ProfileProps> = ({ onAction, onGalleryClick }) => {
+const Profile: React.FC<ProfileProps> = ({ 
+  onAction, 
+  onGalleryClick,
+  onNavSwap,
+  isShowingSideNav = false
+}) => {
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
 
   const handleAction = (action: 'like' | 'comment' | 'share' | 'profile', itemId: string) => {
@@ -21,11 +28,12 @@ const Profile: React.FC<ProfileProps> = ({ onAction, onGalleryClick }) => {
   };
 
   const handleDirectionChange = (isUpArrow: boolean) => {
-    setViewMode(isUpArrow ? 'list' : 'swipe');
+    // 上下矢印の切り替えは表示モードに影響を与えないように修正
+    // setViewMode(isUpArrow ? 'list' : 'swipe');
   };
 
   const handlePlayDirectionChange = (isPlayRight: boolean) => {
-    setViewMode(isPlayRight ? 'grid' : 'list');
+    onNavSwap?.(isPlayRight);
   };
 
   const renderContent = () => {
@@ -47,13 +55,20 @@ const Profile: React.FC<ProfileProps> = ({ onAction, onGalleryClick }) => {
         onGalleryClick={onGalleryClick}
         onDirectionChange={handleDirectionChange}
         onPlayDirectionChange={handlePlayDirectionChange}
+        isPlayRight={!isShowingSideNav}
       />
       <div className="content-container" style={{ paddingTop: '64px' }}>
         <div className="content-inner">
-          <div className="view-swap-button">
-            <ViewSwapActionButton
+          <div style={{
+            position: 'absolute',
+            top: '84px',
+            right: '20px',
+            zIndex: 1000,
+          }}>
+            <SwapActionButton
+              mode="view-grid"
               onViewChange={setViewMode}
-              defaultMode={viewMode}
+              defaultViewMode={viewMode}
             />
           </div>
           {renderContent()}
