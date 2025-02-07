@@ -11,9 +11,7 @@ export { default as Wallet } from './common/Wallet';
 export { default as Chanel } from './common/Chanel';
 
 // Swap Components
-export { default as SwapCard } from './swap/SwapCard';
-export { default as SwapForm } from './swap/SwapForm';
-export { default as SwapList } from './swap/SwapList';
+
 
 // Layout Components
 export { default as Chat } from './layout/Chat';
