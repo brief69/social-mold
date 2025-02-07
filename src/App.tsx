@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { NavBar, SideNavBar, SwapActionButton, PostButton, Profile, SearchForm, SideAction, ViewSwapActionButton, Chanel, Tab, AppBar, Post } from './components'
+import { NavBar, SideNavBar, SwapActionButton, PostButton, Profile, SearchForm, SideAction, ViewSwapActionButton, Chanel, Tab, Post } from './components'
 import { ThemeProvider } from './theme/ThemeContext'
 import { IoWalletOutline, IoSettingsOutline, IoDocumentOutline, IoNewspaperOutline } from 'react-icons/io5'
 import './App.css'
@@ -14,14 +14,6 @@ function App() {
 
   const handleNavSwap = (isPlayRight: boolean) => {
     setShowSideNav(isPlayRight);
-  };
-
-  const handleDirectionChange = (isUpArrow: boolean) => {
-    console.log('Direction changed:', isUpArrow ? 'Up' : 'Down');
-  };
-
-  const handlePlayDirectionChange = (isPlayRight: boolean) => {
-    console.log('Play direction changed:', isPlayRight ? 'Right' : 'Up');
   };
 
   const handleLike = () => {
@@ -48,6 +40,8 @@ function App() {
     switch (activeScreen) {
       case 'post':
         return <Post />;
+      case 'profile':
+        return <Profile />;
       default:
         return (
           <>
@@ -113,13 +107,6 @@ function App() {
           paddingTop: '20px',
         }}>
           {renderMainContent()}
-          <div style={{ width: '100%', maxWidth: '800px', marginTop: '40px' }}>
-            <AppBar
-              username="@testuser"
-              onDirectionChange={handleDirectionChange}
-              onPlayDirectionChange={handlePlayDirectionChange}
-            />
-          </div>
         </div>
         {showSideNav ? (
           <SideNavBar onTabChange={handleNavTabChange} />
