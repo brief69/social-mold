@@ -46,20 +46,24 @@ function App() {
   return (
     <ThemeProvider>
       <div style={{ 
-        width: '100%',
-        minHeight: '100vh',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         backgroundColor: '#121212',
+        overflow: 'auto',
       }}>
-        <div style={{ 
+        <main style={{ 
           width: '100%',
-          minHeight: '100vh',
+          minHeight: '100%',
           paddingBottom: '60px',
           paddingLeft: showSideNav ? '88px' : '0',
           transition: 'padding-left 0.3s ease',
           backgroundColor: '#121212',
         }}>
           {renderMainContent()}
-        </div>
+        </main>
         {showSideNav ? (
           <SideNavBar onTabChange={handleNavTabChange} onSwap={handleNavSwap} />
         ) : (
