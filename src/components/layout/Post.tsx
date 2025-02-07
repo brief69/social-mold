@@ -14,13 +14,7 @@ const Post: React.FC = () => {
   return (
     <div className="layout-container">
       <div className="content-container">
-        <div style={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '20px',
-          alignItems: 'center',
-        }}>
+        <div className="content-inner">
           {/* タブ切り替え */}
           <Tab
             items={[
@@ -32,9 +26,9 @@ const Post: React.FC = () => {
 
           {/* コンテンツ表示エリア */}
           {activeTab === '0' ? (
-            <div>Posts Contents</div>
+            <div style={{ marginTop: '20px' }}>Posts Contents</div>
           ) : (
-            <div>Drafts Contents</div>
+            <div style={{ marginTop: '20px' }}>Drafts Contents</div>
           )}
 
           {/* PostButton */}

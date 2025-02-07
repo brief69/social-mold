@@ -5,7 +5,9 @@ const Chat: React.FC = () => {
   return (
     <div className="layout-container">
       <div className="content-container">
-        <div>Chat Contents</div>
+        <div className="content-inner">
+          <div>Chat Contents</div>
+        </div>
       </div>
     </div>
   );

@@ -16,12 +16,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
   return (
     <div className="layout-container">
       <div className="content-container">
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '40px',
-          alignItems: 'center',
-        }}>
+        <div className="content-inner">
           <div>Home Contents</div>
           
           <button
@@ -35,6 +30,7 @@ const Home: React.FC<HomeProps> = ({ onNavigate }) => {
               fontSize: '16px',
               cursor: 'pointer',
               transition: 'all 0.3s ease',
+              marginTop: '20px',
             }}
             className="tap-animation"
           >

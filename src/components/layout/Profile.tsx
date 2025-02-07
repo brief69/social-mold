@@ -21,7 +21,9 @@ const Profile: React.FC = () => {
       />
 
       <div className="content-container">
-        <div>Profile Contents</div>
+        <div className="content-inner">
+          <div>Profile Contents</div>
+        </div>
       </div>
     </div>
   );
