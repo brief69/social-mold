@@ -31,8 +31,8 @@ const ViewSwapActionButton: React.FC<ViewSwapActionButtonProps> = ({
   const buttonStyle = {
     background: 'none',
     border: 'none',
-    width: '64px',
-    height: '64px',
+    width: '80px',
+    height: '80px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -43,13 +43,13 @@ const ViewSwapActionButton: React.FC<ViewSwapActionButtonProps> = ({
   const getIcon = () => {
     switch (currentView) {
       case 'list':
-        return <IoList size={48} />;
+        return <IoList size={40} />;
       case 'grid':
-        return <IoGrid size={48} />;
+        return <IoGrid size={40} />;
       case 'swipe':
-        return <IoSwapHorizontal size={48} />;
+        return <IoSwapHorizontal size={40} />;
       default:
-        return <IoSwapHorizontal size={48} />;
+        return <IoSwapHorizontal size={40} />;
     }
   };
 
