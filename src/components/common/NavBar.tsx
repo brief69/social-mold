@@ -4,9 +4,11 @@ import { BiSearch } from 'react-icons/bi';
 import { IoMdAdd } from 'react-icons/io';
 import { IoChatbubbles } from 'react-icons/io5';
 import { CgProfile } from 'react-icons/cg';
+import { useTheme } from '../../theme/ThemeContext';
 
 const NavBar: React.FC = () => {
   const [activeTab, setActiveTab] = useState('home');
+  const theme = useTheme();
 
   const handleClick = (tab: string) => {
     setActiveTab(tab);
@@ -18,12 +20,12 @@ const NavBar: React.FC = () => {
       bottom: 0,
       left: 0,
       width: '100%',
-      backgroundColor: '#000000',
+      backgroundColor: theme.background,
       padding: '12px 0',
       display: 'flex',
       justifyContent: 'space-around',
       alignItems: 'center',
-      borderTop: '1px solid #333333'
+      borderTop: `1px solid ${theme.border}`
     }}>
       <button 
         style={{
@@ -34,7 +36,7 @@ const NavBar: React.FC = () => {
         aria-label="Home"
         onClick={() => handleClick('home')}
       >
-        <AiFillHome size={24} color="#FFFFFF" />
+        <AiFillHome size={24} color={theme.primary} />
       </button>
       <button 
         style={{
@@ -45,7 +47,7 @@ const NavBar: React.FC = () => {
         aria-label="Search"
         onClick={() => handleClick('search')}
       >
-        <BiSearch size={24} color="#FFFFFF" />
+        <BiSearch size={24} color={theme.primary} />
       </button>
       <button 
         style={{
@@ -56,7 +58,7 @@ const NavBar: React.FC = () => {
         aria-label="Create Post"
         onClick={() => handleClick('post')}
       >
-        <IoMdAdd size={24} color="#FFFFFF" />
+        <IoMdAdd size={24} color={theme.primary} />
       </button>
       <button 
         style={{
@@ -67,7 +69,7 @@ const NavBar: React.FC = () => {
         aria-label="Chat"
         onClick={() => handleClick('chat')}
       >
-        <IoChatbubbles size={24} color="#FFFFFF" />
+        <IoChatbubbles size={24} color={theme.primary} />
       </button>
       <button 
         style={{
@@ -78,7 +80,7 @@ const NavBar: React.FC = () => {
         aria-label="Profile"
         onClick={() => handleClick('profile')}
       >
-        <CgProfile size={24} color="#FFFFFF" />
+        <CgProfile size={24} color={theme.primary} />
       </button>
     </nav>
   );

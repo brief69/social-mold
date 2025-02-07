@@ -1,7 +1,10 @@
 import React from 'react';
 import { IoArrowUp, IoArrowDown, IoPlay } from 'react-icons/io5';
+import { useTheme } from '../../theme/ThemeContext';
 
 const SwapActionButton: React.FC = () => {
+  const theme = useTheme();
+
   const handleUpAction = () => {
     // TODO: 上矢印ボタンの処理を実装
   };
@@ -18,6 +21,23 @@ const SwapActionButton: React.FC = () => {
     // TODO: 上向き再生ボタンの処理を実装
   };
 
+  const buttonStyle = {
+    background: 'none',
+    border: `2px solid ${theme.primary}`,
+    borderRadius: '50%',
+    padding: '10px',
+    width: '48px',
+    height: '48px',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'all 0.2s ease',
+    ':hover': {
+      opacity: 0.8
+    }
+  } as const;
+
   return (
     <div style={{
       display: 'flex',
@@ -30,7 +50,7 @@ const SwapActionButton: React.FC = () => {
         title="Up Action"
         aria-label="Up Action"
       >
-        <IoArrowUp size={28} color="#FFFFFF" />
+        <IoArrowUp size={28} color={theme.primary} />
       </button>
 
       <button
@@ -39,7 +59,7 @@ const SwapActionButton: React.FC = () => {
         title="Down Action"
         aria-label="Down Action"
       >
-        <IoArrowDown size={28} color="#FFFFFF" />
+        <IoArrowDown size={28} color={theme.primary} />
       </button>
 
       <button
@@ -48,7 +68,7 @@ const SwapActionButton: React.FC = () => {
         title="Play Action"
         aria-label="Play Action"
       >
-        <IoPlay size={28} color="#FFFFFF" />
+        <IoPlay size={28} color={theme.primary} />
       </button>
 
       <button
@@ -57,27 +77,10 @@ const SwapActionButton: React.FC = () => {
         title="Play Up Action"
         aria-label="Play Up Action"
       >
-        <IoPlay size={28} color="#FFFFFF" style={{ transform: 'rotate(-90deg)' }} />
+        <IoPlay size={28} color={theme.primary} style={{ transform: 'rotate(-90deg)' }} />
       </button>
     </div>
   );
 };
-
-const buttonStyle = {
-  background: 'none',
-  border: '2px solid #FFFFFF',
-  borderRadius: '50%',
-  padding: '10px',
-  width: '48px',
-  height: '48px',
-  cursor: 'pointer',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  transition: 'all 0.2s ease',
-  ':hover': {
-    opacity: 0.8
-  }
-} as const;
 
 export default SwapActionButton; 
