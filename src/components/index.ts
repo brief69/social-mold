@@ -20,4 +20,5 @@ export { default as Post } from './layout/Post';
 export { default as ComponentGallery } from './layout/ComponentGallery';
 export { default as Home } from './layout/Home';
 export { default as Search } from './layout/Search';
-export { default as SwipeView } from './layout/SwipeView'; 
+export { default as SwipeView } from './layout/SwipeView';
+export { default as GridView } from './layout/GridView'; 

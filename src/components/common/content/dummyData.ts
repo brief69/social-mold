@@ -120,4 +120,121 @@ export const dummyContents: ContentItem[] = [
       tags: ['音楽', 'JPOP', 'プレイリスト'],
     }
   }
+];
+
+export const dummyImageContents: ContentItem[] = [
+  {
+    id: 'img1',
+    userId: 'photographer1',
+    username: '@nature_photo',
+    userAvatar: 'https://picsum.photos/seed/user1/40',
+    createdAt: new Date('2024-02-08T10:00:00'),
+    mainContent: {
+      type: 'image',
+      content: 'https://picsum.photos/seed/nature1/800/1200',
+      aspectRatio: 2/3
+    },
+    metadata: {
+      likes: 2400,
+      comments: 89,
+      shares: 156,
+      views: 12000,
+      tags: ['写真', '自然', 'ポートレート'],
+    }
+  },
+  {
+    id: 'img2',
+    userId: 'photographer2',
+    username: '@landscape',
+    userAvatar: 'https://picsum.photos/seed/user2/40',
+    createdAt: new Date('2024-02-08T09:30:00'),
+    mainContent: {
+      type: 'image',
+      content: 'https://picsum.photos/seed/landscape1/1200/800',
+      aspectRatio: 3/2
+    },
+    metadata: {
+      likes: 3600,
+      comments: 145,
+      shares: 278,
+      views: 18000,
+      tags: ['風景', '写真', 'トラベル'],
+    }
+  },
+  {
+    id: 'img3',
+    userId: 'photographer3',
+    username: '@street_snap',
+    userAvatar: 'https://picsum.photos/seed/user3/40',
+    createdAt: new Date('2024-02-08T09:00:00'),
+    mainContent: {
+      type: 'image',
+      content: 'https://picsum.photos/seed/street1/1000/1000',
+      aspectRatio: 1
+    },
+    metadata: {
+      likes: 1800,
+      comments: 67,
+      shares: 92,
+      views: 8500,
+      tags: ['スナップ', 'モノクロ', 'ストリート'],
+    }
+  },
+  {
+    id: 'img4',
+    userId: 'photographer4',
+    username: '@minimal',
+    userAvatar: 'https://picsum.photos/seed/user4/40',
+    createdAt: new Date('2024-02-08T08:30:00'),
+    mainContent: {
+      type: 'image',
+      content: 'https://picsum.photos/seed/minimal1/800/1000',
+      aspectRatio: 4/5
+    },
+    metadata: {
+      likes: 4200,
+      comments: 234,
+      shares: 567,
+      views: 25000,
+      tags: ['ミニマル', 'デザイン', 'アート'],
+    }
+  },
+  {
+    id: 'img5',
+    userId: 'photographer5',
+    username: '@architecture',
+    userAvatar: 'https://picsum.photos/seed/user5/40',
+    createdAt: new Date('2024-02-08T08:00:00'),
+    mainContent: {
+      type: 'image',
+      content: 'https://picsum.photos/seed/architecture1/1200/600',
+      aspectRatio: 2/1
+    },
+    metadata: {
+      likes: 5600,
+      comments: 342,
+      shares: 890,
+      views: 35000,
+      tags: ['建築', 'パノラマ', '都市'],
+    }
+  },
+  {
+    id: 'img6',
+    userId: 'photographer6',
+    username: '@portrait',
+    userAvatar: 'https://picsum.photos/seed/user6/40',
+    createdAt: new Date('2024-02-08T07:30:00'),
+    mainContent: {
+      type: 'image',
+      content: 'https://picsum.photos/seed/portrait1/600/900',
+      aspectRatio: 2/3
+    },
+    metadata: {
+      likes: 3200,
+      comments: 156,
+      shares: 234,
+      views: 15000,
+      tags: ['ポートレート', '人物', 'アート'],
+    }
+  }
 ]; 

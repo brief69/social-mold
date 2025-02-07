@@ -29,6 +29,20 @@
   padding: 20px;
 }
 
+.grid-card-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: transform 0.3s ease;
+}
+
+.grid-card-wrapper:hover {
+  transform: scale(1.05);
+  z-index: 1;
+}
+
 /* スマートフォン向け */
 @media (max-width: 480px) {
   .content-inner {

@@ -10,6 +10,7 @@ import {
   Profile,
   AppBar,
   SwipeView,
+  GridView,
 } from './components'
 import { ThemeProvider } from './theme/ThemeContext'
 import './App.css'
@@ -17,7 +18,7 @@ import './App.css'
 function App() {
   const [showSideNav, setShowSideNav] = useState(false);
   const [activeScreen, setActiveScreen] = useState('home');
-  const [viewMode, setViewMode] = useState<'list' | 'swipe'>('list');
+  const [viewMode, setViewMode] = useState<'list' | 'grid' | 'swipe'>('list');
 
   const handleNavSwap = (isPlayRight: boolean) => {
     setShowSideNav(isPlayRight);
@@ -35,12 +36,23 @@ function App() {
     setViewMode(isUpArrow ? 'list' : 'swipe');
   };
 
+  const handlePlayDirectionChange = (isPlayRight: boolean) => {
+    setViewMode(isPlayRight ? 'grid' : 'list');
+  };
+
   const renderMainContent = () => {
     switch (activeScreen) {
       case 'home':
-        return viewMode === 'list' 
-          ? <Home onNavigate={handleNavTabChange} />
-          : <SwipeView />;
+        switch (viewMode) {
+          case 'list':
+            return <Home />;
+          case 'grid':
+            return <GridView />;
+          case 'swipe':
+            return <SwipeView />;
+          default:
+            return <Home />;
+        }
       case 'search':
         return <Search />;
       case 'post':
@@ -52,7 +64,7 @@ function App() {
       case 'gallery':
         return <ComponentGallery />;
       default:
-        return <Home onNavigate={handleNavTabChange} />;
+        return <Home />;
     }
   };
 
@@ -70,6 +82,7 @@ function App() {
         <AppBar 
           onGalleryClick={handleGalleryClick}
           onDirectionChange={handleDirectionChange}
+          onPlayDirectionChange={handlePlayDirectionChange}
         />
         <main style={{ 
           width: '100%',

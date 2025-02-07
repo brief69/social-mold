@@ -46,14 +46,20 @@ const ContentCard: React.FC<ContentCardProps> = ({
   const containerStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
-    gap: '12px',
-    padding: '16px',
-    borderRadius: '16px',
-    border: `1px solid ${theme.border}`,
+    gap: variant === 'grid' ? '8px' : '12px',
+    padding: variant === 'grid' ? '0' : '16px',
+    borderRadius: variant === 'grid' ? '0' : '16px',
+    border: variant === 'grid' ? 'none' : `1px solid ${theme.border}`,
     backgroundColor: 'transparent',
     width: '100%',
-    maxWidth: variant === 'grid' ? '300px' : '600px',
+    height: variant === 'grid' ? '100%' : 'auto',
+    maxWidth: variant === 'grid' ? 'none' : '600px',
     transition: 'all 0.3s ease',
+    position: variant === 'grid' ? 'absolute' : 'relative',
+    top: variant === 'grid' ? '0' : 'auto',
+    left: variant === 'grid' ? '0' : 'auto',
+    right: variant === 'grid' ? '0' : 'auto',
+    bottom: variant === 'grid' ? '0' : 'auto',
   };
 
   const handleAction = (action: 'like' | 'comment' | 'share' | 'profile') => {
@@ -62,18 +68,21 @@ const ContentCard: React.FC<ContentCardProps> = ({
 
   return (
     <div style={containerStyle} className="tap-animation">
-      <ContentMetadata
-        username={item.username}
-        userAvatar={item.userAvatar}
-        createdAt={item.createdAt}
-        onProfileClick={() => handleAction('profile')}
-      />
+      {variant !== 'grid' && (
+        <ContentMetadata
+          username={item.username}
+          userAvatar={item.userAvatar}
+          createdAt={item.createdAt}
+          onProfileClick={() => handleAction('profile')}
+        />
+      )}
       
       <ContentMedia
         type={item.mainContent.type}
         content={item.mainContent.content}
         aspectRatio={item.mainContent.aspectRatio}
         duration={item.mainContent.duration}
+        variant={variant}
       />
 
       {item.subContents?.map((subContent, index) => (
@@ -82,18 +91,21 @@ const ContentCard: React.FC<ContentCardProps> = ({
           type={subContent.type}
           content={subContent.content}
           isSubContent
+          variant={variant}
         />
       ))}
 
-      <ContentActions
-        likes={item.metadata.likes}
-        comments={item.metadata.comments}
-        shares={item.metadata.shares}
-        views={item.metadata.views}
-        onLike={() => handleAction('like')}
-        onComment={() => handleAction('comment')}
-        onShare={() => handleAction('share')}
-      />
+      {variant !== 'grid' && (
+        <ContentActions
+          likes={item.metadata.likes}
+          comments={item.metadata.comments}
+          shares={item.metadata.shares}
+          views={item.metadata.views}
+          onLike={() => handleAction('like')}
+          onComment={() => handleAction('comment')}
+          onShare={() => handleAction('share')}
+        />
+      )}
     </div>
   );
 };

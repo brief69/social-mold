@@ -7,6 +7,7 @@ interface ContentMediaProps {
   aspectRatio?: number;
   duration?: number;
   isSubContent?: boolean;
+  variant?: 'list' | 'grid' | 'swipe';
 }
 
 const ContentMedia: React.FC<ContentMediaProps> = ({
@@ -15,21 +16,23 @@ const ContentMedia: React.FC<ContentMediaProps> = ({
   aspectRatio = 16/9,
   duration,
   isSubContent = false,
+  variant = 'list',
 }) => {
   const theme = useTheme();
 
   const containerStyle: React.CSSProperties = {
     width: '100%',
+    height: variant === 'grid' ? '100%' : 'auto',
     position: 'relative',
-    borderRadius: '8px',
+    borderRadius: variant === 'grid' ? '0' : '8px',
     overflow: 'hidden',
   };
 
   const mediaStyle: React.CSSProperties = {
     width: '100%',
-    height: type === 'text' ? 'auto' : '0',
-    paddingBottom: type !== 'text' ? `${(1 / aspectRatio) * 100}%` : '0',
-    position: type !== 'text' ? 'relative' : 'static',
+    height: variant === 'grid' ? '100%' : (type === 'text' ? 'auto' : '0'),
+    paddingBottom: variant === 'grid' ? '0' : (type !== 'text' ? `${(1 / aspectRatio) * 100}%` : '0'),
+    position: variant === 'grid' ? 'absolute' : (type !== 'text' ? 'relative' : 'static'),
     fontSize: isSubContent ? '14px' : '16px',
     color: theme.primary,
   };
@@ -52,6 +55,7 @@ const ContentMedia: React.FC<ContentMediaProps> = ({
               height: '100%',
               objectFit: 'cover',
             }}
+            loading="lazy"
           />
         );
       
