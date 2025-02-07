@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { NavBar, SideNavBar, SwapActionButton, PostButton, Profile, SearchForm, SideActionButton, ViewSwapActionButton, Chanel, Tab, AppBar } from './components'
+import { NavBar, SideNavBar, SwapActionButton, PostButton, Profile, SearchForm, SideAction, ViewSwapActionButton, Chanel, Tab, AppBar } from './components'
 import { ThemeProvider } from './theme/ThemeContext'
 import { IoWalletOutline, IoSettingsOutline, IoDocumentOutline, IoNewspaperOutline } from 'react-icons/io5'
 import './App.css'
@@ -21,6 +21,22 @@ function App() {
 
   const handlePlayDirectionChange = (isPlayRight: boolean) => {
     console.log('Play direction changed:', isPlayRight ? 'Right' : 'Up');
+  };
+
+  const handleLike = () => {
+    console.log('Like action');
+  };
+
+  const handleShare = () => {
+    console.log('Share action');
+  };
+
+  const handleComment = () => {
+    console.log('Comment action');
+  };
+
+  const handleProfile = () => {
+    console.log('Profile action');
   };
 
   return (
@@ -71,7 +87,13 @@ function App() {
                 />
               </div>
             </div>
-            <SideActionButton />
+            <SideAction
+              onLike={handleLike}
+              onShare={handleShare}
+              onComment={handleComment}
+              onProfile={handleProfile}
+              position="right"
+            />
           </div>
           <div style={{ width: '100%', maxWidth: '800px', marginTop: '40px' }}>
             <AppBar

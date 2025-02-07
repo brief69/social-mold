@@ -3,36 +3,20 @@ import { IoHeartOutline, IoShareSocialOutline, IoChatbubbleOutline, IoPersonOutl
 import { useTheme } from '../../theme/ThemeContext';
 import '../../styles/animations.css';
 
-const SideActionButton: React.FC = () => {
+interface SideActionButtonProps {
+  onLike?: () => void;
+  onShare?: () => void;
+  onComment?: () => void;
+  onProfile?: () => void;
+}
+
+const SideActionButton: React.FC<SideActionButtonProps> = ({
+  onLike,
+  onShare,
+  onComment,
+  onProfile,
+}) => {
   const theme = useTheme();
-
-  const handleLike = () => {
-    // TODO: いいねアクションの処理を実装
-    // - いいねカウントの更新
-    // - アニメーション効果
-    // - サーバーへの通知
-  };
-
-  const handleShare = () => {
-    // TODO: 共有アクションの処理を実装
-    // - シェアオプションの表示
-    // - 各種SNSへの共有機能
-    // - クリップボードへのコピー
-  };
-
-  const handleComment = () => {
-    // TODO: コメントアクションの処理を実装
-    // - コメントセクションの表示
-    // - コメント入力フォームの表示
-    // - コメントリストの表示
-  };
-
-  const handleProfile = () => {
-    // TODO: プロフィールアクションの処理を実装
-    // - ユーザープロフィールの表示
-    // - フォロー/フォロワー情報の表示
-    // - ユーザー投稿履歴の表示
-  };
 
   const containerStyle = {
     display: 'flex',
@@ -57,7 +41,7 @@ const SideActionButton: React.FC = () => {
     <div style={containerStyle}>
       <button
         className="tap-animation"
-        onClick={handleLike}
+        onClick={onLike}
         style={buttonStyle}
         title="Like"
         aria-label="Like"
@@ -67,7 +51,7 @@ const SideActionButton: React.FC = () => {
 
       <button
         className="tap-animation"
-        onClick={handleShare}
+        onClick={onShare}
         style={buttonStyle}
         title="Share"
         aria-label="Share"
@@ -77,7 +61,7 @@ const SideActionButton: React.FC = () => {
 
       <button
         className="tap-animation"
-        onClick={handleComment}
+        onClick={onComment}
         style={buttonStyle}
         title="Comment"
         aria-label="Comment"
@@ -87,7 +71,7 @@ const SideActionButton: React.FC = () => {
 
       <button
         className="tap-animation"
-        onClick={handleProfile}
+        onClick={onProfile}
         style={buttonStyle}
         title="Profile"
         aria-label="Profile"
