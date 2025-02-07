@@ -4,7 +4,11 @@ import { IoPlayOutline } from 'react-icons/io5';
 import { useTheme } from '../../theme/ThemeContext';
 import '../../styles/animations.css';
 
-const SwapActionButton: React.FC = () => {
+interface SwapActionButtonProps {
+  onPlayDirectionChange?: (isPlayRight: boolean) => void;
+}
+
+const SwapActionButton: React.FC<SwapActionButtonProps> = ({ onPlayDirectionChange }) => {
   const theme = useTheme();
   const [isUpArrow, setIsUpArrow] = useState(true);
   const [isPlayRight, setIsPlayRight] = useState(true);
@@ -20,13 +24,15 @@ const SwapActionButton: React.FC = () => {
   };
 
   const handlePlayAction = () => {
-    setIsPlayRight(!isPlayRight);
-    // TODO: 再生ボタンの処理を実装
+    const newIsPlayRight = !isPlayRight;
+    setIsPlayRight(newIsPlayRight);
+    onPlayDirectionChange?.(newIsPlayRight);
   };
 
   const handlePlayUpAction = () => {
-    setIsPlayRight(!isPlayRight);
-    // TODO: 上向き再生ボタンの処理を実装
+    const newIsPlayRight = !isPlayRight;
+    setIsPlayRight(newIsPlayRight);
+    onPlayDirectionChange?.(newIsPlayRight);
   };
 
   const buttonStyle = {

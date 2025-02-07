@@ -1,16 +1,20 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import { NavBar, SwapActionButton, PostButton, Profile, SearchForm, SideActionButton, ViewSwapActionButton, Chanel, Tab } from './components'
+import { NavBar, SideNavBar, SwapActionButton, PostButton, Profile, SearchForm, SideActionButton, ViewSwapActionButton, Chanel, Tab } from './components'
 import { ThemeProvider } from './theme/ThemeContext'
 import { IoWalletOutline, IoSettingsOutline, IoDocumentOutline, IoNewspaperOutline } from 'react-icons/io5'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [showSideNav, setShowSideNav] = useState(false);
 
   const handleTabChange = (tabId: string, type: 'settings' | 'posts') => {
     console.log(`Selected ${type} tab: ${tabId}`);
+  };
+
+  const handleNavSwap = (isPlayRight: boolean) => {
+    setShowSideNav(isPlayRight);
   };
 
   return (
@@ -18,6 +22,7 @@ function App() {
       <div style={{ minHeight: '100vh', backgroundColor: '#121212' }}>
         <div style={{ 
           paddingBottom: '60px', 
+          paddingLeft: showSideNav ? '88px' : '0', // 左側にパディングを移動
           display: 'flex', 
           flexDirection: 'column',
           gap: '20px',
@@ -41,7 +46,7 @@ function App() {
               <SearchForm />
               <Profile />
               <PostButton />
-              <SwapActionButton />
+              <SwapActionButton onPlayDirectionChange={handleNavSwap} />
               <ViewSwapActionButton />
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <Tab
@@ -63,7 +68,7 @@ function App() {
             <SideActionButton />
           </div>
         </div>
-        <NavBar />
+        {showSideNav ? <SideNavBar /> : <NavBar />}
       </div>
     </ThemeProvider>
   )
