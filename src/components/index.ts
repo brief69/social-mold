@@ -16,4 +16,5 @@ export { default as Tab } from './common/Tab';
 export { default as AppBar } from './layout/AppBar';
 export { default as Chat } from './layout/Chat';
 export { default as SideAction } from './layout/SideAction';
-export { default as Post } from './layout/Post'; 
+export { default as Post } from './layout/Post';
+export { default as ComponentGallery } from './layout/ComponentGallery'; 
