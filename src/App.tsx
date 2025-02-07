@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import { NavBar, SwapActionButton, PostButton, Profile, SearchForm, SideActionButton } from './components'
+import { NavBar, SwapActionButton, PostButton, Profile, SearchForm, SideActionButton, ViewSwapActionButton } from './components'
 import { ThemeProvider } from './theme/ThemeContext'
 import './App.css'
 
@@ -34,6 +34,7 @@ function App() {
               <Profile />
               <PostButton />
               <SwapActionButton />
+              <ViewSwapActionButton />
             </div>
             <SideActionButton />
           </div>

@@ -5,6 +5,7 @@ export { default as Tab } from './common/Tab';
 export { default as PostButton } from './common/PostButton';
 export { default as SideActionButton } from './common/SideActionButton';
 export { default as SwapActionButton } from './common/SwapActionButton';
+export { default as ViewSwapActionButton } from './common/ViewSwapActionButton';
 export { default as SearchForm } from './common/SearchForm';
 export { default as Setting } from './common/Setting';
 export { default as Wallet } from './common/Wallet';
