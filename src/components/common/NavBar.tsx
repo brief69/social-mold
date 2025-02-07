@@ -7,12 +7,17 @@ import { CgProfile } from 'react-icons/cg';
 import { useTheme } from '../../theme/ThemeContext';
 import '../../styles/animations.css';
 
-const NavBar: React.FC = () => {
+interface NavBarProps {
+  onTabChange?: (tab: string) => void;
+}
+
+const NavBar: React.FC<NavBarProps> = ({ onTabChange }) => {
   const [activeTab, setActiveTab] = useState('home');
   const theme = useTheme();
 
   const handleClick = (tab: string) => {
     setActiveTab(tab);
+    onTabChange?.(tab);
   };
 
   const iconButtonStyle = {
@@ -35,7 +40,8 @@ const NavBar: React.FC = () => {
       display: 'flex',
       justifyContent: 'space-around',
       alignItems: 'center',
-      borderTop: `1px solid ${theme.border}`
+      borderTop: `1px solid ${theme.border}`,
+      zIndex: 1000,
     }}>
       <button 
         className="tap-animation"

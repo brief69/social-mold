@@ -7,12 +7,17 @@ import { CgProfile } from 'react-icons/cg';
 import { useTheme } from '../../theme/ThemeContext';
 import '../../styles/animations.css';
 
-const SideNavBar: React.FC = () => {
+interface SideNavBarProps {
+  onTabChange?: (tab: string) => void;
+}
+
+const SideNavBar: React.FC<SideNavBarProps> = ({ onTabChange }) => {
   const [activeTab, setActiveTab] = useState('home');
   const theme = useTheme();
 
   const handleClick = (tab: string) => {
     setActiveTab(tab);
+    onTabChange?.(tab);
   };
 
   const iconButtonStyle = {
