@@ -1,6 +1,7 @@
 import React from 'react';
 import { IoArrowUp, IoArrowDown, IoPlay } from 'react-icons/io5';
 import { useTheme } from '../../theme/ThemeContext';
+import '../../styles/animations.css';
 
 const SwapActionButton: React.FC = () => {
   const theme = useTheme();
@@ -28,14 +29,9 @@ const SwapActionButton: React.FC = () => {
     padding: '10px',
     width: '48px',
     height: '48px',
-    cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    transition: 'all 0.2s ease',
-    ':hover': {
-      opacity: 0.8
-    }
   } as const;
 
   return (
@@ -45,6 +41,7 @@ const SwapActionButton: React.FC = () => {
       padding: '12px'
     }}>
       <button
+        className="tap-animation-large"
         onClick={handleUpAction}
         style={buttonStyle}
         title="Up Action"
@@ -54,6 +51,7 @@ const SwapActionButton: React.FC = () => {
       </button>
 
       <button
+        className="tap-animation-large"
         onClick={handleDownAction}
         style={buttonStyle}
         title="Down Action"
@@ -63,6 +61,7 @@ const SwapActionButton: React.FC = () => {
       </button>
 
       <button
+        className="tap-animation-large"
         onClick={handlePlayAction}
         style={buttonStyle}
         title="Play Action"
@@ -72,6 +71,7 @@ const SwapActionButton: React.FC = () => {
       </button>
 
       <button
+        className="tap-animation-large"
         onClick={handlePlayUpAction}
         style={buttonStyle}
         title="Play Up Action"

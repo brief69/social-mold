@@ -1,0 +1,16 @@
+.tap-animation {
+  transform: scale(1);
+  transition: transform 0.1s ease, opacity 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.tap-animation:active {
+  transform: scale(0.95);
+}
+
+.tap-animation-large:active {
+  transform: scale(0.9);
+} 

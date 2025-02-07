@@ -5,6 +5,7 @@ import { IoMdAdd } from 'react-icons/io';
 import { IoChatbubbles } from 'react-icons/io5';
 import { CgProfile } from 'react-icons/cg';
 import { useTheme } from '../../theme/ThemeContext';
+import '../../styles/animations.css';
 
 const NavBar: React.FC = () => {
   const [activeTab, setActiveTab] = useState('home');
@@ -13,6 +14,15 @@ const NavBar: React.FC = () => {
   const handleClick = (tab: string) => {
     setActiveTab(tab);
   };
+
+  const iconButtonStyle = {
+    background: 'none',
+    border: 'none',
+    padding: '8px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  } as const;
 
   return (
     <nav style={{
@@ -28,6 +38,7 @@ const NavBar: React.FC = () => {
       borderTop: `1px solid ${theme.border}`
     }}>
       <button 
+        className="tap-animation"
         style={{
           ...iconButtonStyle,
           opacity: activeTab === 'home' ? 1 : 0.6
@@ -39,6 +50,7 @@ const NavBar: React.FC = () => {
         <AiFillHome size={24} color={theme.primary} />
       </button>
       <button 
+        className="tap-animation"
         style={{
           ...iconButtonStyle,
           opacity: activeTab === 'search' ? 1 : 0.6
@@ -50,6 +62,7 @@ const NavBar: React.FC = () => {
         <BiSearch size={24} color={theme.primary} />
       </button>
       <button 
+        className="tap-animation"
         style={{
           ...iconButtonStyle,
           opacity: activeTab === 'post' ? 1 : 0.6
@@ -61,6 +74,7 @@ const NavBar: React.FC = () => {
         <IoMdAdd size={24} color={theme.primary} />
       </button>
       <button 
+        className="tap-animation"
         style={{
           ...iconButtonStyle,
           opacity: activeTab === 'chat' ? 1 : 0.6
@@ -72,6 +86,7 @@ const NavBar: React.FC = () => {
         <IoChatbubbles size={24} color={theme.primary} />
       </button>
       <button 
+        className="tap-animation"
         style={{
           ...iconButtonStyle,
           opacity: activeTab === 'profile' ? 1 : 0.6
@@ -85,16 +100,5 @@ const NavBar: React.FC = () => {
     </nav>
   );
 };
-
-const iconButtonStyle = {
-  background: 'none',
-  border: 'none',
-  padding: '8px',
-  cursor: 'pointer',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  transition: 'all 0.2s ease'
-} as const;
 
 export default NavBar; 
