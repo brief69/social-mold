@@ -48,6 +48,7 @@ function App() {
       <div style={{ 
         width: '100%',
         minHeight: '100vh',
+        backgroundColor: '#121212',
       }}>
         <div style={{ 
           width: '100%',
@@ -55,6 +56,7 @@ function App() {
           paddingBottom: '60px',
           paddingLeft: showSideNav ? '88px' : '0',
           transition: 'padding-left 0.3s ease',
+          backgroundColor: '#121212',
         }}>
           {renderMainContent()}
         </div>
