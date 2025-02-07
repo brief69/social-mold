@@ -1,12 +1,17 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import { NavBar, SwapActionButton, PostButton, Profile, SearchForm, SideActionButton, ViewSwapActionButton, Chanel } from './components'
+import { NavBar, SwapActionButton, PostButton, Profile, SearchForm, SideActionButton, ViewSwapActionButton, Chanel, Tab } from './components'
 import { ThemeProvider } from './theme/ThemeContext'
+import { IoWalletOutline, IoSettingsOutline, IoDocumentOutline, IoNewspaperOutline } from 'react-icons/io5'
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+
+  const handleTabChange = (tabId: string, type: 'settings' | 'posts') => {
+    console.log(`Selected ${type} tab: ${tabId}`);
+  };
 
   return (
     <ThemeProvider>
@@ -38,6 +43,22 @@ function App() {
               <PostButton />
               <SwapActionButton />
               <ViewSwapActionButton />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <Tab
+                  items={[
+                    { id: '0', label: 'Setting', icon: <IoSettingsOutline size={20} /> },
+                    { id: '1', label: 'Wallet', icon: <IoWalletOutline size={20} /> }
+                  ]}
+                  onTabChange={(id) => handleTabChange(id, 'settings')}
+                />
+                <Tab
+                  items={[
+                    { id: '0', label: 'Posts', icon: <IoNewspaperOutline size={20} /> },
+                    { id: '1', label: 'Drafts', icon: <IoDocumentOutline size={20} /> }
+                  ]}
+                  onTabChange={(id) => handleTabChange(id, 'posts')}
+                />
+              </div>
             </div>
             <SideActionButton />
           </div>
