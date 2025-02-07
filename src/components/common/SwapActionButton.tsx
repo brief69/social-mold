@@ -15,24 +15,18 @@ const SwapActionButton: React.FC<SwapActionButtonProps> = ({ onPlayDirectionChan
 
   const handleUpAction = () => {
     setIsUpArrow(!isUpArrow);
-    // TODO: 上矢印ボタンの処理を実装
+    // 矢印ボタンの機能は無効化
   };
 
   const handleDownAction = () => {
     setIsUpArrow(!isUpArrow);
-    // TODO: 下矢印ボタンの処理を実装
+    // 矢印ボタンの機能は無効化
   };
 
   const handlePlayAction = () => {
     const newIsPlayRight = !isPlayRight;
     setIsPlayRight(newIsPlayRight);
-    onPlayDirectionChange?.(newIsPlayRight);
-  };
-
-  const handlePlayUpAction = () => {
-    const newIsPlayRight = !isPlayRight;
-    setIsPlayRight(newIsPlayRight);
-    onPlayDirectionChange?.(newIsPlayRight);
+    onPlayDirectionChange?.(newIsPlayRight); // NavBarとSideNavBarの切り替え
   };
 
   const buttonStyle = {
@@ -85,27 +79,19 @@ const SwapActionButton: React.FC<SwapActionButtonProps> = ({ onPlayDirectionChan
         </button>
       )}
 
-      {isPlayRight ? (
-        <button
-          className="tap-animation-large"
-          onClick={handlePlayAction}
-          style={buttonStyle}
-          title="Play Action"
-          aria-label="Play Action"
-        >
-          <IoPlayOutline size={32} color={theme.primary} style={playIconStyle} />
-        </button>
-      ) : (
-        <button
-          className="tap-animation-large"
-          onClick={handlePlayUpAction}
-          style={buttonStyle}
-          title="Play Up Action"
-          aria-label="Play Up Action"
-        >
-          <IoPlayOutline size={32} color={theme.primary} style={playIconRotatedStyle} />
-        </button>
-      )}
+      <button
+        className="tap-animation-large"
+        onClick={handlePlayAction}
+        style={buttonStyle}
+        title={isPlayRight ? "Switch to SideNavBar" : "Switch to NavBar"}
+        aria-label={isPlayRight ? "Switch to SideNavBar" : "Switch to NavBar"}
+      >
+        <IoPlayOutline 
+          size={32} 
+          color={theme.primary} 
+          style={isPlayRight ? playIconStyle : playIconRotatedStyle} 
+        />
+      </button>
     </div>
   );
 };

@@ -18,11 +18,11 @@ const ViewSwapActionButton: React.FC<ViewSwapActionButtonProps> = ({
   const [currentView, setCurrentView] = useState<ViewMode>(defaultMode);
 
   const handleViewSwap = () => {
-    const nextView = currentView === 'swipe' 
-      ? 'list' 
-      : currentView === 'list' 
+    const nextView = currentView === 'list' 
+      ? 'swipe' 
+      : currentView === 'swipe' 
         ? 'grid' 
-        : 'swipe';
+        : 'list';
     
     setCurrentView(nextView);
     onViewChange?.(nextView);
