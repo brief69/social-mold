@@ -104,12 +104,12 @@ const SwapActionButton: React.FC<SwapActionButtonProps> = ({
             className="tap-animation"
             onClick={handlePlayDirectionChange}
             style={createIconButtonStyle(theme, 'medium')}
-            title={isPlayRight ? "Switch to SideNavBar" : "Switch to NavBar"}
-            aria-label={isPlayRight ? "Switch to SideNavBar" : "Switch to NavBar"}
+            title={isPlayRight ? "Switch to NavBar" : "Switch to SideNavBar"}
+            aria-label={isPlayRight ? "Switch to NavBar" : "Switch to SideNavBar"}
           >
             <div style={{
               ...createIconStyle(),
-              transform: `translate(-50%, -50%) rotate(${isPlayRight ? 0 : -90}deg)`
+              transform: `translate(-50%, -50%) rotate(${isPlayRight ? -90 : 0}deg)`
             }}>
               <IoPlayOutline size={theme.icons.sizes.medium} color={theme.primary} />
             </div>

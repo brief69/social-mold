@@ -11,9 +11,16 @@ type ViewMode = 'list' | 'grid' | 'swipe';
 interface ProfileProps {
   onAction?: (action: 'like' | 'comment' | 'share' | 'profile', itemId: string) => void;
   onGalleryClick?: () => void;
+  onNavSwap?: (isPlayRight: boolean) => void;
+  isShowingSideNav?: boolean;
 }
 
-const Profile: React.FC<ProfileProps> = ({ onAction, onGalleryClick }) => {
+const Profile: React.FC<ProfileProps> = ({ 
+  onAction, 
+  onGalleryClick,
+  onNavSwap,
+  isShowingSideNav = false
+}) => {
   const [viewMode, setViewMode] = useState<ViewMode>('grid');
 
   const handleAction = (action: 'like' | 'comment' | 'share' | 'profile', itemId: string) => {
@@ -25,7 +32,7 @@ const Profile: React.FC<ProfileProps> = ({ onAction, onGalleryClick }) => {
   };
 
   const handlePlayDirectionChange = (isPlayRight: boolean) => {
-    setViewMode(isPlayRight ? 'grid' : 'list');
+    onNavSwap?.(isPlayRight);
   };
 
   const renderContent = () => {
@@ -47,6 +54,7 @@ const Profile: React.FC<ProfileProps> = ({ onAction, onGalleryClick }) => {
         onGalleryClick={onGalleryClick}
         onDirectionChange={handleDirectionChange}
         onPlayDirectionChange={handlePlayDirectionChange}
+        isPlayRight={!isShowingSideNav}
       />
       <div className="content-container" style={{ paddingTop: '64px' }}>
         <div className="content-inner">

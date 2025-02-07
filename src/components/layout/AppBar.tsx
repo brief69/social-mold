@@ -11,6 +11,7 @@ interface AppBarProps {
   onPlayDirectionChange?: (isPlayRight: boolean) => void;
   onUsernameChange?: (newUsername: string) => void;
   onGalleryClick?: () => void;
+  isPlayRight?: boolean;
 }
 
 const AppBar: React.FC<AppBarProps> = ({
@@ -19,10 +20,11 @@ const AppBar: React.FC<AppBarProps> = ({
   onPlayDirectionChange,
   onUsernameChange,
   onGalleryClick,
+  isPlayRight: externalIsPlayRight,
 }) => {
   const theme = useTheme();
   const [isUpArrow, setIsUpArrow] = React.useState(true);
-  const [isPlayRight, setIsPlayRight] = React.useState(true);
+  const [isPlayRight, setIsPlayRight] = React.useState(externalIsPlayRight ?? true);
   const [userImage, setUserImage] = useState<string | null>(null);
   const [isEditingUsername, setIsEditingUsername] = useState(false);
   const [editedUsername, setEditedUsername] = useState(username);
@@ -261,12 +263,12 @@ const AppBar: React.FC<AppBarProps> = ({
           className="tap-animation"
           onClick={handlePlayDirectionChange}
           style={createIconButtonStyle(theme, 'medium')}
-          title={isPlayRight ? "Switch to Up Play" : "Switch to Right Play"}
-          aria-label={isPlayRight ? "Switch to Up Play" : "Switch to Right Play"}
+          title={isPlayRight ? "Switch to NavBar" : "Switch to SideNavBar"}
+          aria-label={isPlayRight ? "Switch to NavBar" : "Switch to SideNavBar"}
         >
           <div style={{
             ...createIconStyle(),
-            transform: `translate(-50%, -50%) rotate(${isPlayRight ? 0 : -90}deg)`
+            transform: `translate(-50%, -50%) rotate(${isPlayRight ? -90 : 0}deg)`
           }}>
             <IoPlayOutline size={theme.icons.sizes.medium} color={theme.primary} />
           </div>
