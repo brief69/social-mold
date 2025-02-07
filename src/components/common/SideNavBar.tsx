@@ -9,6 +9,7 @@ import '../../styles/animations.css';
 
 interface SideNavBarProps {
   onTabChange?: (tab: string) => void;
+  onSwap?: (isPlayRight: boolean) => void;
 }
 
 const SideNavBar: React.FC<SideNavBarProps> = ({ onTabChange }) => {

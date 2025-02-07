@@ -1,11 +1,15 @@
 import React from 'react';
 import { useTheme } from '../../theme/ThemeContext';
 
-const Home: React.FC = () => {
+interface HomeProps {
+  onNavigate?: (screen: string) => void;
+}
+
+const Home: React.FC<HomeProps> = ({ onNavigate }) => {
   const theme = useTheme();
 
   const handleGalleryClick = () => {
-    // TODO: ギャラリーページへの遷移処理を実装
+    onNavigate?.('gallery');
   };
 
   return (

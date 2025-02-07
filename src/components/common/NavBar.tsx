@@ -9,6 +9,7 @@ import '../../styles/animations.css';
 
 interface NavBarProps {
   onTabChange?: (tab: string) => void;
+  onSwap?: (isPlayRight: boolean) => void;
 }
 
 const NavBar: React.FC<NavBarProps> = ({ onTabChange }) => {

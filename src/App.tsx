@@ -1,35 +1,23 @@
 import { useState } from 'react'
-import { NavBar, SideNavBar, SwapActionButton, PostButton, Profile, SearchForm, SideAction, ViewSwapActionButton, Chanel, Tab, Post } from './components'
+import { 
+  NavBar, 
+  SideNavBar, 
+  Post,
+  ComponentGallery,
+  Home,
+  Search,
+  Chat,
+  Profile
+} from './components'
 import { ThemeProvider } from './theme/ThemeContext'
-import { IoWalletOutline, IoSettingsOutline, IoDocumentOutline, IoNewspaperOutline } from 'react-icons/io5'
 import './App.css'
 
 function App() {
   const [showSideNav, setShowSideNav] = useState(false);
   const [activeScreen, setActiveScreen] = useState('home');
 
-  const handleTabChange = (tabId: string, type: 'settings' | 'posts') => {
-    console.log(`Selected ${type} tab: ${tabId}`);
-  };
-
   const handleNavSwap = (isPlayRight: boolean) => {
     setShowSideNav(isPlayRight);
-  };
-
-  const handleLike = () => {
-    console.log('Like action');
-  };
-
-  const handleShare = () => {
-    console.log('Share action');
-  };
-
-  const handleComment = () => {
-    console.log('Comment action');
-  };
-
-  const handleProfile = () => {
-    console.log('Profile action');
   };
 
   const handleNavTabChange = (tab: string) => {
@@ -38,58 +26,20 @@ function App() {
 
   const renderMainContent = () => {
     switch (activeScreen) {
+      case 'home':
+        return <Home onNavigate={handleNavTabChange} />;
+      case 'search':
+        return <Search />;
       case 'post':
         return <Post />;
+      case 'chat':
+        return <Chat />;
       case 'profile':
         return <Profile />;
+      case 'gallery':
+        return <ComponentGallery />;
       default:
-        return (
-          <>
-            <div style={{ width: '100%', maxWidth: '800px' }}>
-              <Chanel />
-            </div>
-            <div style={{
-              display: 'flex',
-              gap: '40px',
-              alignItems: 'flex-start'
-            }}>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '20px',
-              }}>
-                <SearchForm />
-                <Profile />
-                <PostButton />
-                <SwapActionButton onPlayDirectionChange={handleNavSwap} />
-                <ViewSwapActionButton />
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <Tab
-                    items={[
-                      { id: '0', label: 'Setting', icon: <IoSettingsOutline size={20} /> },
-                      { id: '1', label: 'Wallet', icon: <IoWalletOutline size={20} /> }
-                    ]}
-                    onTabChange={(id) => handleTabChange(id, 'settings')}
-                  />
-                  <Tab
-                    items={[
-                      { id: '0', label: 'Posts', icon: <IoNewspaperOutline size={20} /> },
-                      { id: '1', label: 'Drafts', icon: <IoDocumentOutline size={20} /> }
-                    ]}
-                    onTabChange={(id) => handleTabChange(id, 'posts')}
-                  />
-                </div>
-              </div>
-              <SideAction
-                onLike={handleLike}
-                onShare={handleShare}
-                onComment={handleComment}
-                onProfile={handleProfile}
-                position="right"
-              />
-            </div>
-          </>
-        );
+        return <Home onNavigate={handleNavTabChange} />;
     }
   };
 
@@ -109,9 +59,9 @@ function App() {
           {renderMainContent()}
         </div>
         {showSideNav ? (
-          <SideNavBar onTabChange={handleNavTabChange} />
+          <SideNavBar onTabChange={handleNavTabChange} onSwap={handleNavSwap} />
         ) : (
-          <NavBar onTabChange={handleNavTabChange} />
+          <NavBar onTabChange={handleNavTabChange} onSwap={handleNavSwap} />
         )}
       </div>
     </ThemeProvider>
