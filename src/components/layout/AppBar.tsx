@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { CgProfile } from 'react-icons/cg';
 import { IoArrowUp, IoArrowDown, IoPlayOutline } from 'react-icons/io5';
 import { useTheme } from '../../theme/ThemeContext';
@@ -18,6 +18,8 @@ const AppBar: React.FC<AppBarProps> = ({
   const theme = useTheme();
   const [isUpArrow, setIsUpArrow] = React.useState(true);
   const [isPlayRight, setIsPlayRight] = React.useState(true);
+  const [userImage, setUserImage] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDirectionChange = () => {
     const newDirection = !isUpArrow;
@@ -29,6 +31,21 @@ const AppBar: React.FC<AppBarProps> = ({
     const newPlayDirection = !isPlayRight;
     setIsPlayRight(newPlayDirection);
     onPlayDirectionChange?.(newPlayDirection);
+  };
+
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setUserImage(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const buttonStyle = {
@@ -53,6 +70,13 @@ const AppBar: React.FC<AppBarProps> = ({
     transform: 'scale(1.2) rotate(-90deg)',
   } as const;
 
+  const userIconStyle = {
+    width: '32px',
+    height: '32px',
+    borderRadius: '50%',
+    objectFit: 'cover' as const,
+  };
+
   return (
     <div style={{
       position: 'fixed',
@@ -76,17 +100,31 @@ const AppBar: React.FC<AppBarProps> = ({
       }}>
         <button
           className="tap-animation"
+          onClick={handleImageClick}
           style={{
             ...buttonStyle,
             border: 'none',
             width: '48px',
             height: '48px',
+            overflow: 'hidden',
           }}
-          title="Profile"
-          aria-label="Profile"
+          title="Change Profile Picture"
+          aria-label="Change Profile Picture"
         >
-          <CgProfile size={32} color={theme.primary} />
+          {userImage ? (
+            <img src={userImage} alt="User" style={userIconStyle} />
+          ) : (
+            <CgProfile size={32} color={theme.primary} />
+          )}
         </button>
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleImageChange}
+          accept="image/*"
+          style={{ display: 'none' }}
+          aria-label="Upload profile picture"
+        />
         <span style={{
           color: theme.primary,
           fontSize: '16px',
@@ -100,7 +138,7 @@ const AppBar: React.FC<AppBarProps> = ({
       <div style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '8px', // ボタン間の間隔を縮小
+        gap: '8px',
       }}>
         {/* 方向切り替えボタン */}
         <button
