@@ -1,5 +1,35 @@
 # social-mold
 
+## Components Directory Structure
+
+プロジェクトのコンポーネント構造は以下の通りです：
+
+```
+src/components/
+├── common/          # 共通のUIコンポーネント
+│   ├── Chanel.tsx       # チャネル選択・検索コンポーネント
+│   ├── NavBar.tsx       # ナビゲーションバー
+│   ├── PostButton.tsx   # 投稿ボタン
+│   ├── Profile.tsx      # プロフィール表示
+│   ├── SearchForm.tsx   # 検索フォーム
+│   ├── Setting.tsx      # 設定コンポーネント
+│   ├── SideActionButton.tsx  # サイドアクションボタン（いいね、シェアなど）
+│   ├── SwapActionButton.tsx  # スワップアクションボタン
+│   ├── ViewSwapActionButton.tsx  # ビュー切り替えボタン
+│   └── Wallet.tsx       # ウォレット関連コンポーネント
+│
+├── layout/          # レイアウト関連のコンポーネント
+│   ├── Chat.tsx         # チャット画面レイアウト
+│   └── SideAction.tsx   # サイドアクション領域レイアウト
+│
+├── swap/           # スワップ機能関連のコンポーネント
+│   ├── COSwap.tsx     # 他のアプリへのchanel barのclose/open状態切り替えの処理
+│   ├── LGSwap.tsx     # listview表示/gridview表示の切り替え処理
+│   └── LRLSwap.tsx    # listview表示/左右スワイプview表示の切り替え処理
+│   └── NSSwap.tsx     # navbar表示/sidebarの切り替え処理
+└── index.ts        # コンポーネントのエクスポート定義
+```
+
 ## React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
