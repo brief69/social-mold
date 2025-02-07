@@ -23,6 +23,9 @@ const AppBar: React.FC<AppBarProps> = ({
   const [userImage, setUserImage] = useState<string | null>(null);
   const [isEditingUsername, setIsEditingUsername] = useState(false);
   const [editedUsername, setEditedUsername] = useState(username);
+  const [lastUsernameChange, setLastUsernameChange] = useState<number | null>(null);
+  const [clickCount, setClickCount] = useState(0);
+  const clickTimer = useRef<number | undefined>(undefined);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const usernameInputRef = useRef<HTMLInputElement>(null);
 
@@ -54,11 +57,39 @@ const AppBar: React.FC<AppBarProps> = ({
   };
 
   const handleUsernameClick = () => {
-    setIsEditingUsername(true);
-    setTimeout(() => {
-      usernameInputRef.current?.focus();
-      usernameInputRef.current?.select();
-    }, 0);
+    setClickCount(prev => prev + 1);
+    
+    if (clickTimer.current) {
+      window.clearTimeout(clickTimer.current);
+    }
+
+    clickTimer.current = window.setTimeout(() => {
+      setClickCount(0);
+    }, 500);
+
+    if (clickCount === 1) {
+      const now = Date.now();
+      if (lastUsernameChange && now - lastUsernameChange < 24 * 60 * 60 * 1000) {
+        const remainingHours = Math.ceil((24 * 60 * 60 * 1000 - (now - lastUsernameChange)) / (60 * 60 * 1000));
+        alert(`ユーザーネームは24時間に1回のみ変更可能です。\n残り時間: 約${remainingHours}時間`);
+        return;
+      }
+
+      const confirmed = window.confirm(
+        'ユーザーネームを変更しますか？\n\n' +
+        '注意：\n' +
+        '- ユーザーネームの変更は24時間に1回のみ可能です\n' +
+        '- 一度変更すると、元に戻すにも24時間の待機が必要です'
+      );
+
+      if (confirmed) {
+        setIsEditingUsername(true);
+        setTimeout(() => {
+          usernameInputRef.current?.focus();
+          usernameInputRef.current?.select();
+        }, 0);
+      }
+    }
   };
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +99,17 @@ const AppBar: React.FC<AppBarProps> = ({
   const handleUsernameBlur = () => {
     setIsEditingUsername(false);
     if (editedUsername.trim() && editedUsername !== username) {
-      onUsernameChange?.(editedUsername);
+      const confirmed = window.confirm(
+        `ユーザーネームを「${editedUsername}」に変更してよろしいですか？\n` +
+        '変更後24時間は再度の変更ができません。'
+      );
+      
+      if (confirmed) {
+        onUsernameChange?.(editedUsername);
+        setLastUsernameChange(Date.now());
+      } else {
+        setEditedUsername(username);
+      }
     } else {
       setEditedUsername(username);
     }
