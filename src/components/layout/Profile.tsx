@@ -28,7 +28,8 @@ const Profile: React.FC<ProfileProps> = ({
   };
 
   const handleDirectionChange = (isUpArrow: boolean) => {
-    setViewMode(isUpArrow ? 'list' : 'swipe');
+    // 上下矢印の切り替えは表示モードに影響を与えないように修正
+    // setViewMode(isUpArrow ? 'list' : 'swipe');
   };
 
   const handlePlayDirectionChange = (isPlayRight: boolean) => {
@@ -60,12 +61,12 @@ const Profile: React.FC<ProfileProps> = ({
         <div className="content-inner">
           <div style={{
             position: 'absolute',
-            top: '20px',
+            top: '84px',
             right: '20px',
             zIndex: 1000,
           }}>
             <SwapActionButton
-              mode="view"
+              mode="view-grid"
               onViewChange={setViewMode}
               defaultViewMode={viewMode}
             />

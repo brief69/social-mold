@@ -5,7 +5,7 @@ import { createIconButtonStyle, createIconStyle } from '../../styles/IconStyles'
 import '../../styles/animations.css';
 
 type ViewMode = 'list' | 'grid' | 'swipe';
-type SwapMode = 'direction' | 'play' | 'view';
+type SwapMode = 'direction' | 'play' | 'view-grid' | 'view-swipe';
 
 interface SwapActionButtonProps {
   mode?: SwapMode;
@@ -25,12 +25,11 @@ const SwapActionButton: React.FC<SwapActionButtonProps> = ({
   const theme = useTheme();
   const [isUpArrow, setIsUpArrow] = useState(true);
   const [isPlayRight, setIsPlayRight] = useState(true);
-  const [currentView, setCurrentView] = useState<ViewMode>(defaultViewMode);
+  const [isListView, setIsListView] = useState(defaultViewMode === 'list');
 
   const handleDirectionChange = () => {
-    const newDirection = !isUpArrow;
-    setIsUpArrow(newDirection);
-    onDirectionChange?.(newDirection);
+    // 方向切り替えは一時的に無効化
+    setIsUpArrow(!isUpArrow);
   };
 
   const handlePlayDirectionChange = () => {
@@ -40,40 +39,35 @@ const SwapActionButton: React.FC<SwapActionButtonProps> = ({
   };
 
   const handleViewChange = () => {
-    const nextView = currentView === 'list' 
-      ? 'swipe' 
-      : currentView === 'swipe' 
-        ? 'grid' 
-        : 'list';
-    
-    setCurrentView(nextView);
-    onViewChange?.(nextView);
+    const newViewMode = isListView ? (mode === 'view-grid' ? 'grid' : 'swipe') : 'list';
+    setIsListView(!isListView);
+    onViewChange?.(newViewMode as ViewMode);
   };
 
   const getViewIcon = () => {
-    switch (currentView) {
-      case 'list':
-        return <IoList size={theme.icons.sizes.medium} color={theme.primary} />;
-      case 'grid':
-        return <IoGrid size={theme.icons.sizes.medium} color={theme.primary} />;
-      case 'swipe':
-        return <IoSwapHorizontal size={theme.icons.sizes.medium} color={theme.primary} />;
-      default:
-        return <IoSwapHorizontal size={theme.icons.sizes.medium} color={theme.primary} />;
+    if (mode === 'view-grid') {
+      return isListView ? (
+        <IoList size={theme.icons.sizes.medium} color={theme.primary} />
+      ) : (
+        <IoGrid size={theme.icons.sizes.medium} color={theme.primary} />
+      );
+    } else if (mode === 'view-swipe') {
+      return isListView ? (
+        <IoList size={theme.icons.sizes.medium} color={theme.primary} />
+      ) : (
+        <IoSwapHorizontal size={theme.icons.sizes.medium} color={theme.primary} />
+      );
     }
+    return null;
   };
 
   const getViewTitle = () => {
-    switch (currentView) {
-      case 'list':
-        return "リスト表示";
-      case 'grid':
-        return "グリッド表示";
-      case 'swipe':
-        return "スワイプ表示";
-      default:
-        return "表示切替";
+    if (mode === 'view-grid') {
+      return isListView ? "リスト表示" : "グリッド表示";
+    } else if (mode === 'view-swipe') {
+      return isListView ? "リスト表示" : "スワイプ表示";
     }
+    return "表示切替";
   };
 
   // モードに応じてボタンの内容を切り替え
@@ -116,7 +110,8 @@ const SwapActionButton: React.FC<SwapActionButtonProps> = ({
           </button>
         );
 
-      case 'view':
+      case 'view-grid':
+      case 'view-swipe':
         return (
           <button
             className="tap-animation"
