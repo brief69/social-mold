@@ -1,41 +1,22 @@
 import React from 'react';
-import { useTheme } from '../../theme/ThemeContext';
+import ListView from './ListView';
 import '../../styles/Layout.css';
 
 interface HomeProps {
-  onNavigate?: (screen: string) => void;
+  onAction?: (action: 'like' | 'comment' | 'share' | 'profile', itemId: string) => void;
 }
 
-const Home: React.FC<HomeProps> = ({ onNavigate }) => {
-  const theme = useTheme();
-
-  const handleGalleryClick = () => {
-    onNavigate?.('gallery');
+const Home: React.FC<HomeProps> = ({ onAction }) => {
+  const handleAction = (action: 'like' | 'comment' | 'share' | 'profile', itemId: string) => {
+    console.log(`Action: ${action}, ItemId: ${itemId}`);
+    // TODO: 各アクションの処理を実装
   };
 
   return (
     <div className="layout-container">
       <div className="content-container">
         <div className="content-inner">
-          <div>Home Contents</div>
-          
-          <button
-            onClick={handleGalleryClick}
-            style={{
-              background: 'none',
-              border: `2px solid ${theme.primary}`,
-              borderRadius: '30px',
-              padding: '12px 24px',
-              color: theme.primary,
-              fontSize: '16px',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              marginTop: '20px',
-            }}
-            className="tap-animation"
-          >
-            View Component Gallery
-          </button>
+          <ListView onAction={handleAction} />
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { CgProfile } from 'react-icons/cg';
-import { IoArrowUp, IoArrowDown, IoPlayOutline } from 'react-icons/io5';
+import { IoArrowUp, IoArrowDown, IoPlayOutline, IoGridOutline } from 'react-icons/io5';
 import { useTheme } from '../../theme/ThemeContext';
 import '../../styles/animations.css';
 
@@ -9,6 +9,7 @@ interface AppBarProps {
   onDirectionChange?: (isUpArrow: boolean) => void;
   onPlayDirectionChange?: (isPlayRight: boolean) => void;
   onUsernameChange?: (newUsername: string) => void;
+  onGalleryClick?: () => void;
 }
 
 const AppBar: React.FC<AppBarProps> = ({
@@ -16,6 +17,7 @@ const AppBar: React.FC<AppBarProps> = ({
   onDirectionChange,
   onPlayDirectionChange,
   onUsernameChange,
+  onGalleryClick,
 }) => {
   const theme = useTheme();
   const [isUpArrow, setIsUpArrow] = React.useState(true);
@@ -243,6 +245,27 @@ const AppBar: React.FC<AppBarProps> = ({
           </button>
         )}
       </div>
+
+      {/* 中央：ギャラリーボタン */}
+      <button
+        className="tap-animation"
+        onClick={onGalleryClick}
+        style={{
+          background: 'none',
+          border: `2px solid ${theme.primary}`,
+          borderRadius: '20px',
+          padding: '6px 12px',
+          color: theme.primary,
+          fontSize: '14px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '4px',
+          cursor: 'pointer',
+        }}
+      >
+        <IoGridOutline size={16} />
+        Gallery
+      </button>
 
       {/* 右側：スワップアクションボタングループ */}
       <div style={{

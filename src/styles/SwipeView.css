@@ -1,0 +1,48 @@
+.swipe-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.swipe-card {
+  touch-action: none;
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  cursor: grab;
+  user-select: none;
+}
+
+.swipe-indicator {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 64px;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.swipe-indicator.left {
+  left: 32px;
+  color: #f44336;
+}
+
+.swipe-indicator.right {
+  right: 32px;
+  color: #4CAF50;
+}
+
+.swipe-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 32px;
+  opacity: 0.7;
+  font-size: 14px;
+} 

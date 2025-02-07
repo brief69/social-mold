@@ -7,7 +7,9 @@ import {
   Home,
   Search,
   Chat,
-  Profile
+  Profile,
+  AppBar,
+  SwipeView,
 } from './components'
 import { ThemeProvider } from './theme/ThemeContext'
 import './App.css'
@@ -15,6 +17,7 @@ import './App.css'
 function App() {
   const [showSideNav, setShowSideNav] = useState(false);
   const [activeScreen, setActiveScreen] = useState('home');
+  const [viewMode, setViewMode] = useState<'list' | 'swipe'>('list');
 
   const handleNavSwap = (isPlayRight: boolean) => {
     setShowSideNav(isPlayRight);
@@ -24,10 +27,20 @@ function App() {
     setActiveScreen(tab);
   };
 
+  const handleGalleryClick = () => {
+    setActiveScreen('gallery');
+  };
+
+  const handleDirectionChange = (isUpArrow: boolean) => {
+    setViewMode(isUpArrow ? 'list' : 'swipe');
+  };
+
   const renderMainContent = () => {
     switch (activeScreen) {
       case 'home':
-        return <Home onNavigate={handleNavTabChange} />;
+        return viewMode === 'list' 
+          ? <Home onNavigate={handleNavTabChange} />
+          : <SwipeView />;
       case 'search':
         return <Search />;
       case 'post':
@@ -54,11 +67,16 @@ function App() {
         backgroundColor: '#121212',
         overflow: 'auto',
       }}>
+        <AppBar 
+          onGalleryClick={handleGalleryClick}
+          onDirectionChange={handleDirectionChange}
+        />
         <main style={{ 
           width: '100%',
           minHeight: '100%',
           paddingBottom: '60px',
           paddingLeft: showSideNav ? '88px' : '0',
+          paddingTop: '64px',
           transition: 'padding-left 0.3s ease',
           backgroundColor: '#121212',
         }}>
