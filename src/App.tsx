@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import { NavBar, SwapActionButton, PostButton, Profile, SearchForm, SideActionButton, ViewSwapActionButton } from './components'
+import { NavBar, SwapActionButton, PostButton, Profile, SearchForm, SideActionButton, ViewSwapActionButton, Chanel } from './components'
 import { ThemeProvider } from './theme/ThemeContext'
 import './App.css'
 
@@ -16,10 +16,13 @@ function App() {
           display: 'flex', 
           flexDirection: 'column',
           gap: '20px',
-          justifyContent: 'center', 
           alignItems: 'center', 
-          minHeight: '100vh' 
+          minHeight: '100vh',
+          paddingTop: '20px',
         }}>
+          <div style={{ width: '100%', maxWidth: '800px' }}>
+            <Chanel />
+          </div>
           <div style={{
             display: 'flex',
             gap: '40px',

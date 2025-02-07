@@ -1,3 +1,4 @@
+// listview表示/左右スワイプview表示の切り替え処理
 import React from 'react';
 
 const LRLSwap: React.FC = () => {
