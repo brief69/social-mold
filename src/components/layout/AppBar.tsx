@@ -272,6 +272,7 @@ const AppBar: React.FC<AppBarProps> = ({
         display: 'flex',
         alignItems: 'center',
         gap: '8px',
+        marginRight: '48px',
       }}>
         {/* 方向切り替えボタン */}
         <button
