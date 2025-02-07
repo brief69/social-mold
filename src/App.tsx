@@ -45,16 +45,16 @@ function App() {
 
   return (
     <ThemeProvider>
-      <div style={{ minHeight: '100vh', backgroundColor: '#121212' }}>
+      <div style={{ 
+        width: '100%',
+        minHeight: '100vh',
+      }}>
         <div style={{ 
-          paddingBottom: '60px', 
-          paddingLeft: showSideNav ? '88px' : '0',
-          display: 'flex', 
-          flexDirection: 'column',
-          gap: '20px',
-          alignItems: 'center', 
+          width: '100%',
           minHeight: '100vh',
-          paddingTop: '20px',
+          paddingBottom: '60px',
+          paddingLeft: showSideNav ? '88px' : '0',
+          transition: 'padding-left 0.3s ease',
         }}>
           {renderMainContent()}
         </div>

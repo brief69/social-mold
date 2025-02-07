@@ -1,32 +1,23 @@
 .layout-container {
   width: 100%;
   min-height: 100vh;
-  position: relative;
+  background-color: var(--background-color);
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 20px;
-  background-color: var(--background-color);
 }
 
 .content-container {
   flex: 1;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   color: var(--primary-color);
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  font-size: 24px;
 }
 
 /* スマートフォン向け */
 @media (max-width: 480px) {
-  .layout-container {
-    padding: 10px;
-  }
-  
   .content-container {
     padding: 10px;
   }
@@ -35,20 +26,13 @@
 /* タブレット向け */
 @media (min-width: 481px) and (max-width: 768px) {
   .content-container {
-    max-width: 90%;
+    padding: 20px;
   }
 }
 
-/* 小型デスクトップ向け */
-@media (min-width: 769px) and (max-width: 1024px) {
+/* デスクトップ向け */
+@media (min-width: 769px) {
   .content-container {
-    max-width: 80%;
-  }
-}
-
-/* 大型デスクトップ向け */
-@media (min-width: 1025px) {
-  .content-container {
-    max-width: 1200px;
+    padding: 40px;
   }
 } 
