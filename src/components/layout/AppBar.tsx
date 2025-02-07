@@ -8,18 +8,23 @@ interface AppBarProps {
   username?: string;
   onDirectionChange?: (isUpArrow: boolean) => void;
   onPlayDirectionChange?: (isPlayRight: boolean) => void;
+  onUsernameChange?: (newUsername: string) => void;
 }
 
 const AppBar: React.FC<AppBarProps> = ({
   username = '@username',
   onDirectionChange,
   onPlayDirectionChange,
+  onUsernameChange,
 }) => {
   const theme = useTheme();
   const [isUpArrow, setIsUpArrow] = React.useState(true);
   const [isPlayRight, setIsPlayRight] = React.useState(true);
   const [userImage, setUserImage] = useState<string | null>(null);
+  const [isEditingUsername, setIsEditingUsername] = useState(false);
+  const [editedUsername, setEditedUsername] = useState(username);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const usernameInputRef = useRef<HTMLInputElement>(null);
 
   const handleDirectionChange = () => {
     const newDirection = !isUpArrow;
@@ -45,6 +50,37 @@ const AppBar: React.FC<AppBarProps> = ({
         setUserImage(e.target?.result as string);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleUsernameClick = () => {
+    setIsEditingUsername(true);
+    setTimeout(() => {
+      usernameInputRef.current?.focus();
+      usernameInputRef.current?.select();
+    }, 0);
+  };
+
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditedUsername(e.target.value);
+  };
+
+  const handleUsernameBlur = () => {
+    setIsEditingUsername(false);
+    if (editedUsername.trim() && editedUsername !== username) {
+      onUsernameChange?.(editedUsername);
+    } else {
+      setEditedUsername(username);
+    }
+  };
+
+  const handleUsernameKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      usernameInputRef.current?.blur();
+    } else if (e.key === 'Escape') {
+      setEditedUsername(username);
+      setIsEditingUsername(false);
     }
   };
 
@@ -125,13 +161,46 @@ const AppBar: React.FC<AppBarProps> = ({
           style={{ display: 'none' }}
           aria-label="Upload profile picture"
         />
-        <span style={{
-          color: theme.primary,
-          fontSize: '16px',
-          fontWeight: '600',
-        }}>
-          {username}
-        </span>
+        {isEditingUsername ? (
+          <input
+            ref={usernameInputRef}
+            type="text"
+            value={editedUsername}
+            onChange={handleUsernameChange}
+            onBlur={handleUsernameBlur}
+            onKeyDown={handleUsernameKeyDown}
+            style={{
+              background: 'none',
+              border: 'none',
+              borderBottom: `2px solid ${theme.primary}`,
+              color: theme.primary,
+              fontSize: '16px',
+              fontWeight: '600',
+              padding: '4px',
+              width: '120px',
+              outline: 'none',
+            }}
+            aria-label="Edit username"
+          />
+        ) : (
+          <button
+            onClick={handleUsernameClick}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: theme.primary,
+              fontSize: '16px',
+              fontWeight: '600',
+              padding: '4px',
+              cursor: 'pointer',
+            }}
+            className="tap-animation"
+            title="Edit username"
+            aria-label="Edit username"
+          >
+            {editedUsername}
+          </button>
+        )}
       </div>
 
       {/* 右側：スワップアクションボタングループ */}
