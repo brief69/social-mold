@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, useEffect } from 'react';
 
 interface ThemeColors {
   primary: string;
@@ -25,6 +25,14 @@ interface ThemeProviderProps {
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children, theme }) => {
   const mergedTheme = { ...defaultTheme, ...theme };
+
+  useEffect(() => {
+    // CSSカスタムプロパティを設定
+    document.documentElement.style.setProperty('--primary-color', mergedTheme.primary);
+    document.documentElement.style.setProperty('--background-color', mergedTheme.background);
+    document.documentElement.style.setProperty('--text-color', mergedTheme.text);
+    document.documentElement.style.setProperty('--border-color', mergedTheme.border);
+  }, [mergedTheme]);
 
   return (
     <ThemeContext.Provider value={mergedTheme}>
