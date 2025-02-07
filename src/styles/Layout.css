@@ -1,0 +1,54 @@
+.layout-container {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background-color: var(--background-color);
+}
+
+.content-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--primary-color);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* スマートフォン向け */
+@media (max-width: 480px) {
+  .layout-container {
+    padding: 10px;
+  }
+  
+  .content-container {
+    padding: 10px;
+  }
+}
+
+/* タブレット向け */
+@media (min-width: 481px) and (max-width: 768px) {
+  .content-container {
+    max-width: 90%;
+  }
+}
+
+/* 小型デスクトップ向け */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .content-container {
+    max-width: 80%;
+  }
+}
+
+/* 大型デスクトップ向け */
+@media (min-width: 1025px) {
+  .content-container {
+    max-width: 1200px;
+  }
+} 

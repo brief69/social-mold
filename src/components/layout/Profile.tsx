@@ -1,10 +1,8 @@
 import React from 'react';
 import AppBar from './AppBar';
-import { useTheme } from '../../theme/ThemeContext';
+import '../../styles/Layout.css';
 
 const Profile: React.FC = () => {
-  const theme = useTheme();
-
   const handleDirectionChange = (isUpArrow: boolean) => {
     console.log('Direction changed:', isUpArrow ? 'Up' : 'Down');
   };
@@ -14,15 +12,7 @@ const Profile: React.FC = () => {
   };
 
   return (
-    <div style={{
-      width: '100%',
-      height: '100vh',
-      position: 'relative',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '20px',
-      padding: '20px',
-    }}>
+    <div className="layout-container">
       {/* AppBar */}
       <AppBar
         username="@testuser"
@@ -30,14 +20,7 @@ const Profile: React.FC = () => {
         onPlayDirectionChange={handlePlayDirectionChange}
       />
 
-      {/* コンテンツ表示エリア */}
-      <div style={{
-        flex: 1,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        color: theme.primary,
-      }}>
+      <div className="content-container">
         <div>Profile Contents</div>
       </div>
     </div>
