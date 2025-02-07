@@ -13,8 +13,6 @@ import {
 import '../../styles/ComponentGallery.css';
 
 const ComponentGallery: React.FC = () => {
-  const theme = useTheme();
-
   return (
     <div className="component-gallery">
       <h1 className="gallery-title">
