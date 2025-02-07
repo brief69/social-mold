@@ -48,7 +48,8 @@ const ComponentGallery: React.FC = () => {
         <div style={{ display: 'flex', gap: '20px' }}>
           <SwapActionButton mode="direction" />
           <SwapActionButton mode="play" />
-          <SwapActionButton mode="view" />
+          <SwapActionButton mode="view-grid" />
+          <SwapActionButton mode="view-swipe" />
         </div>
       </div>
 
