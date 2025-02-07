@@ -1,18 +1,31 @@
 import React, { useState } from 'react';
-import { IoList, IoGrid } from 'react-icons/io5';
+import { IoList, IoGrid, IoSwapHorizontal } from 'react-icons/io5';
 import { useTheme } from '../../theme/ThemeContext';
 import '../../styles/animations.css';
 
-const ViewSwapActionButton: React.FC = () => {
+type ViewMode = 'list' | 'grid' | 'swipe';
+
+interface ViewSwapActionButtonProps {
+  onViewChange?: (mode: ViewMode) => void;
+  defaultMode?: ViewMode;
+}
+
+const ViewSwapActionButton: React.FC<ViewSwapActionButtonProps> = ({
+  onViewChange,
+  defaultMode = 'swipe'
+}) => {
   const theme = useTheme();
-  const [isListView, setIsListView] = useState(true);
+  const [currentView, setCurrentView] = useState<ViewMode>(defaultMode);
 
   const handleViewSwap = () => {
-    setIsListView(!isListView);
-    // TODO: ビュー切り替えの処理を実装
-    // - コンテンツのレイアウト変更
-    // - アニメーション効果
-    // - 表示状態の永続化
+    const nextView = currentView === 'swipe' 
+      ? 'list' 
+      : currentView === 'list' 
+        ? 'grid' 
+        : 'swipe';
+    
+    setCurrentView(nextView);
+    onViewChange?.(nextView);
   };
 
   const buttonStyle = {
@@ -27,19 +40,41 @@ const ViewSwapActionButton: React.FC = () => {
     cursor: 'pointer',
   };
 
+  const getIcon = () => {
+    switch (currentView) {
+      case 'list':
+        return <IoList size={48} />;
+      case 'grid':
+        return <IoGrid size={48} />;
+      case 'swipe':
+        return <IoSwapHorizontal size={48} />;
+      default:
+        return <IoSwapHorizontal size={48} />;
+    }
+  };
+
+  const getTitle = () => {
+    switch (currentView) {
+      case 'list':
+        return "リスト表示";
+      case 'grid':
+        return "グリッド表示";
+      case 'swipe':
+        return "スワイプ表示";
+      default:
+        return "表示切替";
+    }
+  };
+
   return (
     <button
       className="tap-animation"
       onClick={handleViewSwap}
       style={buttonStyle}
-      title={isListView ? "Switch to Grid View" : "Switch to List View"}
-      aria-label={isListView ? "Switch to Grid View" : "Switch to List View"}
+      title={getTitle()}
+      aria-label={getTitle()}
     >
-      {isListView ? (
-        <IoGrid size={48} />
-      ) : (
-        <IoList size={48} />
-      )}
+      {getIcon()}
     </button>
   );
 };

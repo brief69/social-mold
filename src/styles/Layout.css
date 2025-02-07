@@ -27,6 +27,14 @@
   flex-direction: column;
   background-color: #121212;
   padding: 20px;
+  position: relative;
+}
+
+.view-swap-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
 }
 
 .grid-card-wrapper {
