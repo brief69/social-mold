@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import { NavBar, SwapActionButton, PostButton, Profile, SearchForm } from './components'
+import { NavBar, SwapActionButton, PostButton, Profile, SearchForm, SideActionButton } from './components'
 import { ThemeProvider } from './theme/ThemeContext'
 import './App.css'
 
@@ -20,10 +20,23 @@ function App() {
           alignItems: 'center', 
           minHeight: '100vh' 
         }}>
-          <SearchForm />
-          <Profile />
-          <PostButton />
-          <SwapActionButton />
+          <div style={{
+            display: 'flex',
+            gap: '40px',
+            alignItems: 'flex-start'
+          }}>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '20px',
+            }}>
+              <SearchForm />
+              <Profile />
+              <PostButton />
+              <SwapActionButton />
+            </div>
+            <SideActionButton />
+          </div>
         </div>
         <NavBar />
       </div>

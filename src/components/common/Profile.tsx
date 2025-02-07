@@ -19,31 +19,31 @@ const Profile: React.FC = () => {
   const containerStyle = {
     display: 'flex',
     alignItems: 'center',
-    gap: '12px',
-    padding: '12px',
+    gap: '16px',
+    padding: '16px',
   } as const;
 
   const iconStyle = {
     background: 'none',
-    border: `2px solid ${theme.primary}`,
-    borderRadius: '50%',
-    width: '48px',
-    height: '48px',
-    padding: '4px',
+    border: 'none',
+    width: '64px',
+    height: '64px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     color: theme.primary,
+    cursor: 'pointer',
   } as const;
 
   const nameStyle = {
     color: theme.primary,
-    fontSize: '18px',
+    fontSize: '20px',
     fontWeight: 'bold',
     background: 'none',
     border: 'none',
-    padding: '8px 12px',
+    padding: '8px 16px',
     borderRadius: '8px',
+    cursor: 'pointer',
   } as const;
 
   return (
@@ -55,7 +55,7 @@ const Profile: React.FC = () => {
         title="Profile Icon"
         aria-label="Profile Icon"
       >
-        <CgProfile size={36} />
+        <CgProfile size={56} />
       </button>
       <button
         className="tap-animation"
