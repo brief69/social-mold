@@ -96,35 +96,42 @@ const AppBar: React.FC<AppBarProps> = ({
         </span>
       </div>
 
-      {/* 中央：方向切り替えボタン */}
-      <button
-        className="tap-animation-large"
-        onClick={handleDirectionChange}
-        style={buttonStyle}
-        title={isUpArrow ? "Switch to Down" : "Switch to Up"}
-        aria-label={isUpArrow ? "Switch to Down" : "Switch to Up"}
-      >
-        {isUpArrow ? (
-          <IoArrowUp size={24} color={theme.primary} />
-        ) : (
-          <IoArrowDown size={24} color={theme.primary} />
-        )}
-      </button>
+      {/* 右側：スワップアクションボタングループ */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px', // ボタン間の間隔を縮小
+      }}>
+        {/* 方向切り替えボタン */}
+        <button
+          className="tap-animation-large"
+          onClick={handleDirectionChange}
+          style={buttonStyle}
+          title={isUpArrow ? "Switch to Down" : "Switch to Up"}
+          aria-label={isUpArrow ? "Switch to Down" : "Switch to Up"}
+        >
+          {isUpArrow ? (
+            <IoArrowUp size={24} color={theme.primary} />
+          ) : (
+            <IoArrowDown size={24} color={theme.primary} />
+          )}
+        </button>
 
-      {/* 右側：再生方向切り替えボタン */}
-      <button
-        className="tap-animation-large"
-        onClick={handlePlayDirectionChange}
-        style={buttonStyle}
-        title={isPlayRight ? "Switch to Up Play" : "Switch to Right Play"}
-        aria-label={isPlayRight ? "Switch to Up Play" : "Switch to Right Play"}
-      >
-        <IoPlayOutline 
-          size={28} 
-          color={theme.primary} 
-          style={isPlayRight ? iconStyle : playIconRotatedStyle} 
-        />
-      </button>
+        {/* 再生方向切り替えボタン */}
+        <button
+          className="tap-animation-large"
+          onClick={handlePlayDirectionChange}
+          style={buttonStyle}
+          title={isPlayRight ? "Switch to Up Play" : "Switch to Right Play"}
+          aria-label={isPlayRight ? "Switch to Up Play" : "Switch to Right Play"}
+        >
+          <IoPlayOutline 
+            size={28} 
+            color={theme.primary} 
+            style={isPlayRight ? iconStyle : playIconRotatedStyle} 
+          />
+        </button>
+      </div>
     </div>
   );
 };
