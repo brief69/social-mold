@@ -5,7 +5,6 @@ import {
   SearchForm, 
   SideActionButton, 
   SwapActionButton,
-  ViewSwapActionButton,
   Tab,
   Chanel,
   Profile 
@@ -46,13 +45,11 @@ const ComponentGallery: React.FC = () => {
       {/* SwapActionButton */}
       <div className="gallery-section">
         <h2 className="section-title">SwapActionButton</h2>
-        <SwapActionButton />
-      </div>
-
-      {/* ViewSwapActionButton */}
-      <div className="gallery-section">
-        <h2 className="section-title">ViewSwapActionButton</h2>
-        <ViewSwapActionButton />
+        <div style={{ display: 'flex', gap: '20px' }}>
+          <SwapActionButton mode="direction" />
+          <SwapActionButton mode="play" />
+          <SwapActionButton mode="view" />
+        </div>
       </div>
 
       {/* Tab */}

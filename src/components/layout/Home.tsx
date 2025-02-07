@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ListView from './ListView';
 import GridView from './GridView';
 import SwipeView from './SwipeView';
-import ViewSwapActionButton from '../common/ViewSwapActionButton';
+import SwapActionButton from '../common/SwapActionButton';
 import '../../styles/Layout.css';
 
 type ViewMode = 'list' | 'grid' | 'swipe';
@@ -35,10 +35,16 @@ const Home: React.FC<HomeProps> = ({ onAction }) => {
     <div className="layout-container">
       <div className="content-container">
         <div className="content-inner">
-          <div className="view-swap-button">
-            <ViewSwapActionButton
+          <div style={{
+            position: 'absolute',
+            top: '20px',
+            right: '20px',
+            zIndex: 1000,
+          }}>
+            <SwapActionButton
+              mode="view"
               onViewChange={setViewMode}
-              defaultMode={viewMode}
+              defaultViewMode={viewMode}
             />
           </div>
           {renderContent()}

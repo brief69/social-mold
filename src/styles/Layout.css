@@ -28,19 +28,6 @@
   position: relative;
 }
 
-.view-swap-button {
-  position: fixed;
-  top: -7px;
-  right: -2px;
-  z-index: 1000;
-  transform: scale(1.5);
-  transition: transform 0.3s ease;
-}
-
-.view-swap-button:hover {
-  transform: scale(1.6);
-}
-
 .grid-card-wrapper {
   position: absolute;
   top: 0;

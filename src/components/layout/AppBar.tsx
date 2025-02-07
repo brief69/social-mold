@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { CgProfile } from 'react-icons/cg';
 import { IoArrowUp, IoArrowDown, IoPlayOutline, IoGridOutline } from 'react-icons/io5';
 import { useTheme } from '../../theme/ThemeContext';
+import { createIconButtonStyle, createIconStyle } from '../../styles/IconStyles';
 import '../../styles/animations.css';
 
 interface AppBarProps {
@@ -127,34 +128,15 @@ const AppBar: React.FC<AppBarProps> = ({
     }
   };
 
-  const buttonStyle = {
+  const nameStyle = {
     background: 'none',
-    border: `2px solid ${theme.primary}`,
-    borderRadius: '50%',
-    padding: '10px',
-    width: '40px',
-    height: '40px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    border: 'none',
+    color: theme.primary,
+    fontSize: '16px',
+    fontWeight: '600',
+    padding: theme.icons.spacing.small,
+    cursor: 'pointer',
   } as const;
-
-  const iconStyle = {
-    strokeWidth: '3',
-    transform: 'scale(1.2)',
-  } as const;
-
-  const playIconRotatedStyle = {
-    ...iconStyle,
-    transform: 'scale(1.2) rotate(-90deg)',
-  } as const;
-
-  const userIconStyle = {
-    width: '32px',
-    height: '32px',
-    borderRadius: '50%',
-    objectFit: 'cover' as const,
-  };
 
   return (
     <div style={{
@@ -168,33 +150,38 @@ const AppBar: React.FC<AppBarProps> = ({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: '0 16px',
+      padding: `0 ${theme.icons.spacing.medium}px`,
       zIndex: 1000,
     }}>
       {/* 左側：ユーザーアイコンとユーザー名 */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '12px',
+        gap: theme.icons.spacing.medium,
       }}>
         <button
           className="tap-animation"
           onClick={handleImageClick}
-          style={{
-            ...buttonStyle,
-            border: 'none',
-            width: '48px',
-            height: '48px',
-            overflow: 'hidden',
-          }}
+          style={createIconButtonStyle(theme, 'medium')}
           title="Change Profile Picture"
           aria-label="Change Profile Picture"
         >
-          {userImage ? (
-            <img src={userImage} alt="User" style={userIconStyle} />
-          ) : (
-            <CgProfile size={32} color={theme.primary} />
-          )}
+          <div style={createIconStyle()}>
+            {userImage ? (
+              <img 
+                src={userImage} 
+                alt="User" 
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '50%',
+                }} 
+              />
+            ) : (
+              <CgProfile size={theme.icons.sizes.medium} color={theme.primary} />
+            )}
+          </div>
         </button>
         <input
           type="file"
@@ -213,30 +200,17 @@ const AppBar: React.FC<AppBarProps> = ({
             onBlur={handleUsernameBlur}
             onKeyDown={handleUsernameKeyDown}
             style={{
-              background: 'none',
-              border: 'none',
+              ...nameStyle,
               borderBottom: `2px solid ${theme.primary}`,
-              color: theme.primary,
-              fontSize: '16px',
-              fontWeight: '600',
-              padding: '4px',
-              width: '120px',
               outline: 'none',
+              width: '120px',
             }}
             aria-label="Edit username"
           />
         ) : (
           <button
             onClick={handleUsernameClick}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: theme.primary,
-              fontSize: '16px',
-              fontWeight: '600',
-              padding: '4px',
-              cursor: 'pointer',
-            }}
+            style={nameStyle}
             className="tap-animation"
             title="Edit username"
             aria-label="Edit username"
@@ -250,58 +224,52 @@ const AppBar: React.FC<AppBarProps> = ({
       <button
         className="tap-animation"
         onClick={onGalleryClick}
-        style={{
-          background: 'none',
-          border: `2px solid ${theme.primary}`,
-          borderRadius: '20px',
-          padding: '6px 12px',
-          color: theme.primary,
-          fontSize: '14px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '4px',
-          cursor: 'pointer',
-        }}
+        style={createIconButtonStyle(theme, 'medium')}
+        title="Gallery"
+        aria-label="Gallery"
       >
-        <IoGridOutline size={16} />
-        Gallery
+        <div style={createIconStyle()}>
+          <IoGridOutline size={theme.icons.sizes.medium} color={theme.primary} />
+        </div>
       </button>
 
       {/* 右側：スワップアクションボタングループ */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '8px',
-        marginRight: '48px',
+        gap: theme.icons.spacing.medium,
       }}>
         {/* 方向切り替えボタン */}
         <button
-          className="tap-animation-large"
+          className="tap-animation"
           onClick={handleDirectionChange}
-          style={buttonStyle}
+          style={createIconButtonStyle(theme, 'medium')}
           title={isUpArrow ? "Switch to Down" : "Switch to Up"}
           aria-label={isUpArrow ? "Switch to Down" : "Switch to Up"}
         >
-          {isUpArrow ? (
-            <IoArrowUp size={24} color={theme.primary} />
-          ) : (
-            <IoArrowDown size={24} color={theme.primary} />
-          )}
+          <div style={createIconStyle()}>
+            {isUpArrow ? (
+              <IoArrowUp size={theme.icons.sizes.medium} color={theme.primary} />
+            ) : (
+              <IoArrowDown size={theme.icons.sizes.medium} color={theme.primary} />
+            )}
+          </div>
         </button>
 
         {/* 再生方向切り替えボタン */}
         <button
-          className="tap-animation-large"
+          className="tap-animation"
           onClick={handlePlayDirectionChange}
-          style={buttonStyle}
+          style={createIconButtonStyle(theme, 'medium')}
           title={isPlayRight ? "Switch to Up Play" : "Switch to Right Play"}
           aria-label={isPlayRight ? "Switch to Up Play" : "Switch to Right Play"}
         >
-          <IoPlayOutline 
-            size={28} 
-            color={theme.primary} 
-            style={isPlayRight ? iconStyle : playIconRotatedStyle} 
-          />
+          <div style={{
+            ...createIconStyle(),
+            transform: `translate(-50%, -50%) rotate(${isPlayRight ? 0 : -90}deg)`
+          }}>
+            <IoPlayOutline size={theme.icons.sizes.medium} color={theme.primary} />
+          </div>
         </button>
       </div>
     </div>

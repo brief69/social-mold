@@ -5,6 +5,7 @@ import { IoMdAdd } from 'react-icons/io';
 import { IoChatbubbles } from 'react-icons/io5';
 import { CgProfile } from 'react-icons/cg';
 import { useTheme } from '../../theme/ThemeContext';
+import { createIconButtonStyle, createIconStyle } from '../../styles/IconStyles';
 import '../../styles/animations.css';
 
 interface NavBarProps {
@@ -21,15 +22,6 @@ const NavBar: React.FC<NavBarProps> = ({ onTabChange }) => {
     onTabChange?.(tab);
   };
 
-  const iconButtonStyle = {
-    background: 'none',
-    border: 'none',
-    padding: '8px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  } as const;
-
   return (
     <nav style={{
       position: 'fixed',
@@ -37,7 +29,7 @@ const NavBar: React.FC<NavBarProps> = ({ onTabChange }) => {
       left: 0,
       width: '100%',
       backgroundColor: theme.background,
-      padding: '12px 0',
+      padding: `${theme.icons.spacing.small}px 0`,
       display: 'flex',
       justifyContent: 'space-around',
       alignItems: 'center',
@@ -47,62 +39,72 @@ const NavBar: React.FC<NavBarProps> = ({ onTabChange }) => {
       <button 
         className="tap-animation"
         style={{
-          ...iconButtonStyle,
+          ...createIconButtonStyle(theme, 'medium'),
           opacity: activeTab === 'home' ? 1 : 0.6
         }} 
         title="Home" 
         aria-label="Home"
         onClick={() => handleClick('home')}
       >
-        <AiFillHome size={24} color={theme.primary} />
+        <div style={createIconStyle()}>
+          <AiFillHome size={theme.icons.sizes.medium} color={theme.primary} />
+        </div>
       </button>
       <button 
         className="tap-animation"
         style={{
-          ...iconButtonStyle,
+          ...createIconButtonStyle(theme, 'medium'),
           opacity: activeTab === 'search' ? 1 : 0.6
         }} 
         title="Search" 
         aria-label="Search"
         onClick={() => handleClick('search')}
       >
-        <BiSearch size={24} color={theme.primary} />
+        <div style={createIconStyle()}>
+          <BiSearch size={theme.icons.sizes.medium} color={theme.primary} />
+        </div>
       </button>
       <button 
         className="tap-animation"
         style={{
-          ...iconButtonStyle,
+          ...createIconButtonStyle(theme, 'medium'),
           opacity: activeTab === 'post' ? 1 : 0.6
         }} 
         title="Create Post" 
         aria-label="Create Post"
         onClick={() => handleClick('post')}
       >
-        <IoMdAdd size={24} color={theme.primary} />
+        <div style={createIconStyle()}>
+          <IoMdAdd size={theme.icons.sizes.medium} color={theme.primary} />
+        </div>
       </button>
       <button 
         className="tap-animation"
         style={{
-          ...iconButtonStyle,
+          ...createIconButtonStyle(theme, 'medium'),
           opacity: activeTab === 'chat' ? 1 : 0.6
         }} 
         title="Chat" 
         aria-label="Chat"
         onClick={() => handleClick('chat')}
       >
-        <IoChatbubbles size={24} color={theme.primary} />
+        <div style={createIconStyle()}>
+          <IoChatbubbles size={theme.icons.sizes.medium} color={theme.primary} />
+        </div>
       </button>
       <button 
         className="tap-animation"
         style={{
-          ...iconButtonStyle,
+          ...createIconButtonStyle(theme, 'medium'),
           opacity: activeTab === 'profile' ? 1 : 0.6
         }} 
         title="Profile" 
         aria-label="Profile"
         onClick={() => handleClick('profile')}
       >
-        <CgProfile size={24} color={theme.primary} />
+        <div style={createIconStyle()}>
+          <CgProfile size={theme.icons.sizes.medium} color={theme.primary} />
+        </div>
       </button>
     </nav>
   );

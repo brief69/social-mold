@@ -5,6 +5,7 @@ import { IoMdAdd } from 'react-icons/io';
 import { IoChatbubbles } from 'react-icons/io5';
 import { CgProfile } from 'react-icons/cg';
 import { useTheme } from '../../theme/ThemeContext';
+import { createIconButtonStyle, createIconStyle } from '../../styles/IconStyles';
 import '../../styles/animations.css';
 
 interface SideNavBarProps {
@@ -21,17 +22,6 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ onTabChange }) => {
     onTabChange?.(tab);
   };
 
-  const iconButtonStyle = {
-    background: 'none',
-    border: 'none',
-    padding: '16px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '64px',
-    height: '64px',
-  } as const;
-
   return (
     <nav style={{
       position: 'fixed',
@@ -39,12 +29,12 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ onTabChange }) => {
       top: '50%',
       transform: 'translateY(-50%)',
       backgroundColor: theme.background,
-      padding: '12px 0',
+      padding: `${theme.icons.spacing.small}px 0`,
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      gap: '8px',
+      gap: theme.icons.spacing.small,
       borderRight: `1px solid ${theme.border}`,
       height: 'auto',
       maxHeight: '80vh',
@@ -54,62 +44,72 @@ const SideNavBar: React.FC<SideNavBarProps> = ({ onTabChange }) => {
       <button 
         className="tap-animation"
         style={{
-          ...iconButtonStyle,
+          ...createIconButtonStyle(theme, 'medium'),
           opacity: activeTab === 'home' ? 1 : 0.6
         }} 
         title="Home" 
         aria-label="Home"
         onClick={() => handleClick('home')}
       >
-        <AiFillHome size={32} color={theme.primary} />
+        <div style={createIconStyle()}>
+          <AiFillHome size={theme.icons.sizes.medium} color={theme.primary} />
+        </div>
       </button>
       <button 
         className="tap-animation"
         style={{
-          ...iconButtonStyle,
+          ...createIconButtonStyle(theme, 'medium'),
           opacity: activeTab === 'search' ? 1 : 0.6
         }} 
         title="Search" 
         aria-label="Search"
         onClick={() => handleClick('search')}
       >
-        <BiSearch size={32} color={theme.primary} />
+        <div style={createIconStyle()}>
+          <BiSearch size={theme.icons.sizes.medium} color={theme.primary} />
+        </div>
       </button>
       <button 
         className="tap-animation"
         style={{
-          ...iconButtonStyle,
+          ...createIconButtonStyle(theme, 'medium'),
           opacity: activeTab === 'post' ? 1 : 0.6
         }} 
         title="Create Post" 
         aria-label="Create Post"
         onClick={() => handleClick('post')}
       >
-        <IoMdAdd size={32} color={theme.primary} />
+        <div style={createIconStyle()}>
+          <IoMdAdd size={theme.icons.sizes.medium} color={theme.primary} />
+        </div>
       </button>
       <button 
         className="tap-animation"
         style={{
-          ...iconButtonStyle,
+          ...createIconButtonStyle(theme, 'medium'),
           opacity: activeTab === 'chat' ? 1 : 0.6
         }} 
         title="Chat" 
         aria-label="Chat"
         onClick={() => handleClick('chat')}
       >
-        <IoChatbubbles size={32} color={theme.primary} />
+        <div style={createIconStyle()}>
+          <IoChatbubbles size={theme.icons.sizes.medium} color={theme.primary} />
+        </div>
       </button>
       <button 
         className="tap-animation"
         style={{
-          ...iconButtonStyle,
+          ...createIconButtonStyle(theme, 'medium'),
           opacity: activeTab === 'profile' ? 1 : 0.6
         }} 
         title="Profile" 
         aria-label="Profile"
         onClick={() => handleClick('profile')}
       >
-        <CgProfile size={32} color={theme.primary} />
+        <div style={createIconStyle()}>
+          <CgProfile size={theme.icons.sizes.medium} color={theme.primary} />
+        </div>
       </button>
     </nav>
   );

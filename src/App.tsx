@@ -8,8 +8,6 @@ import {
   Search,
   Chat,
   Profile,
-  SwipeView,
-  GridView,
 } from './components'
 import { ThemeProvider } from './theme/ThemeContext'
 import './App.css'
