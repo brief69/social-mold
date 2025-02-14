@@ -71,8 +71,25 @@
 @media (min-width: 769px) {
   .content-container {
     max-width: 800px;
+    margin-right: 80px; /* SideActionのスペースを確保 */
   }
   .content-inner {
     padding: 40px;
+  }
+}
+
+/* SideAction用のスタイル */
+.side-action-wrapper {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .side-action-wrapper {
+    right: 10px;
   }
 } 

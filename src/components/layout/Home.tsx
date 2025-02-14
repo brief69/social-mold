@@ -3,6 +3,7 @@ import ListView from './ListView';
 import GridView from './GridView';
 import SwipeView from './SwipeView';
 import SwapActionButton from '../common/SwapActionButton';
+import SideAction from './SideAction';
 import '../../styles/Layout.css';
 
 type ViewMode = 'list' | 'grid' | 'swipe';
@@ -13,9 +14,17 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = ({ onAction }) => {
   const [viewMode, setViewMode] = useState<ViewMode>('list');
+  const [currentItemId, setCurrentItemId] = useState<string | null>(null);
 
   const handleAction = (action: 'like' | 'comment' | 'share' | 'profile', itemId: string) => {
+    setCurrentItemId(itemId);
     onAction?.(action, itemId);
+  };
+
+  const handleSideAction = (action: 'like' | 'share' | 'comment' | 'profile') => {
+    if (currentItemId) {
+      onAction?.(action, currentItemId);
+    }
   };
 
   const renderContent = () => {
@@ -34,7 +43,7 @@ const Home: React.FC<HomeProps> = ({ onAction }) => {
   return (
     <div className="layout-container">
       <div className="content-container">
-        <div className="content-inner">
+        <div className="content-inner" style={{ position: 'relative' }}>
           <div style={{
             position: 'absolute',
             top: '20px',
@@ -42,12 +51,28 @@ const Home: React.FC<HomeProps> = ({ onAction }) => {
             zIndex: 1000,
           }}>
             <SwapActionButton
-              mode="view"
+              mode="view-grid"
               onViewChange={setViewMode}
               defaultViewMode={viewMode}
             />
           </div>
           {renderContent()}
+          <div style={{
+            position: 'fixed',
+            right: viewMode === 'list' ? '5%' : '20px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            zIndex: 1000,
+          }}>
+            <SideAction
+              isVisible={true}
+              position="right"
+              onLike={() => handleSideAction('like')}
+              onShare={() => handleSideAction('share')}
+              onComment={() => handleSideAction('comment')}
+              onProfile={() => handleSideAction('profile')}
+            />
+          </div>
         </div>
       </div>
     </div>
