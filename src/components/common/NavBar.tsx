@@ -8,6 +8,8 @@ import { useTheme } from '../../theme/ThemeContext';
 import { createIconButtonStyle, createIconStyle } from '../../styles/IconStyles';
 import '../../styles/animations.css';
 
+// TODO: 縦モードと、横モードの切り替えを実装する
+// TODO: で、sidenavbarファイルを削除する
 interface NavBarProps {
   onTabChange?: (tab: string) => void;
   onSwap?: (isPlayRight: boolean) => void;

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import SideActionButton from '../common/SideActionButton';
 import { useTheme } from '../../theme/ThemeContext';
 
+// TODO: 縦モードと、横モードの切り替えを実装する
+
 interface SideActionProps {
   isVisible?: boolean;
   position?: 'left' | 'right';

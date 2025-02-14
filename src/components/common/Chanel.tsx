@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useTheme } from '../../theme/ThemeContext';
 
 interface Channel {
@@ -11,6 +11,11 @@ interface ChanelProps {
   onChannelChange?: (channelId: string) => void;
 }
 
+interface ClosestChannel {
+  id: string;
+  distance: number;
+}
+
 const Chanel: React.FC<ChanelProps> = ({ 
   channels: customChannels,
   onChannelChange,
@@ -20,8 +25,8 @@ const Chanel: React.FC<ChanelProps> = ({
   const [showSearch, setShowSearch] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [lastScrollLeft, setLastScrollLeft] = useState(0);
-  let scrollTimeout: number;
-  let lastScrollTime = useRef(Date.now()).current;
+  const scrollTimeout = useRef<number>();
+  const lastScrollTime = useRef(Date.now());
 
   // デフォルトのチャネルリスト（0-30）
   const defaultChannels: Channel[] = Array.from({ length: 31 }, (_, i) => ({
@@ -32,46 +37,100 @@ const Chanel: React.FC<ChanelProps> = ({
   // カスタムチャネルが提供されている場合はそれを使用し、そうでない場合はデフォルトを使用
   const channels = customChannels || defaultChannels;
 
-  const handleChannelClick = (channelId: string) => {
-    setActiveChannel(channelId);
-    onChannelChange?.(channelId);
-    setShowSearch(false);
+  // スクロール位置に基づいて中央のチャンネルを検出
+  const detectCenterChannel = () => {
+    const container = scrollRef.current;
+    if (!container) return;
 
-    // 選択されたチャネルまでスクロール
-    const channelElement = document.getElementById(`channel-${channelId}`);
-    channelElement?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+    const containerRect = container.getBoundingClientRect();
+    const containerCenter = containerRect.left + containerRect.width / 2;
+    let closestChannel: ClosestChannel | null = null;
+
+    channels.forEach(channel => {
+      const element = document.getElementById(`channel-${channel.id}`);
+      if (!element) return;
+
+      const elementRect = element.getBoundingClientRect();
+      const elementCenter = elementRect.left + elementRect.width / 2;
+      const distance = Math.abs(containerCenter - elementCenter);
+
+      if (!closestChannel || distance < closestChannel.distance) {
+        closestChannel = { id: channel.id, distance };
+      }
+    });
+
+    if (closestChannel && closestChannel.id !== activeChannel) {
+      setActiveChannel(closestChannel.id);
+      onChannelChange?.(closestChannel.id);
+    }
+  };
+
+  // スクロールイベントのデバウンス処理
+  const debouncedScroll = (func: () => void, wait: number) => {
+    let timeoutId: ReturnType<typeof setTimeout>;
+    return () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => func(), wait);
+    };
   };
 
   const handleScroll = () => {
-    if (scrollTimeout) {
-      window.clearTimeout(scrollTimeout);
+    if (scrollTimeout.current) {
+      window.clearTimeout(scrollTimeout.current);
     }
 
     const currentTime = Date.now();
-    const timeDiff = currentTime - lastScrollTime;
+    const timeDiff = currentTime - lastScrollTime.current;
     const container = scrollRef.current;
     
     if (container) {
       const currentScrollLeft = container.scrollLeft;
       const scrollDiff = Math.abs(currentScrollLeft - lastScrollLeft);
-      const currentSpeed = scrollDiff / timeDiff; // ピクセル/ミリ秒
+      const currentSpeed = scrollDiff / timeDiff;
 
-      // スクロール距離とスクロール速度の両方を考慮
-      const totalScrollWidth = container.scrollWidth - container.clientWidth;
-      const scrollRatio = scrollDiff / totalScrollWidth; // スクロール距離の割合
-
-      // スクロール距離が2%以上、または中速スクロールの場合に検索フォームを表示
-      if (scrollRatio > 0.01 || currentSpeed > 0.01) {
-        setShowSearch(true);
+      if (scrollDiff > 0) {
+        detectCenterChannel();
       }
 
       setLastScrollLeft(currentScrollLeft);
-      lastScrollTime = currentTime;
+      lastScrollTime.current = currentTime;
+
+      if (currentSpeed > 0.01) {
+        setShowSearch(true);
+      }
     }
 
-    scrollTimeout = window.setTimeout(() => {
+    scrollTimeout.current = window.setTimeout(() => {
       setShowSearch(false);
+      detectCenterChannel();
     }, 300);
+  };
+
+  // コンポーネントマウント時に中央のチャンネルを検出
+  useEffect(() => {
+    detectCenterChannel();
+  }, []);
+
+  // スクロールイベントの最適化
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const optimizedScroll = debouncedScroll(handleScroll, 16);
+    container.addEventListener('scroll', optimizedScroll);
+
+    return () => {
+      container.removeEventListener('scroll', optimizedScroll);
+    };
+  }, []);
+
+  const handleChannelClick = (channelId: string) => {
+    setActiveChannel(channelId);
+    onChannelChange?.(channelId);
+    setShowSearch(false);
+
+    const channelElement = document.getElementById(`channel-${channelId}`);
+    channelElement?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
   };
 
   const containerStyle: React.CSSProperties = {

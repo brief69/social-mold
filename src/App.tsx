@@ -8,6 +8,7 @@ import {
   Search,
   Chat,
   Profile,
+  Chanel,
 } from './components'
 import { ThemeProvider } from './theme/ThemeContext'
 import './App.css'
@@ -65,13 +66,22 @@ function App() {
         <main style={{ 
           width: '100%',
           minHeight: '100%',
-          paddingBottom: '60px',
+          paddingBottom: '120px',
           paddingLeft: showSideNav ? '88px' : '0',
           transition: 'padding-left 0.3s ease',
           backgroundColor: '#121212',
         }}>
           {renderMainContent()}
         </main>
+        <div style={{
+          position: 'fixed',
+          bottom: showSideNav ? '0' : '60px',
+          left: showSideNav ? '88px' : '0',
+          right: '0',
+          transition: 'all 0.3s ease',
+        }}>
+          <Chanel />
+        </div>
         {showSideNav ? (
           <SideNavBar onTabChange={handleNavTabChange} onSwap={handleNavSwap} />
         ) : (

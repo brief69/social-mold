@@ -1,5 +1,9 @@
 # social-mold
 
+// TODO: pwaアプリ化対応
+// TODO: ナビバーをsliderにする
+// TODO: チャンネルをsliderにする
+
 ## Components Directory Structure
 
 プロジェクトのコンポーネント構造は以下の通りです：
