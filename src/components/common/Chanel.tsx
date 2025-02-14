@@ -152,6 +152,9 @@ const Chanel: React.FC<ChanelProps> = ({
     scrollBehavior: 'smooth',
     WebkitOverflowScrolling: 'touch',
     scrollSnapType: 'x mandatory',
+    opacity: showSearch ? 0 : 1,
+    transition: 'opacity 0.3s ease',
+    visibility: showSearch ? 'hidden' : 'visible',
   };
 
   const channelStyle = (isActive: boolean, name: string): React.CSSProperties => ({
@@ -200,17 +203,19 @@ const Chanel: React.FC<ChanelProps> = ({
     top: '50%',
     transform: 'translate(-50%, -50%)',
     padding: '8px 16px',
-    background: 'none',
+    background: theme.background,
     border: `2px solid ${theme.primary}`,
     borderRadius: '30px',
     opacity: showSearch ? 1 : 0,
     transition: 'all 0.3s ease',
     pointerEvents: showSearch ? 'auto' : 'none',
+    visibility: showSearch ? 'visible' : 'hidden',
     minWidth: '200px',
     height: '44px',
     boxSizing: 'border-box',
     display: 'flex',
     alignItems: 'center',
+    zIndex: 2,
   };
 
   // アクティブなチャネルの名前を取得
