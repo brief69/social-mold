@@ -10,13 +10,18 @@ interface ListViewProps {
 const ListView: React.FC<ListViewProps> = ({ onAction }) => {
   const containerStyle: React.CSSProperties = {
     width: '100%',
-    maxWidth: '100%',
-    margin: '0 auto',
-    padding: '20px',
     display: 'flex',
     flexDirection: 'column',
     gap: '16px',
+    alignItems: 'center',
     boxSizing: 'border-box',
+  };
+
+  const cardWrapperStyle: React.CSSProperties = {
+    width: '100%',
+    maxWidth: '600px',
+    margin: '0 auto',
+    transition: 'all 0.3s ease',
   };
 
   const handleAction = (action: 'like' | 'comment' | 'share' | 'profile', itemId: string) => {
@@ -31,12 +36,7 @@ const ListView: React.FC<ListViewProps> = ({ onAction }) => {
             {dummyContents.map((item) => (
               <div
                 key={item.id}
-                style={{
-                  width: '100%',
-                  maxWidth: '600px',
-                  margin: '0 auto',
-                  transition: 'all 0.3s ease',
-                }}
+                style={cardWrapperStyle}
               >
                 <ContentCard
                   item={item}
