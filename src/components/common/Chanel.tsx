@@ -23,10 +23,14 @@ const Chanel: React.FC<ChanelProps> = ({
   const theme = useTheme();
   const [activeChannel, setActiveChannel] = useState<string | null>(null);
   const [showSearch, setShowSearch] = useState(false);
+  const [searchText, setSearchText] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const [lastScrollLeft, setLastScrollLeft] = useState(0);
   const scrollTimeout = useRef<number>();
   const lastScrollTime = useRef(Date.now());
+  const scrollSpeedThreshold = 1.5; // スクロール速度のしきい値を上げる
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // デフォルトのチャネルリスト（0-30）
   const defaultChannels: Channel[] = Array.from({ length: 31 }, (_, i) => ({
@@ -95,8 +99,13 @@ const Chanel: React.FC<ChanelProps> = ({
       setLastScrollLeft(currentScrollLeft);
       lastScrollTime.current = currentTime;
 
-      if (currentSpeed > 0.01) {
+      // スクロール速度のしきい値を上げて、より速いスクロールでのみ検索を表示
+      if (currentSpeed > scrollSpeedThreshold) {
         setShowSearch(true);
+        // 検索フィールドが表示されたら自動でフォーカス
+        setTimeout(() => {
+          searchInputRef.current?.focus();
+        }, 100);
       }
     }
 
@@ -104,6 +113,28 @@ const Chanel: React.FC<ChanelProps> = ({
       setShowSearch(false);
       detectCenterChannel();
     }, 300);
+  };
+
+  // 外部クリックの処理
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        // 検索テキストが空の場合のみ検索フィールドを非表示
+        if (!searchText) {
+          setShowSearch(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [searchText]);
+
+  // 検索入力の処理
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(e.target.value);
   };
 
   // コンポーネントマウント時に中央のチャンネルを検出
@@ -222,7 +253,7 @@ const Chanel: React.FC<ChanelProps> = ({
   const activeChannelName = channels.find(c => c.id === activeChannel)?.name || '';
 
   return (
-    <div style={containerStyle}>
+    <div ref={containerRef} style={containerStyle}>
       <div style={focusIndicatorStyle(activeChannelName)} />
       <div
         ref={scrollRef}
@@ -244,7 +275,10 @@ const Chanel: React.FC<ChanelProps> = ({
       {showSearch && (
         <div style={searchFormStyle}>
           <input
+            ref={searchInputRef}
             type="text"
+            value={searchText}
+            onChange={handleSearchChange}
             placeholder="Search channels..."
             style={{
               background: 'none',
