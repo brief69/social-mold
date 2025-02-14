@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTheme } from '../../theme/ThemeContext';
+import { IoCloseOutline } from 'react-icons/io5';
 
 interface Channel {
   id: string;
@@ -27,9 +28,9 @@ const Chanel: React.FC<ChanelProps> = ({
   const scrollRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [lastScrollLeft, setLastScrollLeft] = useState(0);
-  const scrollTimeout = useRef<number>();
-  const lastScrollTime = useRef(Date.now());
-  const scrollSpeedThreshold = 1.5; // スクロール速度のしきい値を上げる
+  const scrollTimeout = useRef<ReturnType<typeof setTimeout>>(setTimeout(() => {}, 0));
+  const lastActiveChannel = useRef<string | null>(null);
+  const passedChannelsCount = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // デフォルトのチャネルリスト（0-30）
@@ -48,7 +49,8 @@ const Chanel: React.FC<ChanelProps> = ({
 
     const containerRect = container.getBoundingClientRect();
     const containerCenter = containerRect.left + containerRect.width / 2;
-    let closestChannel: ClosestChannel | null = null;
+    let closestChannel: Channel | null = null;
+    let minDistance = Infinity;
 
     channels.forEach(channel => {
       const element = document.getElementById(`channel-${channel.id}`);
@@ -58,60 +60,52 @@ const Chanel: React.FC<ChanelProps> = ({
       const elementCenter = elementRect.left + elementRect.width / 2;
       const distance = Math.abs(containerCenter - elementCenter);
 
-      if (!closestChannel || distance < closestChannel.distance) {
-        closestChannel = { id: channel.id, distance };
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestChannel = channel;
       }
     });
 
-    if (closestChannel && closestChannel.id !== activeChannel) {
-      setActiveChannel(closestChannel.id);
-      onChannelChange?.(closestChannel.id);
-    }
-  };
-
-  // スクロールイベントのデバウンス処理
-  const debouncedScroll = (func: () => void, wait: number) => {
-    let timeoutId: ReturnType<typeof setTimeout>;
-    return () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => func(), wait);
-    };
-  };
-
-  const handleScroll = () => {
-    if (scrollTimeout.current) {
-      window.clearTimeout(scrollTimeout.current);
-    }
-
-    const currentTime = Date.now();
-    const timeDiff = currentTime - lastScrollTime.current;
-    const container = scrollRef.current;
-    
-    if (container) {
-      const currentScrollLeft = container.scrollLeft;
-      const scrollDiff = Math.abs(currentScrollLeft - lastScrollLeft);
-      const currentSpeed = scrollDiff / timeDiff;
-
-      if (scrollDiff > 0) {
-        detectCenterChannel();
+    if (closestChannel?.id !== activeChannel) {
+      // 前回のアクティブチャンネルと現在のアクティブチャンネルのインデックスを取得
+      const lastIndex = lastActiveChannel.current ? 
+        channels.findIndex(c => c.id === lastActiveChannel.current) : -1;
+      const currentIndex = channels.findIndex(c => c.id === closestChannel?.id);
+      
+      // インデックスの差の絶対値を計算し、通過したチャンネル数に加算
+      if (lastIndex !== -1 && currentIndex !== -1) {
+        passedChannelsCount.current += Math.abs(currentIndex - lastIndex);
       }
 
-      setLastScrollLeft(currentScrollLeft);
-      lastScrollTime.current = currentTime;
-
-      // スクロール速度のしきい値を上げて、より速いスクロールでのみ検索を表示
-      if (currentSpeed > scrollSpeedThreshold) {
+      // 10チャンネル以上通過した場合、検索フォームを表示
+      if (passedChannelsCount.current >= 10) {
         setShowSearch(true);
-        // 検索フィールドが表示されたら自動でフォーカス
         setTimeout(() => {
           searchInputRef.current?.focus();
         }, 100);
       }
+
+      if (closestChannel) {
+        setActiveChannel(closestChannel.id);
+        onChannelChange?.(closestChannel.id);
+        lastActiveChannel.current = closestChannel.id;
+      }
+    }
+  };
+
+  const handleScroll = () => {
+    if (scrollTimeout.current) {
+      clearTimeout(scrollTimeout.current);
     }
 
-    scrollTimeout.current = window.setTimeout(() => {
-      setShowSearch(false);
-      detectCenterChannel();
+    // 検索フォームが表示中の場合は、スクロールイベントを無視
+    if (showSearch) return;
+
+    detectCenterChannel();
+
+    scrollTimeout.current = setTimeout(() => {
+      // スクロールが止まったらカウントをリセット
+      passedChannelsCount.current = 0;
     }, 300);
   };
 
@@ -122,6 +116,8 @@ const Chanel: React.FC<ChanelProps> = ({
         // 検索テキストが空の場合のみ検索フィールドを非表示
         if (!searchText) {
           setShowSearch(false);
+          // 検索フォームが閉じられたときにカウントをリセット
+          passedChannelsCount.current = 0;
         }
       }
     };
@@ -137,6 +133,11 @@ const Chanel: React.FC<ChanelProps> = ({
     setSearchText(e.target.value);
   };
 
+  const handleClearSearch = () => {
+    setSearchText('');
+    searchInputRef.current?.focus();
+  };
+
   // コンポーネントマウント時に中央のチャンネルを検出
   useEffect(() => {
     detectCenterChannel();
@@ -147,7 +148,7 @@ const Chanel: React.FC<ChanelProps> = ({
     const container = scrollRef.current;
     if (!container) return;
 
-    const optimizedScroll = debouncedScroll(handleScroll, 16);
+    const optimizedScroll = handleScroll;
     container.addEventListener('scroll', optimizedScroll);
 
     return () => {
@@ -156,10 +157,11 @@ const Chanel: React.FC<ChanelProps> = ({
   }, []);
 
   const handleChannelClick = (channelId: string) => {
+    // 検索フォームが表示中の場合は、チャンネルクリックを無視
+    if (showSearch) return;
+
     setActiveChannel(channelId);
     onChannelChange?.(channelId);
-    setShowSearch(false);
-
     const channelElement = document.getElementById(`channel-${channelId}`);
     channelElement?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
   };
@@ -246,7 +248,22 @@ const Chanel: React.FC<ChanelProps> = ({
     boxSizing: 'border-box',
     display: 'flex',
     alignItems: 'center',
+    gap: '8px',
     zIndex: 2,
+  };
+
+  const clearButtonStyle: React.CSSProperties = {
+    background: 'none',
+    border: 'none',
+    padding: '4px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    color: theme.primary,
+    opacity: searchText ? 1 : 0,
+    transition: 'opacity 0.3s ease',
+    pointerEvents: searchText ? 'auto' : 'none',
   };
 
   // アクティブなチャネルの名前を取得
@@ -289,6 +306,15 @@ const Chanel: React.FC<ChanelProps> = ({
               fontSize: '16px',
             }}
           />
+          <button
+            onClick={handleClearSearch}
+            style={clearButtonStyle}
+            className="tap-animation"
+            title="Clear search"
+            aria-label="Clear search"
+          >
+            <IoCloseOutline size={20} />
+          </button>
         </div>
       )}
     </div>
