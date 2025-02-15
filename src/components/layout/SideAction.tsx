@@ -7,6 +7,7 @@ import { useTheme } from '../../theme/ThemeContext';
 interface SideActionProps {
   isVisible?: boolean;
   position?: 'left' | 'right';
+  orientation?: 'vertical' | 'horizontal';
   onLike?: () => void;
   onShare?: () => void;
   onComment?: () => void;
@@ -16,6 +17,7 @@ interface SideActionProps {
 const SideAction: React.FC<SideActionProps> = ({
   isVisible = true,
   position = 'right',
+  orientation = 'vertical',
   onLike,
   onShare,
   onComment,
@@ -30,44 +32,91 @@ const SideAction: React.FC<SideActionProps> = ({
 
   if (!isVisible) return null;
 
-  return (
-    <div style={{
+  const getContainerStyle = (): React.CSSProperties => {
+    const baseStyle: React.CSSProperties = {
       position: 'fixed',
-      [position]: '16px',
-      top: '50%',
-      transform: 'translateY(-50%)',
       backgroundColor: 'transparent',
       borderRadius: '16px',
       padding: '12px',
       display: 'flex',
-      flexDirection: 'column',
       alignItems: 'center',
       gap: '8px',
       transition: 'all 0.3s ease',
       opacity: isExpanded ? 1 : 0.5,
       zIndex: 100,
-    }}>
+    };
+
+    if (orientation === 'vertical') {
+      return {
+        ...baseStyle,
+        [position]: '16px',
+        top: '50%',
+        transform: 'translateY(-50%)',
+        flexDirection: 'column',
+      };
+    } else {
+      return {
+        ...baseStyle,
+        [position === 'left' ? 'left' : 'right']: '50%',
+        bottom: '16px',
+        transform: 'translateX(50%)',
+        flexDirection: 'row',
+      };
+    }
+  };
+
+  const getToggleButtonStyle = (): React.CSSProperties => {
+    const baseStyle: React.CSSProperties = {
+      background: 'none',
+      border: 'none',
+      padding: '8px',
+      cursor: 'pointer',
+      color: theme.primary,
+      fontSize: '20px',
+      transition: 'transform 0.3s ease',
+    };
+
+    if (orientation === 'vertical') {
+      return {
+        ...baseStyle,
+        transform: isExpanded 
+          ? 'rotate(0deg)' 
+          : `rotate(${position === 'left' ? '180deg' : '0deg'})`,
+      };
+    } else {
+      return {
+        ...baseStyle,
+        transform: isExpanded 
+          ? 'rotate(-90deg)' 
+          : 'rotate(90deg)',
+      };
+    }
+  };
+
+  const getToggleButtonText = (): string => {
+    if (orientation === 'vertical') {
+      return position === 'left' ? '→' : '←';
+    } else {
+      return '↑';
+    }
+  };
+
+  return (
+    <div style={getContainerStyle()}>
       <button
         onClick={handleToggle}
-        style={{
-          background: 'none',
-          border: 'none',
-          padding: '8px',
-          cursor: 'pointer',
-          color: theme.primary,
-          fontSize: '20px',
-          transform: isExpanded ? 'rotate(0deg)' : `rotate(${position === 'left' ? '180deg' : '0deg'})`,
-          transition: 'transform 0.3s ease',
-        }}
+        style={getToggleButtonStyle()}
         className="tap-animation"
         title={isExpanded ? "Collapse" : "Expand"}
         aria-label={isExpanded ? "Collapse side actions" : "Expand side actions"}
       >
-        {position === 'left' ? '→' : '←'}
+        {getToggleButtonText()}
       </button>
 
       <div style={{
-        display: isExpanded ? 'block' : 'none',
+        display: isExpanded ? 'flex' : 'none',
+        flexDirection: orientation === 'vertical' ? 'column' : 'row',
+        gap: theme.icons.spacing.large,
         transition: 'all 0.3s ease',
       }}>
         <SideActionButton
@@ -75,6 +124,7 @@ const SideAction: React.FC<SideActionProps> = ({
           onShare={onShare}
           onComment={onComment}
           onProfile={onProfile}
+          orientation={orientation}
         />
       </div>
     </div>

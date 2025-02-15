@@ -9,6 +9,7 @@ interface SideActionButtonProps {
   onShare?: () => void;
   onComment?: () => void;
   onProfile?: () => void;
+  orientation?: 'vertical' | 'horizontal';
 }
 
 const SideActionButton: React.FC<SideActionButtonProps> = ({
@@ -16,12 +17,13 @@ const SideActionButton: React.FC<SideActionButtonProps> = ({
   onShare,
   onComment,
   onProfile,
+  orientation = 'vertical',
 }) => {
   const theme = useTheme();
 
   const containerStyle = {
     display: 'flex',
-    flexDirection: 'column' as const,
+    flexDirection: orientation === 'vertical' ? 'column' as const : 'row' as const,
     gap: theme.icons.spacing.large,
     padding: theme.icons.spacing.medium,
   };

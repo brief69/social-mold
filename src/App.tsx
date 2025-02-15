@@ -11,6 +11,8 @@ import {
   Chanel,
 } from './components'
 import { ThemeProvider } from './theme/ThemeContext'
+import { UIProvider } from './context/UIContext'
+import AutoHideWrapper from './components/common/AutoHideWrapper'
 import './App.css'
 
 function App() {
@@ -54,40 +56,44 @@ function App() {
 
   return (
     <ThemeProvider>
-      <div style={{ 
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: '#121212',
-        overflow: 'auto',
-      }}>
-        <main style={{ 
-          width: '100%',
-          minHeight: '100%',
-          paddingBottom: '120px',
-          paddingLeft: showSideNav ? '88px' : '0',
-          transition: 'padding-left 0.3s ease',
-          backgroundColor: '#121212',
-        }}>
-          {renderMainContent()}
-        </main>
-        <div style={{
+      <UIProvider>
+        <div style={{ 
           position: 'fixed',
-          bottom: showSideNav ? '0' : '60px',
-          left: showSideNav ? '88px' : '0',
-          right: '0',
-          transition: 'all 0.3s ease',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: '#121212',
+          overflow: 'auto',
         }}>
-          <Chanel />
+          <main style={{ 
+            width: '100%',
+            minHeight: '100%',
+            paddingBottom: '120px',
+            paddingLeft: showSideNav ? '88px' : '0',
+            transition: 'padding-left 0.3s ease',
+            backgroundColor: '#121212',
+          }}>
+            {renderMainContent()}
+          </main>
+          <AutoHideWrapper style={{
+            position: 'fixed',
+            bottom: showSideNav ? '0' : '60px',
+            left: showSideNav ? '88px' : '0',
+            right: '0',
+            transition: 'all 0.3s ease',
+          }}>
+            <Chanel />
+          </AutoHideWrapper>
+          <AutoHideWrapper>
+            {showSideNav ? (
+              <SideNavBar onTabChange={handleNavTabChange} onSwap={handleNavSwap} />
+            ) : (
+              <NavBar onTabChange={handleNavTabChange} onSwap={handleNavSwap} />
+            )}
+          </AutoHideWrapper>
         </div>
-        {showSideNav ? (
-          <SideNavBar onTabChange={handleNavTabChange} onSwap={handleNavSwap} />
-        ) : (
-          <NavBar onTabChange={handleNavTabChange} onSwap={handleNavSwap} />
-        )}
-      </div>
+      </UIProvider>
     </ThemeProvider>
   )
 }

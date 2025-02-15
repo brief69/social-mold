@@ -4,6 +4,7 @@ import GridView from './GridView';
 import SwipeView from './SwipeView';
 import SwapActionButton from '../common/SwapActionButton';
 import SideAction from './SideAction';
+import AutoHideWrapper from '../common/AutoHideWrapper';
 import '../../styles/Layout.css';
 
 type ViewMode = 'list' | 'grid' | 'swipe';
@@ -44,7 +45,7 @@ const Home: React.FC<HomeProps> = ({ onAction }) => {
     <div className="layout-container">
       <div className="content-container">
         <div className="content-inner" style={{ position: 'relative' }}>
-          <div style={{
+          <AutoHideWrapper style={{
             position: 'absolute',
             top: '20px',
             right: '20px',
@@ -55,9 +56,9 @@ const Home: React.FC<HomeProps> = ({ onAction }) => {
               onViewChange={setViewMode}
               defaultViewMode={viewMode}
             />
-          </div>
+          </AutoHideWrapper>
           {renderContent()}
-          <div style={{
+          <AutoHideWrapper style={{
             position: 'fixed',
             right: viewMode === 'list' ? '5%' : '20px',
             top: '50%',
@@ -72,7 +73,7 @@ const Home: React.FC<HomeProps> = ({ onAction }) => {
               onComment={() => handleSideAction('comment')}
               onProfile={() => handleSideAction('profile')}
             />
-          </div>
+          </AutoHideWrapper>
         </div>
       </div>
     </div>
