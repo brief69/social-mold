@@ -43,7 +43,6 @@ const SideAction: React.FC<SideActionProps> = ({
 
   const getContainerStyle = (): React.CSSProperties => {
     const baseStyle: React.CSSProperties = {
-      position: 'fixed',
       backgroundColor: 'transparent',
       borderRadius: '16px',
       padding: '12px',
@@ -56,6 +55,7 @@ const SideAction: React.FC<SideActionProps> = ({
     if (orientation === 'vertical') {
       return {
         ...baseStyle,
+        position: 'fixed',
         [position]: '16px',
         top: '50%',
         transform: 'translateY(-50%)',
@@ -64,10 +64,10 @@ const SideAction: React.FC<SideActionProps> = ({
     } else {
       return {
         ...baseStyle,
-        [position === 'left' ? 'left' : 'right']: '50%',
-        bottom: '16px',
-        transform: 'translateX(50%)',
+        position: 'relative',
+        width: '100%',
         flexDirection: 'row',
+        justifyContent: 'center',
       };
     }
   };

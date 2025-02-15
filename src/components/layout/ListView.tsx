@@ -1,13 +1,14 @@
 import React from 'react';
 import ContentCard from '../common/content/ContentCard';
-import { dummyContents } from '../common/content/dummyData';
+import { channels } from '../common/content/dummyData';
 import '../../styles/Layout.css';
 
 interface ListViewProps {
   onAction?: (action: 'like' | 'comment' | 'share' | 'profile', itemId: string) => void;
+  selectedChannelId?: string;
 }
 
-const ListView: React.FC<ListViewProps> = ({ onAction }) => {
+const ListView: React.FC<ListViewProps> = ({ onAction, selectedChannelId = '0' }) => {
   const containerStyle: React.CSSProperties = {
     width: '100%',
     display: 'flex',
@@ -28,12 +29,16 @@ const ListView: React.FC<ListViewProps> = ({ onAction }) => {
     onAction?.(action, itemId);
   };
 
+  // 選択されたチャンネルのコンテンツを取得
+  const selectedChannel = channels.find(channel => channel.id === selectedChannelId);
+  const contents = selectedChannel?.contents || channels[0].contents;
+
   return (
     <div className="layout-container">
       <div className="content-container">
         <div className="content-inner">
           <div style={containerStyle}>
-            {dummyContents.map((item) => (
+            {contents.map((item) => (
               <div
                 key={item.id}
                 style={cardWrapperStyle}

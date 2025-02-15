@@ -1,14 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTheme } from '../../theme/ThemeContext';
 import { IoCloseOutline } from 'react-icons/io5';
-
-interface Channel {
-  id: string;
-  name: string;
-}
+import { channels, Channel } from './content/dummyData';
 
 interface ChanelProps {
-  channels?: Channel[];
   onChannelChange?: (channelId: string) => void;
 }
 
@@ -18,7 +13,6 @@ interface ClosestChannel {
 }
 
 const Chanel: React.FC<ChanelProps> = ({ 
-  channels: customChannels,
   onChannelChange,
 }) => {
   const theme = useTheme();
@@ -33,14 +27,8 @@ const Chanel: React.FC<ChanelProps> = ({
   const passedChannelsCount = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // デフォルトのチャネルリスト（0-30）
-  const defaultChannels: Channel[] = Array.from({ length: 31 }, (_, i) => ({
-    id: i.toString(),
-    name: `chanel${i}`
-  }));
-
-  // カスタムチャネルが提供されている場合はそれを使用し、そうでない場合はデフォルトを使用
-  const channels = customChannels || defaultChannels;
+  // デフォルトのチャネルリストを使用
+  const channelList = channels;
 
   // スクロール位置に基づいて中央のチャンネルを検出
   const detectCenterChannel = () => {
@@ -52,7 +40,7 @@ const Chanel: React.FC<ChanelProps> = ({
     let closestChannel: Channel | null = null;
     let minDistance = Infinity;
 
-    channels.forEach(channel => {
+    channelList.forEach(channel => {
       const element = document.getElementById(`channel-${channel.id}`);
       if (!element) return;
 
@@ -69,8 +57,8 @@ const Chanel: React.FC<ChanelProps> = ({
     if (closestChannel?.id !== activeChannel) {
       // 前回のアクティブチャンネルと現在のアクティブチャンネルのインデックスを取得
       const lastIndex = lastActiveChannel.current ? 
-        channels.findIndex(c => c.id === lastActiveChannel.current) : -1;
-      const currentIndex = channels.findIndex(c => c.id === closestChannel?.id);
+        channelList.findIndex(c => c.id === lastActiveChannel.current) : -1;
+      const currentIndex = channelList.findIndex(c => c.id === closestChannel?.id);
       
       // インデックスの差の絶対値を計算し、通過したチャンネル数に加算
       if (lastIndex !== -1 && currentIndex !== -1) {
@@ -267,7 +255,7 @@ const Chanel: React.FC<ChanelProps> = ({
   };
 
   // アクティブなチャネルの名前を取得
-  const activeChannelName = channels.find(c => c.id === activeChannel)?.name || '';
+  const activeChannelName = channelList.find(c => c.id === activeChannel)?.name || '';
 
   return (
     <div ref={containerRef} style={containerStyle}>
@@ -277,7 +265,7 @@ const Chanel: React.FC<ChanelProps> = ({
         style={scrollContainerStyle}
         onScroll={handleScroll}
       >
-        {channels.map((channel) => (
+        {channelList.map((channel) => (
           <div
             key={channel.id}
             id={`channel-${channel.id}`}

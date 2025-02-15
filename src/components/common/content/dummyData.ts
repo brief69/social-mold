@@ -237,4 +237,106 @@ export const dummyImageContents: ContentItem[] = [
       tags: ['ポートレート', '人物', 'アート'],
     }
   }
+];
+
+// おすすめコンテンツ
+export const recommendedContents: ContentItem[] = [
+  {
+    id: 'rec1',
+    userId: 'user1',
+    username: '@trending_user',
+    userAvatar: 'https://picsum.photos/200',
+    createdAt: new Date('2024-02-07T10:30:00'),
+    mainContent: {
+      type: 'text',
+      content: '今日のトレンドトピック：AIと未来の仕事について考える #AI #Future #Tech',
+    },
+    metadata: {
+      likes: 5200,
+      comments: 342,
+      shares: 890,
+      views: 45000,
+      tags: ['トレンド', 'AI', 'テクノロジー'],
+    }
+  },
+  // ... 他のおすすめコンテンツ
+];
+
+// 拡散されたコンテンツ
+export const spreadContents: ContentItem[] = [
+  {
+    id: 'spread1',
+    userId: 'user2',
+    username: '@viral_content',
+    userAvatar: 'https://picsum.photos/201',
+    createdAt: new Date('2024-02-07T09:15:00'),
+    mainContent: {
+      type: 'image',
+      content: 'https://picsum.photos/800/600',
+      aspectRatio: 4/3,
+    },
+    metadata: {
+      likes: 15000,
+      comments: 2300,
+      shares: 8900,
+      views: 150000,
+      tags: ['バイラル', '話題', '拡散'],
+    }
+  },
+  // ... 他の拡散コンテンツ
+];
+
+// アニメコンテンツ
+export const animeContents: ContentItem[] = [
+  {
+    id: 'anime1',
+    userId: 'user3',
+    username: '@anime_fan',
+    userAvatar: 'https://picsum.photos/202',
+    createdAt: new Date('2024-02-07T08:45:00'),
+    mainContent: {
+      type: 'image',
+      content: 'https://picsum.photos/800/800',
+      aspectRatio: 1,
+    },
+    metadata: {
+      likes: 3800,
+      comments: 567,
+      shares: 432,
+      views: 28000,
+      tags: ['アニメ', 'manga', 'otaku'],
+    }
+  },
+  // ... 他のアニメコンテンツ
+];
+
+// チャンネル定義
+export interface Channel {
+  id: string;
+  name: string;
+  contents: ContentItem[];
+}
+
+export const channels: Channel[] = [
+  {
+    id: '0',
+    name: 'おすすめ',
+    contents: recommendedContents,
+  },
+  {
+    id: '1',
+    name: '拡散された',
+    contents: spreadContents,
+  },
+  {
+    id: '2',
+    name: 'アニメ',
+    contents: animeContents,
+  },
+  // 他のチャンネルはそのまま保持
+  ...Array.from({ length: 28 }, (_, i) => ({
+    id: (i + 3).toString(),
+    name: `chanel${i + 3}`,
+    contents: recommendedContents, // デフォルトはおすすめコンテンツを表示
+  })),
 ]; 
