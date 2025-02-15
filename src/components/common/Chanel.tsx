@@ -178,45 +178,34 @@ const Chanel: React.FC<ChanelProps> = ({
     visibility: showSearch ? 'hidden' : 'visible',
   };
 
-  const channelStyle = (isActive: boolean, name: string): React.CSSProperties => ({
-    padding: '8px 16px',
-    background: 'none',
-    border: `2px solid ${theme.primary}`,
-    borderRadius: '30px',
-    color: isActive ? theme.background : theme.primary,
-    backgroundColor: isActive ? theme.primary : 'transparent',
-    fontWeight: isActive ? '800' : '400',
-    fontSize: isActive ? '18px' : '16px',
-    cursor: 'pointer',
-    whiteSpace: 'nowrap',
-    transition: 'all 0.3s ease',
-    minWidth: `${Math.max(100, 20 + name.length * 12)}px`,
-    height: '44px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    scrollSnapAlign: 'center',
-    position: 'relative',
-    zIndex: 1,
-    boxSizing: 'border-box',
-  });
+  const channelStyle = (isActive: boolean, name: string, distance: number): React.CSSProperties => {
+    const scale = isActive ? 1 : Math.max(0.8, 1 - Math.min(distance / 300, 0.2));
+    const opacity = isActive ? 1 : Math.max(0.5, 1 - Math.min(distance / 300, 0.5));
 
-  const focusIndicatorStyle = (name: string): React.CSSProperties => ({
-    position: 'absolute',
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: `${Math.max(100, 20 + name.length * 12)}px`,
-    height: '44px',
-    border: `2px solid ${theme.primary}`,
-    borderRadius: '30px',
-    pointerEvents: 'none',
-    transition: 'all 0.3s ease',
-    padding: '8px 16px',
-    boxSizing: 'border-box',
-    margin: '-2px',
-    opacity: showSearch ? 0 : 1, // 検索フォーム表示時は非表示
-  });
+    return {
+      padding: '8px 16px',
+      background: 'none',
+      border: isActive ? `2px solid ${theme.primary}` : 'none',
+      borderRadius: '30px',
+      color: theme.primary,
+      backgroundColor: isActive ? `${theme.primary}20` : 'transparent',
+      fontWeight: isActive ? '800' : '400',
+      fontSize: isActive ? '18px' : '16px',
+      cursor: 'pointer',
+      whiteSpace: 'nowrap',
+      transition: 'all 0.3s ease',
+      minWidth: `${Math.max(100, 20 + name.length * 12)}px`,
+      height: '44px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      scrollSnapAlign: 'center',
+      position: 'relative',
+      zIndex: isActive ? 2 : 1,
+      transform: `scale(${scale})`,
+      opacity,
+    };
+  };
 
   const searchFormStyle: React.CSSProperties = {
     position: 'absolute',
@@ -259,23 +248,31 @@ const Chanel: React.FC<ChanelProps> = ({
 
   return (
     <div ref={containerRef} style={containerStyle}>
-      <div style={focusIndicatorStyle(activeChannelName)} />
       <div
         ref={scrollRef}
         style={scrollContainerStyle}
         onScroll={handleScroll}
       >
-        {channelList.map((channel) => (
-          <div
-            key={channel.id}
-            id={`channel-${channel.id}`}
-            style={channelStyle(channel.id === activeChannel, channel.name)}
-            onClick={() => handleChannelClick(channel.id)}
-            className="tap-animation"
-          >
-            {channel.name}
-          </div>
-        ))}
+        {channelList.map((channel) => {
+          const element = document.getElementById(`channel-${channel.id}`);
+          const containerCenter = scrollRef.current?.getBoundingClientRect().left ?? 0 + 
+            (scrollRef.current?.getBoundingClientRect().width ?? 0) / 2;
+          const elementCenter = element?.getBoundingClientRect().left ?? 0 + 
+            (element?.getBoundingClientRect().width ?? 0) / 2;
+          const distance = Math.abs(containerCenter - elementCenter);
+
+          return (
+            <div
+              key={channel.id}
+              id={`channel-${channel.id}`}
+              style={channelStyle(channel.id === activeChannel, channel.name, distance)}
+              onClick={() => handleChannelClick(channel.id)}
+              className="tap-animation"
+            >
+              {channel.name}
+            </div>
+          );
+        })}
       </div>
       {showSearch && (
         <div style={searchFormStyle}>
