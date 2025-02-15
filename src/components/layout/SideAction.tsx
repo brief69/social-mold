@@ -15,6 +15,11 @@ interface SideActionProps {
   onComment?: () => void;
   onProfile?: () => void;
   onSpread?: () => void;
+  likeCount?: number;
+  shareCount?: number;
+  commentCount?: number;
+  profileCount?: number;
+  spreadCount?: number;
 }
 
 const SideAction: React.FC<SideActionProps> = ({
@@ -26,6 +31,11 @@ const SideAction: React.FC<SideActionProps> = ({
   onComment,
   onProfile,
   onSpread,
+  likeCount = 0,
+  shareCount = 0,
+  commentCount = 0,
+  profileCount = 0,
+  spreadCount = 0,
 }) => {
   const theme = useTheme();
 
@@ -70,11 +80,18 @@ const SideAction: React.FC<SideActionProps> = ({
         onComment={onComment}
         onProfile={onProfile}
         orientation={orientation}
+        likeCount={likeCount}
+        shareCount={shareCount}
+        commentCount={commentCount}
+        profileCount={profileCount}
       />
       <div style={{ 
         margin: orientation === 'vertical' 
           ? `-${theme.icons.spacing.large}px 0` 
           : `0 -${theme.icons.spacing.large}px`,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
       }}>
         <button
           className="tap-animation sparkle-button"
@@ -90,6 +107,14 @@ const SideAction: React.FC<SideActionProps> = ({
             <IoSparklesOutline size={theme.icons.sizes.medium} color={theme.primary} />
           </div>
         </button>
+        <div style={{
+          fontSize: '12px',
+          color: theme.primary,
+          textAlign: 'center',
+          marginTop: '4px',
+        }}>
+          {spreadCount}
+        </div>
       </div>
     </div>
   );
