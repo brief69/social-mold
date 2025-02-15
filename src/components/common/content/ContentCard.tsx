@@ -86,6 +86,32 @@ const ContentCard: React.FC<ContentCardProps> = ({
         />
       ))}
 
+      {/* タグの表示 */}
+      {item.metadata.tags && item.metadata.tags.length > 0 && (
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '8px',
+          marginTop: '8px',
+        }}>
+          {item.metadata.tags.map((tag, index) => (
+            <span
+              key={index}
+              style={{
+                padding: '4px 8px',
+                borderRadius: '16px',
+                backgroundColor: `${theme.primary}20`,
+                color: theme.primary,
+                fontSize: '12px',
+                fontWeight: '600',
+              }}
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+
       {variant !== 'grid' && (
         <div style={{ 
           marginTop: '16px',

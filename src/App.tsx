@@ -18,6 +18,7 @@ import './App.css'
 function App() {
   const [showSideNav, setShowSideNav] = useState(false);
   const [activeScreen, setActiveScreen] = useState('home');
+  const [selectedChannelId, setSelectedChannelId] = useState('recommended');
 
   const handleNavSwap = (isPlayRight: boolean) => {
     setShowSideNav(isPlayRight);
@@ -27,6 +28,10 @@ function App() {
     setActiveScreen(tab);
   };
 
+  const handleChannelChange = (channelId: string) => {
+    setSelectedChannelId(channelId);
+  };
+
   const handleGalleryClick = () => {
     setActiveScreen('gallery');
   };
@@ -34,13 +39,13 @@ function App() {
   const renderMainContent = () => {
     switch (activeScreen) {
       case 'home':
-        return <Home />;
+        return <Home selectedChannelId={selectedChannelId} onChannelChange={handleChannelChange} />;
       case 'search':
         return <Search />;
       case 'post':
         return <Post />;
       case 'chat':
-        return <Chat />;
+        return <Chat selectedChannelId={selectedChannelId} onChannelChange={handleChannelChange} />;
       case 'profile':
         return <Profile 
           onGalleryClick={handleGalleryClick} 
@@ -50,7 +55,7 @@ function App() {
       case 'gallery':
         return <ComponentGallery />;
       default:
-        return <Home />;
+        return <Home selectedChannelId={selectedChannelId} onChannelChange={handleChannelChange} />;
     }
   };
 
@@ -83,7 +88,7 @@ function App() {
             right: '0',
             transition: 'all 0.3s ease',
           }}>
-            <Chanel />
+            <Chanel selectedChannelId={selectedChannelId} onChannelChange={handleChannelChange} />
           </AutoHideWrapper>
           <AutoHideWrapper>
             {showSideNav ? (

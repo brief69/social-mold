@@ -16,7 +16,7 @@ export const dummyContents: ContentItem[] = [
       comments: 89,
       shares: 234,
       views: 15000,
-      tags: ['TypeScript', 'React', '開発'],
+      tags: ['TypeScript', 'React', '開発', 'おすすめ'],
     }
   },
   {
@@ -40,7 +40,7 @@ export const dummyContents: ContentItem[] = [
       comments: 256,
       shares: 890,
       views: 45000,
-      tags: ['京都', '桜', '春'],
+      tags: ['京都', '桜', '春', 'おすすめ'],
     }
   },
   {
@@ -68,7 +68,7 @@ export const dummyContents: ContentItem[] = [
       comments: 167,
       shares: 432,
       views: 28000,
-      tags: ['ラーメン', 'グルメ', '渋谷'],
+      tags: ['ラーメン', 'グルメ', '渋谷', 'おすすめ'],
     }
   },
   {
@@ -92,7 +92,7 @@ export const dummyContents: ContentItem[] = [
       comments: 892,
       shares: 2300,
       views: 89000,
-      tags: ['AI', 'Tech', '機械学習'],
+      tags: ['AI', 'Tech', '機械学習', 'おすすめ'],
     }
   },
   {
@@ -116,7 +116,92 @@ export const dummyContents: ContentItem[] = [
       comments: 73,
       shares: 128,
       views: 12000,
-      tags: ['音楽', 'JPOP', 'プレイリスト'],
+      tags: ['音楽', 'JPOP', 'プレイリスト', 'おすすめ'],
+    }
+  },
+  {
+    id: 'post-1',
+    userId: 'user1',
+    username: '@user1',
+    createdAt: new Date('2024-02-15T10:00:00'),
+    mainContent: {
+      type: 'text',
+      content: '今日は新しいアニメの1話を見ました！作画が素晴らしかったです✨',
+    },
+    metadata: {
+      likes: 150,
+      comments: 30,
+      shares: 25,
+      views: 1200,
+      tags: ['アニメ', '新作アニメ', 'おすすめ']
+    }
+  },
+  {
+    id: 'post-2',
+    userId: 'user2',
+    username: '@user2',
+    createdAt: new Date('2024-02-15T09:30:00'),
+    mainContent: {
+      type: 'text',
+      content: 'この投稿が思った以上に反響があって驚いています！みなさんありがとうございます🙏',
+    },
+    metadata: {
+      likes: 3000,
+      comments: 500,
+      shares: 1200,
+      views: 15000,
+      tags: ['拡散された', '感謝']
+    }
+  },
+  {
+    id: 'post-3',
+    userId: 'user3',
+    username: '@user3',
+    createdAt: new Date('2024-02-15T09:00:00'),
+    mainContent: {
+      type: 'text',
+      content: '新しい技術のキャッチアップ中。みんなはどうやって最新情報をチェックしてる？',
+    },
+    metadata: {
+      likes: 120,
+      comments: 45,
+      shares: 15,
+      views: 800,
+      tags: ['アニメ', '技術', '学習']
+    }
+  },
+  {
+    id: 'post-4',
+    userId: 'user4',
+    username: '@user4',
+    createdAt: new Date('2024-02-15T08:30:00'),
+    mainContent: {
+      type: 'text',
+      content: '昨日のアニメの考察です。伏線がすごかったですね...',
+    },
+    metadata: {
+      likes: 800,
+      comments: 200,
+      shares: 150,
+      views: 5000,
+      tags: ['アニメ', '考察', '拡散された']
+    }
+  },
+  {
+    id: 'post-5',
+    userId: 'user5',
+    username: '@user5',
+    createdAt: new Date('2024-02-15T08:00:00'),
+    mainContent: {
+      type: 'text',
+      content: 'バイラルコンテンツの分析結果をまとめてみました。興味深い傾向が見えてきました📊',
+    },
+    metadata: {
+      likes: 2500,
+      comments: 300,
+      shares: 1000,
+      views: 12000,
+      tags: ['拡散された', 'データ分析', 'おすすめ']
     }
   }
 ];
@@ -138,7 +223,7 @@ export const dummyImageContents: ContentItem[] = [
       comments: 89,
       shares: 156,
       views: 12000,
-      tags: ['写真', '自然', 'ポートレート'],
+      tags: ['写真', '自然', 'ポートレート', '拡散された'],
     }
   },
   {
@@ -157,7 +242,7 @@ export const dummyImageContents: ContentItem[] = [
       comments: 145,
       shares: 278,
       views: 18000,
-      tags: ['風景', '写真', 'トラベル'],
+      tags: ['風景', '写真', 'トラベル', '拡散された'],
     }
   },
   {
@@ -176,7 +261,7 @@ export const dummyImageContents: ContentItem[] = [
       comments: 67,
       shares: 92,
       views: 8500,
-      tags: ['スナップ', 'モノクロ', 'ストリート'],
+      tags: ['スナップ', 'モノクロ', 'ストリート', '拡散された'],
     }
   },
   {
@@ -195,7 +280,7 @@ export const dummyImageContents: ContentItem[] = [
       comments: 234,
       shares: 567,
       views: 25000,
-      tags: ['ミニマル', 'デザイン', 'アート'],
+      tags: ['ミニマル', 'デザイン', 'アート', '拡散された'],
     }
   },
   {
@@ -214,7 +299,7 @@ export const dummyImageContents: ContentItem[] = [
       comments: 342,
       shares: 890,
       views: 35000,
-      tags: ['建築', 'パノラマ', '都市'],
+      tags: ['建築', 'パノラマ', '都市', 'アニメ'],
     }
   },
   {
@@ -233,7 +318,7 @@ export const dummyImageContents: ContentItem[] = [
       comments: 156,
       shares: 234,
       views: 15000,
-      tags: ['ポートレート', '人物', 'アート'],
+      tags: ['ポートレート', '人物', 'アート', 'アニメ'],
     }
   }
 ];
@@ -255,7 +340,7 @@ export const recommendedContents: ContentItem[] = [
       comments: 342,
       shares: 890,
       views: 45000,
-      tags: ['トレンド', 'AI', 'テクノロジー'],
+      tags: ['トレンド', 'AI', 'テクノロジー', 'おすすめ'],
     }
   },
   // ... 他のおすすめコンテンツ
@@ -279,7 +364,7 @@ export const spreadContents: ContentItem[] = [
       comments: 2300,
       shares: 8900,
       views: 150000,
-      tags: ['バイラル', '話題', '拡散'],
+      tags: ['バイラル', '話題', '拡散', 'おすすめ'],
     }
   },
   {
@@ -296,7 +381,7 @@ export const spreadContents: ContentItem[] = [
       comments: 4500,
       shares: 12000,
       views: 280000,
-      tags: ['テクノロジー', '拡散', 'トレンド'],
+      tags: ['テクノロジー', '拡散', 'トレンド', '拡散された'],
     }
   },
   {
@@ -313,7 +398,7 @@ export const spreadContents: ContentItem[] = [
       comments: 3200,
       shares: 9500,
       views: 200000,
-      tags: ['ミーム', '拡散', 'プログラミング'],
+      tags: ['ミーム', '拡散', 'プログラミング', '拡散された'],
     }
   }
 ];
@@ -898,19 +983,26 @@ export interface Channel {
 
 export const channels: Channel[] = [
   {
-    id: '0',
+    id: 'recommended',
     name: 'おすすめ',
-    contents: [...dummyContents, ...dummyTextContents],
+    contents: dummyContents.filter(content => 
+      content.metadata.tags?.includes('おすすめ') || 
+      !content.metadata.tags?.some(tag => ['拡散された', 'アニメ'].includes(tag))
+    ),
   },
   {
-    id: '1',
+    id: 'spread',
     name: '拡散された',
-    contents: spreadContents,
+    contents: dummyContents.filter(content => 
+      content.metadata.tags?.includes('拡散された')
+    ),
   },
   {
-    id: '2',
+    id: 'anime',
     name: 'アニメ',
-    contents: animeContents,
+    contents: dummyContents.filter(content => 
+      content.metadata.tags?.includes('アニメ')
+    ),
   },
   // 他のチャンネルはそのまま保持
   ...Array.from({ length: 28 }, (_, i) => ({

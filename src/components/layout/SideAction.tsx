@@ -79,7 +79,7 @@ const SideAction: React.FC<SideActionProps> = ({
       return {
         ...baseStyle,
         position: 'relative',
-        width: '100%',
+        width: 'fit-content',
         flexDirection: 'row',
         justifyContent: 'center',
         padding: isFullscreenMode ? '12px 24px' : '12px',

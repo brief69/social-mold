@@ -5,6 +5,7 @@ import { channels, Channel } from './content/dummyData';
 
 interface ChanelProps {
   onChannelChange?: (channelId: string) => void;
+  selectedChannelId?: string;
 }
 
 interface ClosestChannel {
@@ -14,9 +15,10 @@ interface ClosestChannel {
 
 const Chanel: React.FC<ChanelProps> = ({ 
   onChannelChange,
+  selectedChannelId = 'recommended',
 }) => {
   const theme = useTheme();
-  const [activeChannel, setActiveChannel] = useState<string | null>(null);
+  const [activeChannel, setActiveChannel] = useState<string | null>(selectedChannelId);
   const [showSearch, setShowSearch] = useState(false);
   const [searchText, setSearchText] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -153,6 +155,15 @@ const Chanel: React.FC<ChanelProps> = ({
     const channelElement = document.getElementById(`channel-${channelId}`);
     channelElement?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
   };
+
+  // selectedChannelIdが変更された時にチャネルを更新
+  useEffect(() => {
+    if (selectedChannelId !== activeChannel) {
+      setActiveChannel(selectedChannelId);
+      const channelElement = document.getElementById(`channel-${selectedChannelId}`);
+      channelElement?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+    }
+  }, [selectedChannelId]);
 
   const containerStyle: React.CSSProperties = {
     position: 'relative',

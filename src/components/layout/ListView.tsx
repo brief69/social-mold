@@ -6,9 +6,14 @@ import '../../styles/Layout.css';
 interface ListViewProps {
   onAction?: (action: 'like' | 'comment' | 'share' | 'profile', itemId: string) => void;
   selectedChannelId?: string;
+  onChannelChange?: (channelId: string) => void;
 }
 
-const ListView: React.FC<ListViewProps> = ({ onAction, selectedChannelId = '0' }) => {
+const ListView: React.FC<ListViewProps> = ({ 
+  onAction, 
+  selectedChannelId = '0',
+  onChannelChange,
+}) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [showAdjacentChannels, setShowAdjacentChannels] = useState(false);
 
@@ -57,11 +62,21 @@ const ListView: React.FC<ListViewProps> = ({ onAction, selectedChannelId = '0' }
     top: '20px',
     opacity: 0.6,
     transform: `translateX(${isLeft ? '-10%' : '10%'})`,
-    pointerEvents: 'none',
+    pointerEvents: 'auto',
+    cursor: 'pointer',
+    transition: 'opacity 0.3s ease, transform 0.3s ease',
+    ':hover': {
+      opacity: 0.8,
+      transform: `translateX(${isLeft ? '-5%' : '5%'})`,
+    },
   });
 
   const handleAction = (action: 'like' | 'comment' | 'share' | 'profile', itemId: string) => {
     onAction?.(action, itemId);
+  };
+
+  const handleChannelClick = (channelId: string) => {
+    onChannelChange?.(channelId);
   };
 
   // 現在のチャネルのインデックスを取得
@@ -80,7 +95,10 @@ const ListView: React.FC<ListViewProps> = ({ onAction, selectedChannelId = '0' }
         <div className="content-inner">
           <div style={containerStyle}>
             {/* 前のチャネルのコンテンツ */}
-            <div style={adjacentContentStyle(true)}>
+            <div 
+              style={adjacentContentStyle(true)}
+              onClick={() => handleChannelClick(channels[prevChannelIndex].id)}
+            >
               {prevContents.slice(0, 3).map((item) => (
                 <div key={item.id} style={{ opacity: 0.7 }}>
                   <ContentCard
@@ -106,7 +124,10 @@ const ListView: React.FC<ListViewProps> = ({ onAction, selectedChannelId = '0' }
             </div>
 
             {/* 次のチャネルのコンテンツ */}
-            <div style={adjacentContentStyle(false)}>
+            <div 
+              style={adjacentContentStyle(false)}
+              onClick={() => handleChannelClick(channels[nextChannelIndex].id)}
+            >
               {nextContents.slice(0, 3).map((item) => (
                 <div key={item.id} style={{ opacity: 0.7 }}>
                   <ContentCard
