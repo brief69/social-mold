@@ -72,6 +72,7 @@ const Home: React.FC<HomeProps> = ({ onAction }) => {
               onShare={() => handleSideAction('share')}
               onComment={() => handleSideAction('comment')}
               onProfile={() => handleSideAction('profile')}
+              onSpread={() => handleSideAction('share')}
             />
           </AutoHideWrapper>
         </div>

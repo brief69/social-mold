@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { IoSparkles } from 'react-icons/io5';
 import SideActionButton from '../common/SideActionButton';
 import { useTheme } from '../../theme/ThemeContext';
+import { createIconButtonStyle, createIconStyle } from '../../styles/IconStyles';
 
 // TODO: 縦モードと、横モードの切り替えを実装する
 
@@ -12,6 +14,7 @@ interface SideActionProps {
   onShare?: () => void;
   onComment?: () => void;
   onProfile?: () => void;
+  onSpread?: () => void;
 }
 
 const SideAction: React.FC<SideActionProps> = ({
@@ -22,13 +25,9 @@ const SideAction: React.FC<SideActionProps> = ({
   onShare,
   onComment,
   onProfile,
+  onSpread,
 }) => {
   const theme = useTheme();
-  const [isExpanded, setIsExpanded] = useState(true);
-
-  const handleToggle = () => {
-    setIsExpanded(!isExpanded);
-  };
 
   if (!isVisible) return null;
 
@@ -40,9 +39,7 @@ const SideAction: React.FC<SideActionProps> = ({
       padding: '12px',
       display: 'flex',
       alignItems: 'center',
-      gap: '8px',
-      transition: 'all 0.3s ease',
-      opacity: isExpanded ? 1 : 0.5,
+      gap: theme.icons.spacing.large,
       zIndex: 100,
     };
 
@@ -65,68 +62,30 @@ const SideAction: React.FC<SideActionProps> = ({
     }
   };
 
-  const getToggleButtonStyle = (): React.CSSProperties => {
-    const baseStyle: React.CSSProperties = {
-      background: 'none',
-      border: 'none',
-      padding: '8px',
-      cursor: 'pointer',
-      color: theme.primary,
-      fontSize: '20px',
-      transition: 'transform 0.3s ease',
-    };
-
-    if (orientation === 'vertical') {
-      return {
-        ...baseStyle,
-        transform: isExpanded 
-          ? 'rotate(0deg)' 
-          : `rotate(${position === 'left' ? '180deg' : '0deg'})`,
-      };
-    } else {
-      return {
-        ...baseStyle,
-        transform: isExpanded 
-          ? 'rotate(-90deg)' 
-          : 'rotate(90deg)',
-      };
-    }
-  };
-
-  const getToggleButtonText = (): string => {
-    if (orientation === 'vertical') {
-      return position === 'left' ? '→' : '←';
-    } else {
-      return '↑';
-    }
-  };
-
   return (
     <div style={getContainerStyle()}>
+      <SideActionButton
+        onLike={onLike}
+        onShare={onShare}
+        onComment={onComment}
+        onProfile={onProfile}
+        orientation={orientation}
+      />
       <button
-        onClick={handleToggle}
-        style={getToggleButtonStyle()}
-        className="tap-animation"
-        title={isExpanded ? "Collapse" : "Expand"}
-        aria-label={isExpanded ? "Collapse side actions" : "Expand side actions"}
+        className="tap-animation sparkle-button"
+        onClick={onSpread}
+        style={{
+          ...createIconButtonStyle(theme, 'medium'),
+        }}
+        title="無造作に拡散"
+        aria-label="無造作に拡散"
       >
-        {getToggleButtonText()}
+        <div style={{
+          ...createIconStyle(),
+        }}>
+          <IoSparkles size={theme.icons.sizes.medium} color={theme.primary} />
+        </div>
       </button>
-
-      <div style={{
-        display: isExpanded ? 'flex' : 'none',
-        flexDirection: orientation === 'vertical' ? 'column' : 'row',
-        gap: theme.icons.spacing.large,
-        transition: 'all 0.3s ease',
-      }}>
-        <SideActionButton
-          onLike={onLike}
-          onShare={onShare}
-          onComment={onComment}
-          onProfile={onProfile}
-          orientation={orientation}
-        />
-      </div>
     </div>
   );
 };
