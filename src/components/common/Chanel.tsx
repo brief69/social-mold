@@ -1,29 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useTheme } from '../../theme/ThemeContext';
-import { IoCloseOutline } from 'react-icons/io5';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { channels, Channel } from './content/dummyData';
+import '../../styles/Chanel.css';
 
 interface ChanelProps {
   onChannelChange?: (channelId: string) => void;
   selectedChannelId?: string;
 }
 
-interface ClosestChannel {
-  id: string;
-  distance: number;
-}
-
 const Chanel: React.FC<ChanelProps> = ({ 
   onChannelChange,
   selectedChannelId = 'recommended',
 }) => {
-  const theme = useTheme();
   const [activeChannel, setActiveChannel] = useState<string | null>(selectedChannelId);
-  const [showSearch, setShowSearch] = useState(false);
-  const [searchText, setSearchText] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
-  const searchInputRef = useRef<HTMLInputElement>(null);
-  const [lastScrollLeft, setLastScrollLeft] = useState(0);
   const scrollTimeout = useRef<ReturnType<typeof setTimeout>>(setTimeout(() => {}, 0));
   const lastActiveChannel = useRef<string | null>(null);
   const passedChannelsCount = useRef(0);
@@ -33,46 +22,37 @@ const Chanel: React.FC<ChanelProps> = ({
   const channelList = channels;
 
   // スクロール位置に基づいて中央のチャンネルを検出
-  const detectCenterChannel = () => {
+  const detectCenterChannel = useCallback(() => {
     const container = scrollRef.current;
     if (!container) return;
 
     const containerRect = container.getBoundingClientRect();
     const containerCenter = containerRect.left + containerRect.width / 2;
-    let closestChannel: Channel | null = null;
+
+    let closestChannel: Channel | undefined;
     let minDistance = Infinity;
 
-    channelList.forEach(channel => {
-      const element = document.getElementById(`channel-${channel.id}`);
-      if (!element) return;
-
-      const elementRect = element.getBoundingClientRect();
-      const elementCenter = elementRect.left + elementRect.width / 2;
-      const distance = Math.abs(containerCenter - elementCenter);
+    container.querySelectorAll('.channel-item').forEach((element) => {
+      const channelElement = element as HTMLElement;
+      const channelRect = channelElement.getBoundingClientRect();
+      const channelCenter = channelRect.left + channelRect.width / 2;
+      const distance = Math.abs(containerCenter - channelCenter);
 
       if (distance < minDistance) {
         minDistance = distance;
-        closestChannel = channel;
+        const channelId = channelElement.getAttribute('data-channel-id');
+        closestChannel = channelList.find(c => c.id === channelId);
       }
     });
 
     if (closestChannel?.id !== activeChannel) {
-      // 前回のアクティブチャンネルと現在のアクティブチャンネルのインデックスを取得
       const lastIndex = lastActiveChannel.current ? 
         channelList.findIndex(c => c.id === lastActiveChannel.current) : -1;
       const currentIndex = channelList.findIndex(c => c.id === closestChannel?.id);
-      
-      // インデックスの差の絶対値を計算し、通過したチャンネル数に加算
-      if (lastIndex !== -1 && currentIndex !== -1) {
-        passedChannelsCount.current += Math.abs(currentIndex - lastIndex);
-      }
 
-      // 10チャンネル以上通過した場合、検索フォームを表示
-      if (passedChannelsCount.current >= 10) {
-        setShowSearch(true);
-        setTimeout(() => {
-          searchInputRef.current?.focus();
-        }, 100);
+      if (lastIndex !== -1 && currentIndex !== -1) {
+        const direction = currentIndex > lastIndex ? 1 : -1;
+        passedChannelsCount.current += direction;
       }
 
       if (closestChannel) {
@@ -81,238 +61,66 @@ const Chanel: React.FC<ChanelProps> = ({
         lastActiveChannel.current = closestChannel.id;
       }
     }
-  };
+  }, [activeChannel, channelList, onChannelChange]);
 
-  const handleScroll = () => {
+  // スクロールハンドラー
+  const handleScroll = useCallback(() => {
     if (scrollTimeout.current) {
       clearTimeout(scrollTimeout.current);
     }
 
-    // 検索フォームが表示中の場合は、スクロールイベントを無視
-    if (showSearch) return;
-
-    detectCenterChannel();
-
     scrollTimeout.current = setTimeout(() => {
-      // スクロールが止まったらカウントをリセット
-      passedChannelsCount.current = 0;
-    }, 300);
-  };
+      detectCenterChannel();
+    }, 100);
+  }, [detectCenterChannel]);
 
-  // 外部クリックの処理
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        // 検索テキストが空の場合のみ検索フィールドを非表示
-        if (!searchText) {
-          setShowSearch(false);
-          // 検索フォームが閉じられたときにカウントをリセット
-          passedChannelsCount.current = 0;
-        }
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [searchText]);
-
-  // 検索入力の処理
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchText(e.target.value);
-  };
-
-  const handleClearSearch = () => {
-    setSearchText('');
-    searchInputRef.current?.focus();
-  };
-
-  // コンポーネントマウント時に中央のチャンネルを検出
-  useEffect(() => {
-    detectCenterChannel();
-  }, []);
-
-  // スクロールイベントの最適化
   useEffect(() => {
     const container = scrollRef.current;
-    if (!container) return;
-
-    const optimizedScroll = handleScroll;
-    container.addEventListener('scroll', optimizedScroll);
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+      container.addEventListener('touchmove', handleScroll);
+    }
 
     return () => {
-      container.removeEventListener('scroll', optimizedScroll);
+      if (container) {
+        container.removeEventListener('scroll', handleScroll);
+        container.removeEventListener('touchmove', handleScroll);
+      }
     };
-  }, []);
+  }, [handleScroll]);
+
+  useEffect(() => {
+    if (activeChannel) {
+      const activeElement = document.querySelector(`[data-channel-id="${activeChannel}"]`);
+      if (activeElement) {
+        activeElement.scrollIntoView({
+          behavior: 'smooth',
+          inline: 'center',
+          block: 'nearest'
+        });
+      }
+    }
+  }, [activeChannel]);
 
   const handleChannelClick = (channelId: string) => {
-    // 検索フォームが表示中の場合は、チャンネルクリックを無視
-    if (showSearch) return;
-
     setActiveChannel(channelId);
     onChannelChange?.(channelId);
-    const channelElement = document.getElementById(`channel-${channelId}`);
-    channelElement?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
   };
-
-  // selectedChannelIdが変更された時にチャネルを更新
-  useEffect(() => {
-    if (selectedChannelId !== activeChannel) {
-      setActiveChannel(selectedChannelId);
-      const channelElement = document.getElementById(`channel-${selectedChannelId}`);
-      channelElement?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
-    }
-  }, [selectedChannelId]);
-
-  const containerStyle: React.CSSProperties = {
-    position: 'relative',
-    width: '100%',
-    height: '60px',
-    overflow: 'hidden',
-    backgroundColor: 'transparent',
-    borderRadius: '30px',
-  };
-
-  const scrollContainerStyle: React.CSSProperties = {
-    display: 'flex',
-    gap: '20px',
-    padding: '0 calc(50% - 100px)',
-    overflowX: 'auto',
-    height: '100%',
-    alignItems: 'center',
-    scrollBehavior: 'smooth',
-    WebkitOverflowScrolling: 'touch',
-    scrollSnapType: 'x mandatory',
-    opacity: showSearch ? 0 : 1,
-    transition: 'opacity 0.3s ease',
-    visibility: showSearch ? 'hidden' : 'visible',
-  };
-
-  const channelStyle = (isActive: boolean, name: string, distance: number): React.CSSProperties => {
-    const scale = isActive ? 1 : Math.max(0.8, 1 - Math.min(distance / 300, 0.2));
-    const opacity = isActive ? 1 : Math.max(0.5, 1 - Math.min(distance / 300, 0.5));
-
-    return {
-      padding: '8px 16px',
-      background: 'none',
-      border: isActive ? `2px solid ${theme.primary}` : 'none',
-      borderRadius: '30px',
-      color: theme.primary,
-      backgroundColor: isActive ? `${theme.primary}20` : 'transparent',
-      fontWeight: isActive ? '800' : '400',
-      fontSize: isActive ? '18px' : '16px',
-      cursor: 'pointer',
-      whiteSpace: 'nowrap',
-      transition: 'all 0.3s ease',
-      minWidth: `${Math.max(100, 20 + name.length * 12)}px`,
-      height: '44px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      scrollSnapAlign: 'center',
-      position: 'relative',
-      zIndex: isActive ? 2 : 1,
-      transform: `scale(${scale})`,
-      opacity,
-    };
-  };
-
-  const searchFormStyle: React.CSSProperties = {
-    position: 'absolute',
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-    padding: '8px 16px',
-    background: theme.background,
-    border: `2px solid ${theme.primary}`,
-    borderRadius: '30px',
-    opacity: showSearch ? 1 : 0,
-    transition: 'all 0.3s ease',
-    pointerEvents: showSearch ? 'auto' : 'none',
-    visibility: showSearch ? 'visible' : 'hidden',
-    minWidth: '200px',
-    height: '44px',
-    boxSizing: 'border-box',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-    zIndex: 2,
-  };
-
-  const clearButtonStyle: React.CSSProperties = {
-    background: 'none',
-    border: 'none',
-    padding: '4px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'pointer',
-    color: theme.primary,
-    opacity: searchText ? 1 : 0,
-    transition: 'opacity 0.3s ease',
-    pointerEvents: searchText ? 'auto' : 'none',
-  };
-
-  // アクティブなチャネルの名前を取得
-  const activeChannelName = channelList.find(c => c.id === activeChannel)?.name || '';
 
   return (
-    <div ref={containerRef} style={containerStyle}>
-      <div
-        ref={scrollRef}
-        style={scrollContainerStyle}
-        onScroll={handleScroll}
-      >
-        {channelList.map((channel) => {
-          const element = document.getElementById(`channel-${channel.id}`);
-          const containerCenter = scrollRef.current?.getBoundingClientRect().left ?? 0 + 
-            (scrollRef.current?.getBoundingClientRect().width ?? 0) / 2;
-          const elementCenter = element?.getBoundingClientRect().left ?? 0 + 
-            (element?.getBoundingClientRect().width ?? 0) / 2;
-          const distance = Math.abs(containerCenter - elementCenter);
-
-          return (
-            <div
-              key={channel.id}
-              id={`channel-${channel.id}`}
-              style={channelStyle(channel.id === activeChannel, channel.name, distance)}
-              onClick={() => handleChannelClick(channel.id)}
-              className="tap-animation"
-            >
-              {channel.name}
-            </div>
-          );
-        })}
-      </div>
-      {showSearch && (
-        <div style={searchFormStyle}>
-          <input
-            ref={searchInputRef}
-            type="text"
-            value={searchText}
-            onChange={handleSearchChange}
-            placeholder="Search channels..."
-            style={{
-              background: 'none',
-              border: 'none',
-              color: theme.primary,
-              outline: 'none',
-              width: '100%',
-              fontSize: '16px',
-            }}
-          />
-          <button
-            onClick={handleClearSearch}
-            style={clearButtonStyle}
-            className="tap-animation"
-            title="Clear search"
-            aria-label="Clear search"
+    <div ref={containerRef} className="chanel-container">
+      <div ref={scrollRef} className="chanel-scroll-container">
+        {channelList.map((channel) => (
+          <div
+            key={channel.id}
+            data-channel-id={channel.id}
+            className={`channel-item ${channel.id === activeChannel ? 'active' : ''}`}
+            onClick={() => handleChannelClick(channel.id)}
           >
-            <IoCloseOutline size={20} />
-          </button>
-        </div>
-      )}
+            {channel.name}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

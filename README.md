@@ -1,81 +1,54 @@
 # social-mold
 
-// TODO: pwaアプリ化対応
-// TODO: ナビバーをsliderにする
-// TODO: チャンネルをsliderにする
+目的：汎用的なSNSのUIの型（）として、簡単に使用できること。
+
+## 特徴
+
+- 無駄なコンポーネントを排除
+- etc
 
 ## Components Directory Structure
 
-プロジェクトのコンポーネント構造は以下の通りです：
-
-```
+```bash
 src/components/
 ├── common/          # 共通のUIコンポーネント
+│   ├── content/     # コンテンツ関連のコンポーネント
+│   │   ├── ContentCard.tsx  # コンテンツカード
+│   │   ├── ContentActions.tsx # コンテンツアクション
+│   │   ├── ContentMedia.tsx # コンテンツメディア
+│   │   ├── ContentMetadata.tsx # コンテンツメタデータ
+│   │   └── dummyData.ts    # ダミーデータ
+│   ├── AutoHideWrapper.tsx  # 自動非表示ラッパー
 │   ├── Chanel.tsx       # チャネル選択・検索コンポーネント
 │   ├── NavBar.tsx       # ナビゲーションバー
 │   ├── PostButton.tsx   # 投稿ボタン
 │   ├── Profile.tsx      # プロフィール表示
 │   ├── SearchForm.tsx   # 検索フォーム
-│   ├── SideNavBar.tsx   # Navbarのサイドバー表示バージョン
-│   ├── Setting.tsx      # 設定コンポーネント
 │   ├── SideActionButton.tsx  # サイドアクションボタン（いいね、シェアなど）
-│   ├── SwapActionButton.tsx  # スワップアクションボタン
-│   ├── ViewSwapActionButton.tsx  # ビュー切り替えボタン
-│   └── Wallet.tsx       # ウォレット関連コンポーネント
-│
+│   ├── SwapActionButton.tsx  # スワップアクションボタン(list,grid,swipeview切り替え)
 ├── layout/          # レイアウト関連のコンポーネント
 │   ├── Chat.tsx         # チャット画面レイアウト
 │   └── SideAction.tsx   # サイドアクション領域レイアウト
 └── index.ts        # コンポーネントのエクスポート定義
 ```
 
-## React + TypeScript + Vite
+## 使用技術
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- React + TypeScript + Vite
+- Tailwind CSS
 
-Currently, two official plugins are available:
+## Issueを作成してほしい
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- バグ報告
+- 機能追加
+- ドキュメント改善
+- コードの改善
+- テストの追加
+- テストの改善
+- テストの実行
 
-## Expanding the ESLint configuration
+## 貢献方法
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+1. リポジトリをフォーク or クローン
+2. ブランチを作成
+3. プルリクエストを作成

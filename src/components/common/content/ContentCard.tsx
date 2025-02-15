@@ -18,7 +18,7 @@ export interface ContentItem {
     duration?: number;
   };
   subContents?: {
-    type: 'text' | 'image' | 'link';
+    type: 'text' | 'image' | 'link' | 'audio';
     content: string;
   }[];
   metadata: {

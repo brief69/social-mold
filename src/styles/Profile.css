@@ -1,0 +1,10 @@
+.profile-content-container {
+  padding-top: 64px;
+}
+
+.profile-swap-button-wrapper {
+  position: fixed;
+  right: var(--swap-button-right, 20px);
+  top: 84px;
+  z-index: 1000;
+} 

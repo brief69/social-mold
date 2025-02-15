@@ -4,11 +4,14 @@ import { IoGridOutline } from 'react-icons/io5';
 import { useTheme } from '../../theme/ThemeContext';
 import { createIconButtonStyle, createIconStyle } from '../../styles/IconStyles';
 import '../../styles/animations.css';
+import '../../styles/AppBar.css';
 
 interface AppBarProps {
   username?: string;
   onUsernameChange?: (newUsername: string) => void;
   onGalleryClick?: () => void;
+  onPlayDirectionChange?: (isPlayRight: boolean) => void;
+  isPlayRight?: boolean;
 }
 
 const AppBar: React.FC<AppBarProps> = ({
@@ -110,37 +113,9 @@ const AppBar: React.FC<AppBarProps> = ({
     }
   };
 
-  const nameStyle = {
-    background: 'none',
-    border: 'none',
-    color: theme.primary,
-    fontSize: '16px',
-    fontWeight: '600',
-    padding: theme.icons.spacing.small,
-    cursor: 'pointer',
-  } as const;
-
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      height: '64px',
-      backgroundColor: theme.background,
-      borderBottom: `1px solid ${theme.border}`,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      padding: `0 ${theme.icons.spacing.medium}px`,
-      zIndex: 1000,
-    }}>
-      {/* 左側：ユーザーアイコンとユーザー名 */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: theme.icons.spacing.medium,
-      }}>
+    <div className="app-bar">
+      <div className="app-bar-left">
         <button
           className="tap-animation"
           onClick={handleImageClick}
@@ -153,12 +128,7 @@ const AppBar: React.FC<AppBarProps> = ({
               <img 
                 src={userImage} 
                 alt="User" 
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '50%',
-                }} 
+                className="app-bar-profile-image"
               />
             ) : (
               <CgProfile size={theme.icons.sizes.medium} color={theme.primary} />
@@ -181,19 +151,13 @@ const AppBar: React.FC<AppBarProps> = ({
             onChange={handleUsernameChange}
             onBlur={handleUsernameBlur}
             onKeyDown={handleUsernameKeyDown}
-            style={{
-              ...nameStyle,
-              borderBottom: `2px solid ${theme.primary}`,
-              outline: 'none',
-              width: '120px',
-            }}
+            className="app-bar-username-input"
             aria-label="Edit username"
           />
         ) : (
           <button
             onClick={handleUsernameClick}
-            style={nameStyle}
-            className="tap-animation"
+            className="app-bar-username tap-animation"
             title="Edit username"
             aria-label="Edit username"
           >
@@ -202,7 +166,6 @@ const AppBar: React.FC<AppBarProps> = ({
         )}
       </div>
 
-      {/* 中央：ギャラリーボタン */}
       <button
         className="tap-animation"
         onClick={onGalleryClick}

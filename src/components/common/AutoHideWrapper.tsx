@@ -4,9 +4,10 @@ import { UIContext } from '../../context/UIContext';
 interface AutoHideWrapperProps {
   children: React.ReactNode;
   style?: React.CSSProperties;
+  className?: string;
 }
 
-const AutoHideWrapper: React.FC<AutoHideWrapperProps> = ({ children, style }) => {
+const AutoHideWrapper: React.FC<AutoHideWrapperProps> = ({ children, style, className }) => {
   const { isUIVisible, setLastInteraction } = useContext(UIContext);
 
   useEffect(() => {
@@ -29,6 +30,7 @@ const AutoHideWrapper: React.FC<AutoHideWrapperProps> = ({ children, style }) =>
 
   return (
     <div
+      className={className}
       style={{
         ...style,
         opacity: isUIVisible ? 1 : 0,

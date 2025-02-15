@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IoList, IoGrid, IoSwapHorizontal } from 'react-icons/io5';
+import { IoList, IoGrid } from 'react-icons/io5';
 import { useTheme } from '../../theme/ThemeContext';
 import { createIconButtonStyle, createIconStyle } from '../../styles/IconStyles';
 import '../../styles/animations.css';
@@ -9,6 +9,7 @@ type ViewMode = 'list' | 'grid' | 'swipe';
 interface SwapActionButtonProps {
   onViewChange?: (mode: ViewMode) => void;
   defaultViewMode?: ViewMode;
+  mode?: 'direction' | 'play' | 'view-grid' | 'view-swipe';
 }
 
 const SwapActionButton: React.FC<SwapActionButtonProps> = ({

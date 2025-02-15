@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ContentCard from '../common/content/ContentCard';
 import { channels } from '../common/content/dummyData';
 import '../../styles/Layout.css';
+import '../../styles/ListView.css';
 
 interface ListViewProps {
   onAction?: (action: 'like' | 'comment' | 'share' | 'profile', itemId: string) => void;
@@ -14,12 +15,10 @@ const ListView: React.FC<ListViewProps> = ({
   selectedChannelId = '0',
   onChannelChange,
 }) => {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [showAdjacentChannels, setShowAdjacentChannels] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      setWindowWidth(window.innerWidth);
       setShowAdjacentChannels(window.innerWidth >= 1200);
     };
 
@@ -28,48 +27,6 @@ const ListView: React.FC<ListViewProps> = ({
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  const containerStyle: React.CSSProperties = {
-    width: '100%',
-    display: 'flex',
-    gap: '16px',
-    alignItems: 'flex-start',
-    boxSizing: 'border-box',
-    position: 'relative',
-    justifyContent: 'center',
-    maxWidth: '1200px',
-    margin: '0 auto',
-  };
-
-  const mainContentStyle: React.CSSProperties = {
-    flex: '0 1 600px',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '16px',
-    alignItems: 'center',
-    width: '100%',
-    maxWidth: '600px',
-    position: 'relative',
-    margin: '0 auto',
-  };
-
-  const adjacentContentStyle = (isLeft: boolean): React.CSSProperties => ({
-    flex: '0 0 300px',
-    display: showAdjacentChannels ? 'flex' : 'none',
-    flexDirection: 'column',
-    gap: '16px',
-    position: 'sticky',
-    top: '20px',
-    opacity: 0.6,
-    transform: `translateX(${isLeft ? '-10%' : '10%'})`,
-    pointerEvents: 'auto',
-    cursor: 'pointer',
-    transition: 'opacity 0.3s ease, transform 0.3s ease',
-    ':hover': {
-      opacity: 0.8,
-      transform: `translateX(${isLeft ? '-5%' : '5%'})`,
-    },
-  });
 
   const handleAction = (action: 'like' | 'comment' | 'share' | 'profile', itemId: string) => {
     onAction?.(action, itemId);
@@ -93,14 +50,14 @@ const ListView: React.FC<ListViewProps> = ({
     <div className="layout-container">
       <div className="content-container">
         <div className="content-inner">
-          <div style={containerStyle}>
+          <div className="list-view-container">
             {/* 前のチャネルのコンテンツ */}
             <div 
-              style={adjacentContentStyle(true)}
+              className={`list-view-adjacent-content ${showAdjacentChannels ? 'show' : ''}`}
               onClick={() => handleChannelClick(channels[prevChannelIndex].id)}
             >
               {prevContents.slice(0, 3).map((item) => (
-                <div key={item.id} style={{ opacity: 0.7 }}>
+                <div key={item.id} className="list-view-card-wrapper">
                   <ContentCard
                     item={item}
                     variant="list"
@@ -111,7 +68,7 @@ const ListView: React.FC<ListViewProps> = ({
             </div>
 
             {/* メインコンテンツ */}
-            <div style={mainContentStyle}>
+            <div className="list-view-main-content">
               {currentContents.map((item) => (
                 <div key={item.id}>
                   <ContentCard
@@ -125,11 +82,11 @@ const ListView: React.FC<ListViewProps> = ({
 
             {/* 次のチャネルのコンテンツ */}
             <div 
-              style={adjacentContentStyle(false)}
+              className={`list-view-adjacent-content right ${showAdjacentChannels ? 'show' : ''}`}
               onClick={() => handleChannelClick(channels[nextChannelIndex].id)}
             >
               {nextContents.slice(0, 3).map((item) => (
-                <div key={item.id} style={{ opacity: 0.7 }}>
+                <div key={item.id} className="list-view-card-wrapper">
                   <ContentCard
                     item={item}
                     variant="list"
