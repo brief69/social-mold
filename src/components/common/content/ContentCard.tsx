@@ -3,6 +3,7 @@ import { useTheme } from '../../../theme/ThemeContext';
 import ContentMedia from './ContentMedia';
 import ContentMetadata from './ContentMetadata';
 import SideAction from '../../layout/SideAction';
+import AutoHideWrapper from '../AutoHideWrapper';
 import '../../../styles/animations.css';
 
 export interface ContentItem {
@@ -77,20 +78,22 @@ const ContentCard: React.FC<ContentCardProps> = ({
             onProfileClick={() => handleAction('profile')}
           />
           <div style={{ marginBottom: '16px' }}>
-            <SideAction
-              orientation="horizontal"
-              position="left"
-              onLike={() => handleAction('like')}
-              onComment={() => handleAction('comment')}
-              onShare={() => handleAction('share')}
-              onProfile={() => handleAction('profile')}
-              onSpread={() => handleAction('share')}
-              likeCount={item.metadata.likes}
-              commentCount={item.metadata.comments}
-              shareCount={item.metadata.shares}
-              profileCount={item.metadata.views}
-              spreadCount={item.metadata.shares}
-            />
+            <AutoHideWrapper>
+              <SideAction
+                orientation="horizontal"
+                position="left"
+                onLike={() => handleAction('like')}
+                onComment={() => handleAction('comment')}
+                onShare={() => handleAction('share')}
+                onProfile={() => handleAction('profile')}
+                onSpread={() => handleAction('share')}
+                likeCount={item.metadata.likes}
+                commentCount={item.metadata.comments}
+                shareCount={item.metadata.shares}
+                profileCount={item.metadata.views}
+                spreadCount={item.metadata.shares}
+              />
+            </AutoHideWrapper>
           </div>
         </>
       )}

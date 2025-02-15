@@ -52,16 +52,10 @@ const SideActionButton: React.FC<SideActionButtonProps> = ({
   // ボタンを配列として定義し、順序を制御
   const buttons = [
     {
-      onClick: onLike,
-      icon: <IoHeartOutline size={theme.icons.sizes.medium} color={theme.primary} />,
-      title: "Like",
-      count: likeCount,
-    },
-    {
-      onClick: onComment,
-      icon: <IoChatbubbleOutline size={theme.icons.sizes.medium} color={theme.primary} />,
-      title: "Comment",
-      count: commentCount,
+      onClick: onShare,
+      icon: <IoShareSocialOutline size={theme.icons.sizes.medium} color={theme.primary} />,
+      title: "Share",
+      count: shareCount,
     },
     {
       onClick: onProfile,
@@ -70,16 +64,25 @@ const SideActionButton: React.FC<SideActionButtonProps> = ({
       count: profileCount,
     },
     {
-      onClick: onShare,
-      icon: <IoShareSocialOutline size={theme.icons.sizes.medium} color={theme.primary} />,
-      title: "Share",
-      count: shareCount,
+      onClick: onComment,
+      icon: <IoChatbubbleOutline size={theme.icons.sizes.medium} color={theme.primary} />,
+      title: "Comment",
+      count: commentCount,
+    },
+    {
+      onClick: onLike,
+      icon: <IoHeartOutline size={theme.icons.sizes.medium} color={theme.primary} />,
+      title: "Like",
+      count: likeCount,
     },
   ];
 
+  // 向きに応じてボタンの順序を反転
+  const orderedButtons = orientation === 'horizontal' ? [...buttons].reverse() : buttons;
+
   return (
     <div style={containerStyle}>
-      {buttons.map((button) => (
+      {orderedButtons.map((button) => (
         <div key={button.title} style={buttonContainerStyle}>
           <button
             className="tap-animation"

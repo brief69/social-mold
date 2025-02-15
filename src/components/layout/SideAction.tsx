@@ -74,48 +74,93 @@ const SideAction: React.FC<SideActionProps> = ({
 
   return (
     <div style={getContainerStyle()}>
-      <SideActionButton
-        onLike={onLike}
-        onShare={onShare}
-        onComment={onComment}
-        onProfile={onProfile}
-        orientation={orientation}
-        likeCount={likeCount}
-        shareCount={shareCount}
-        commentCount={commentCount}
-        profileCount={profileCount}
-      />
-      <div style={{ 
-        margin: orientation === 'vertical' 
-          ? `-${theme.icons.spacing.large}px 0` 
-          : `0 -${theme.icons.spacing.large}px`,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}>
-        <button
-          className="tap-animation sparkle-button"
-          onClick={onSpread}
-          style={{
-            ...createIconButtonStyle(theme, 'medium'),
-            order: orientation === 'vertical' ? -1 : 1,
-          }}
-          title="無造作に拡散"
-          aria-label="無造作に拡散"
-        >
-          <div style={createIconStyle()}>
-            <IoSparklesOutline size={theme.icons.sizes.medium} color={theme.primary} />
+      {orientation === 'horizontal' ? (
+        <>
+          <div style={{ 
+            margin: `0 -${theme.icons.spacing.large}px`,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            order: position === 'left' ? 1 : -1,
+          }}>
+            <button
+              className="tap-animation sparkle-button"
+              onClick={onSpread}
+              style={createIconButtonStyle(theme, 'medium')}
+              title="無造作に拡散"
+              aria-label="無造作に拡散"
+            >
+              <div style={createIconStyle()}>
+                <IoSparklesOutline size={theme.icons.sizes.medium} color={theme.primary} />
+              </div>
+            </button>
+            <div style={{
+              fontSize: '12px',
+              color: theme.primary,
+              textAlign: 'center',
+              marginTop: '4px',
+            }}>
+              {spreadCount}
+            </div>
           </div>
-        </button>
-        <div style={{
-          fontSize: '12px',
-          color: theme.primary,
-          textAlign: 'center',
-          marginTop: '4px',
-        }}>
-          {spreadCount}
-        </div>
-      </div>
+          <SideActionButton
+            onLike={onLike}
+            onShare={onShare}
+            onComment={onComment}
+            onProfile={onProfile}
+            orientation={orientation}
+            likeCount={likeCount}
+            shareCount={shareCount}
+            commentCount={commentCount}
+            profileCount={profileCount}
+          />
+        </>
+      ) : (
+        <>
+          <SideActionButton
+            onLike={onLike}
+            onShare={onShare}
+            onComment={onComment}
+            onProfile={onProfile}
+            orientation={orientation}
+            likeCount={likeCount}
+            shareCount={shareCount}
+            commentCount={commentCount}
+            profileCount={profileCount}
+          />
+          <div style={{ 
+            margin: orientation === 'vertical' 
+              ? `-${theme.icons.spacing.large}px 0` 
+              : `0 -${theme.icons.spacing.large}px`,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}>
+            <button
+              className="tap-animation sparkle-button"
+              onClick={onSpread}
+              style={{
+                ...createIconButtonStyle(theme, 'medium'),
+                order: orientation === 'vertical' ? -1 : 1,
+              }}
+              title="無造作に拡散"
+              aria-label="無造作に拡散"
+            >
+              <div style={createIconStyle()}>
+                <IoSparklesOutline size={theme.icons.sizes.medium} color={theme.primary} />
+              </div>
+            </button>
+            <div style={{
+              fontSize: '12px',
+              color: theme.primary,
+              textAlign: 'center',
+              marginTop: '4px',
+            }}>
+              {spreadCount}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
