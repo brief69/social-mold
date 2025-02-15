@@ -28,55 +28,46 @@ const SideActionButton: React.FC<SideActionButtonProps> = ({
     padding: theme.icons.spacing.medium,
   };
 
+  // ボタンを配列として定義し、順序を制御
+  const buttons = [
+    {
+      onClick: onLike,
+      icon: <IoHeartOutline size={theme.icons.sizes.medium} color={theme.primary} />,
+      title: "Like",
+    },
+    {
+      onClick: onComment,
+      icon: <IoChatbubbleOutline size={theme.icons.sizes.medium} color={theme.primary} />,
+      title: "Comment",
+    },
+    {
+      onClick: onProfile,
+      icon: <IoPersonOutline size={theme.icons.sizes.medium} color={theme.primary} />,
+      title: "Profile",
+    },
+    {
+      onClick: onShare,
+      icon: <IoShareSocialOutline size={theme.icons.sizes.medium} color={theme.primary} />,
+      title: "Share",
+    },
+  ];
+
   return (
     <div style={containerStyle}>
-      <button
-        className="tap-animation"
-        onClick={onLike}
-        style={createIconButtonStyle(theme, 'medium')}
-        title="Like"
-        aria-label="Like"
-      >
-        <div style={createIconStyle()}>
-          <IoHeartOutline size={theme.icons.sizes.medium} color={theme.primary} />
-        </div>
-      </button>
-
-      <button
-        className="tap-animation"
-        onClick={onShare}
-        style={createIconButtonStyle(theme, 'medium')}
-        title="Share"
-        aria-label="Share"
-      >
-        <div style={createIconStyle()}>
-          <IoShareSocialOutline size={theme.icons.sizes.medium} color={theme.primary} />
-        </div>
-      </button>
-
-      <button
-        className="tap-animation"
-        onClick={onComment}
-        style={createIconButtonStyle(theme, 'medium')}
-        title="Comment"
-        aria-label="Comment"
-      >
-        <div style={createIconStyle()}>
-          <IoChatbubbleOutline size={theme.icons.sizes.medium} color={theme.primary} />
-        </div>
-      </button>
-
-      <button
-        className="tap-animation"
-        onClick={onProfile}
-        style={createIconButtonStyle(theme, 'medium')}
-        title="Profile"
-        aria-label="Profile"
-      >
-        <div style={createIconStyle()}>
-          <IoPersonOutline size={theme.icons.sizes.medium} color={theme.primary} />
-        </div>
-      </button>
+      {buttons.map((button) => (
+        <button
+          key={button.title}
+          className="tap-animation"
+          onClick={button.onClick}
+          style={createIconButtonStyle(theme, 'medium')}
+          title={button.title}
+          aria-label={button.title}
+        >
+          <div style={createIconStyle()}>
+            {button.icon}
+          </div>
+        </button>
+      ))}
     </div>
   );
 };

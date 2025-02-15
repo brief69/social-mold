@@ -76,6 +76,7 @@ const SideAction: React.FC<SideActionProps> = ({
         onClick={onSpread}
         style={{
           ...createIconButtonStyle(theme, 'medium'),
+          order: orientation === 'vertical' ? -1 : 1,
         }}
         title="無造作に拡散"
         aria-label="無造作に拡散"
