@@ -1,5 +1,5 @@
 import React from 'react';
-import { IoSparkles } from 'react-icons/io5';
+import { IoSparklesOutline } from 'react-icons/io5';
 import SideActionButton from '../common/SideActionButton';
 import { useTheme } from '../../theme/ThemeContext';
 import { createIconButtonStyle, createIconStyle } from '../../styles/IconStyles';
@@ -71,22 +71,26 @@ const SideAction: React.FC<SideActionProps> = ({
         onProfile={onProfile}
         orientation={orientation}
       />
-      <button
-        className="tap-animation sparkle-button"
-        onClick={onSpread}
-        style={{
-          ...createIconButtonStyle(theme, 'medium'),
-          order: orientation === 'vertical' ? -1 : 1,
-        }}
-        title="無造作に拡散"
-        aria-label="無造作に拡散"
-      >
-        <div style={{
-          ...createIconStyle(),
-        }}>
-          <IoSparkles size={theme.icons.sizes.medium} color={theme.primary} />
-        </div>
-      </button>
+      <div style={{ 
+        margin: orientation === 'vertical' 
+          ? `-${theme.icons.spacing.large}px 0` 
+          : `0 -${theme.icons.spacing.large}px`,
+      }}>
+        <button
+          className="tap-animation sparkle-button"
+          onClick={onSpread}
+          style={{
+            ...createIconButtonStyle(theme, 'medium'),
+            order: orientation === 'vertical' ? -1 : 1,
+          }}
+          title="無造作に拡散"
+          aria-label="無造作に拡散"
+        >
+          <div style={createIconStyle()}>
+            <IoSparklesOutline size={theme.icons.sizes.medium} color={theme.primary} />
+          </div>
+        </button>
+      </div>
     </div>
   );
 };
