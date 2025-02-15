@@ -12,7 +12,6 @@ import '../../styles/animations.css';
 // TODO: で、sidenavbarファイルを削除する
 interface NavBarProps {
   onTabChange?: (tab: string) => void;
-  onSwap?: (isPlayRight: boolean) => void;
 }
 
 const NavBar: React.FC<NavBarProps> = ({ onTabChange }) => {

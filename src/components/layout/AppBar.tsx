@@ -1,30 +1,22 @@
 import React, { useState, useRef } from 'react';
 import { CgProfile } from 'react-icons/cg';
-import { IoArrowUp, IoArrowDown, IoPlayOutline, IoGridOutline } from 'react-icons/io5';
+import { IoGridOutline } from 'react-icons/io5';
 import { useTheme } from '../../theme/ThemeContext';
 import { createIconButtonStyle, createIconStyle } from '../../styles/IconStyles';
 import '../../styles/animations.css';
 
 interface AppBarProps {
   username?: string;
-  onDirectionChange?: (isUpArrow: boolean) => void;
-  onPlayDirectionChange?: (isPlayRight: boolean) => void;
   onUsernameChange?: (newUsername: string) => void;
   onGalleryClick?: () => void;
-  isPlayRight?: boolean;
 }
 
 const AppBar: React.FC<AppBarProps> = ({
   username = '@username',
-  onDirectionChange,
-  onPlayDirectionChange,
   onUsernameChange,
   onGalleryClick,
-  isPlayRight: externalIsPlayRight,
 }) => {
   const theme = useTheme();
-  const [isUpArrow, setIsUpArrow] = React.useState(true);
-  const [isPlayRight, setIsPlayRight] = React.useState(externalIsPlayRight ?? true);
   const [userImage, setUserImage] = useState<string | null>(null);
   const [isEditingUsername, setIsEditingUsername] = useState(false);
   const [editedUsername, setEditedUsername] = useState(username);
@@ -33,18 +25,6 @@ const AppBar: React.FC<AppBarProps> = ({
   const clickTimer = useRef<number | undefined>(undefined);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const usernameInputRef = useRef<HTMLInputElement>(null);
-
-  const handleDirectionChange = () => {
-    const newDirection = !isUpArrow;
-    setIsUpArrow(newDirection);
-    onDirectionChange?.(newDirection);
-  };
-
-  const handlePlayDirectionChange = () => {
-    const newPlayDirection = !isPlayRight;
-    setIsPlayRight(newPlayDirection);
-    onPlayDirectionChange?.(newPlayDirection);
-  };
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
@@ -234,46 +214,6 @@ const AppBar: React.FC<AppBarProps> = ({
           <IoGridOutline size={theme.icons.sizes.medium} color={theme.primary} />
         </div>
       </button>
-
-      {/* 右側：スワップアクションボタングループ */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: theme.icons.spacing.medium,
-      }}>
-        {/* 方向切り替えボタン */}
-        <button
-          className="tap-animation"
-          onClick={handleDirectionChange}
-          style={createIconButtonStyle(theme, 'medium')}
-          title={isUpArrow ? "Switch to Down" : "Switch to Up"}
-          aria-label={isUpArrow ? "Switch to Down" : "Switch to Up"}
-        >
-          <div style={createIconStyle()}>
-            {isUpArrow ? (
-              <IoArrowUp size={theme.icons.sizes.medium} color={theme.primary} />
-            ) : (
-              <IoArrowDown size={theme.icons.sizes.medium} color={theme.primary} />
-            )}
-          </div>
-        </button>
-
-        {/* 再生方向切り替えボタン */}
-        <button
-          className="tap-animation"
-          onClick={handlePlayDirectionChange}
-          style={createIconButtonStyle(theme, 'medium')}
-          title={isPlayRight ? "Switch to NavBar" : "Switch to SideNavBar"}
-          aria-label={isPlayRight ? "Switch to NavBar" : "Switch to SideNavBar"}
-        >
-          <div style={{
-            ...createIconStyle(),
-            transform: `translate(-50%, -50%) rotate(${isPlayRight ? -90 : 0}deg)`
-          }}>
-            <IoPlayOutline size={theme.icons.sizes.medium} color={theme.primary} />
-          </div>
-        </button>
-      </div>
     </div>
   );
 };

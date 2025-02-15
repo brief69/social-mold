@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTheme } from '../../../theme/ThemeContext';
 import ContentMedia from './ContentMedia';
-import ContentMetadata from './ContentMetadata';
 import SideAction from '../../layout/SideAction';
 import AutoHideWrapper from '../AutoHideWrapper';
 import '../../../styles/animations.css';
@@ -70,32 +69,24 @@ const ContentCard: React.FC<ContentCardProps> = ({
   return (
     <div style={containerStyle} className="tap-animation">
       {variant !== 'grid' && (
-        <>
-          <ContentMetadata
-            username={item.username}
-            userAvatar={item.userAvatar}
-            createdAt={item.createdAt}
-            onProfileClick={() => handleAction('profile')}
-          />
-          <div style={{ marginBottom: '16px' }}>
-            <AutoHideWrapper>
-              <SideAction
-                orientation="horizontal"
-                position="left"
-                onLike={() => handleAction('like')}
-                onComment={() => handleAction('comment')}
-                onShare={() => handleAction('share')}
-                onProfile={() => handleAction('profile')}
-                onSpread={() => handleAction('share')}
-                likeCount={item.metadata.likes}
-                commentCount={item.metadata.comments}
-                shareCount={item.metadata.shares}
-                profileCount={item.metadata.views}
-                spreadCount={item.metadata.shares}
-              />
-            </AutoHideWrapper>
-          </div>
-        </>
+        <div style={{ marginBottom: '16px' }}>
+          <AutoHideWrapper>
+            <SideAction
+              orientation="horizontal"
+              position="left"
+              onLike={() => handleAction('like')}
+              onComment={() => handleAction('comment')}
+              onShare={() => handleAction('share')}
+              onProfile={() => handleAction('profile')}
+              onSpread={() => handleAction('share')}
+              likeCount={item.metadata.likes}
+              commentCount={item.metadata.comments}
+              shareCount={item.metadata.shares}
+              profileCount={item.metadata.views}
+              spreadCount={item.metadata.shares}
+            />
+          </AutoHideWrapper>
+        </div>
       )}
       
       <ContentMedia

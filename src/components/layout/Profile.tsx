@@ -5,6 +5,7 @@ import SwipeView from './SwipeView';
 import SwapActionButton from '../common/SwapActionButton';
 import AppBar from './AppBar';
 import '../../styles/Layout.css';
+import AutoHideWrapper from '../common/AutoHideWrapper';
 
 type ViewMode = 'list' | 'grid' | 'swipe';
 
@@ -59,18 +60,17 @@ const Profile: React.FC<ProfileProps> = ({
       />
       <div className="content-container" style={{ paddingTop: '64px' }}>
         <div className="content-inner">
-          <div style={{
-            position: 'absolute',
+          <AutoHideWrapper style={{
+            position: 'fixed',
+            right: viewMode === 'list' ? '5%' : '20px',
             top: '84px',
-            right: '20px',
             zIndex: 1000,
           }}>
             <SwapActionButton
-              mode="view-grid"
               onViewChange={setViewMode}
               defaultViewMode={viewMode}
             />
-          </div>
+          </AutoHideWrapper>
           {renderContent()}
         </div>
       </div>

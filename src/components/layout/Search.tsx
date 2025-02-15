@@ -3,6 +3,7 @@ import ListView from './ListView';
 import GridView from './GridView';
 import SwipeView from './SwipeView';
 import SwapActionButton from '../common/SwapActionButton';
+import AutoHideWrapper from '../common/AutoHideWrapper';
 import '../../styles/Layout.css';
 
 type ViewMode = 'list' | 'grid' | 'swipe';
@@ -35,18 +36,17 @@ const Search: React.FC<SearchProps> = ({ onAction }) => {
     <div className="layout-container">
       <div className="content-container">
         <div className="content-inner">
-          <div style={{
-            position: 'absolute',
+          <AutoHideWrapper style={{
+            position: 'fixed',
+            right: viewMode === 'list' ? '5%' : '20px',
             top: '20px',
-            right: '20px',
             zIndex: 1000,
           }}>
             <SwapActionButton
-              mode="view"
               onViewChange={setViewMode}
               defaultViewMode={viewMode}
             />
-          </div>
+          </AutoHideWrapper>
           {renderContent()}
         </div>
       </div>

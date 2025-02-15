@@ -46,13 +46,12 @@ const Home: React.FC<HomeProps> = ({ onAction }) => {
       <div className="content-container">
         <div className="content-inner" style={{ position: 'relative' }}>
           <AutoHideWrapper style={{
-            position: 'absolute',
+            position: 'fixed',
+            right: viewMode === 'list' ? '5%' : '20px',
             top: '20px',
-            right: '20px',
             zIndex: 1000,
           }}>
             <SwapActionButton
-              mode="view-grid"
               onViewChange={setViewMode}
               defaultViewMode={viewMode}
             />
