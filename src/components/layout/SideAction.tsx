@@ -10,6 +10,8 @@ interface SideActionProps {
   isVisible?: boolean;
   position?: 'left' | 'right';
   orientation?: 'vertical' | 'horizontal';
+  contentAspectRatio?: number;
+  isFullscreenMode?: boolean;
   onLike?: () => void;
   onShare?: () => void;
   onComment?: () => void;
@@ -25,7 +27,9 @@ interface SideActionProps {
 const SideAction: React.FC<SideActionProps> = ({
   isVisible = true,
   position = 'right',
-  orientation = 'vertical',
+  orientation: forcedOrientation,
+  contentAspectRatio = 1,
+  isFullscreenMode = false,
   onLike,
   onShare,
   onComment,
@@ -39,6 +43,15 @@ const SideAction: React.FC<SideActionProps> = ({
 }) => {
   const theme = useTheme();
 
+  // アスペクト比と全画面モードに基づいて向きを決定
+  const determineOrientation = (): 'vertical' | 'horizontal' => {
+    if (forcedOrientation) return forcedOrientation;
+    if (isFullscreenMode) return 'vertical';
+    return contentAspectRatio >= 1 ? 'horizontal' : 'vertical';
+  };
+
+  const orientation = determineOrientation();
+
   if (!isVisible) return null;
 
   const getContainerStyle = (): React.CSSProperties => {
@@ -50,6 +63,7 @@ const SideAction: React.FC<SideActionProps> = ({
       alignItems: 'center',
       gap: theme.icons.spacing.large,
       zIndex: 100,
+      transition: 'all 0.3s ease',
     };
 
     if (orientation === 'vertical') {
@@ -68,7 +82,17 @@ const SideAction: React.FC<SideActionProps> = ({
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'center',
+        padding: isFullscreenMode ? '12px 24px' : '12px',
       };
+    }
+  };
+
+  // 拡散ボタンの配置を決定
+  const getSpreadButtonOrder = () => {
+    if (orientation === 'vertical') {
+      return -1; // 一番上
+    } else {
+      return position === 'left' ? 1 : -1; // 左端または右端
     }
   };
 
@@ -81,7 +105,7 @@ const SideAction: React.FC<SideActionProps> = ({
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            order: position === 'left' ? 1 : -1,
+            order: getSpreadButtonOrder(),
           }}>
             <button
               className="tap-animation sparkle-button"
@@ -135,14 +159,12 @@ const SideAction: React.FC<SideActionProps> = ({
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            order: getSpreadButtonOrder(),
           }}>
             <button
               className="tap-animation sparkle-button"
               onClick={onSpread}
-              style={{
-                ...createIconButtonStyle(theme, 'medium'),
-                order: orientation === 'vertical' ? -1 : 1,
-              }}
+              style={createIconButtonStyle(theme, 'medium')}
               title="無造作に拡散"
               aria-label="無造作に拡散"
             >
