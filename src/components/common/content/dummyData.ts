@@ -282,7 +282,40 @@ export const spreadContents: ContentItem[] = [
       tags: ['バイラル', '話題', '拡散'],
     }
   },
-  // ... 他の拡散コンテンツ
+  {
+    id: 'spread2',
+    userId: 'user7',
+    username: '@trending_now',
+    createdAt: new Date('2024-02-15T10:00:00'),
+    mainContent: {
+      type: 'text',
+      content: '【速報】新しい技術が世界を変える！AIと量子コンピューティングの融合が実現。詳細は続報で。',
+    },
+    metadata: {
+      likes: 25000,
+      comments: 4500,
+      shares: 12000,
+      views: 280000,
+      tags: ['テクノロジー', '拡散', 'トレンド'],
+    }
+  },
+  {
+    id: 'spread3',
+    userId: 'user8',
+    username: '@viral_memes',
+    createdAt: new Date('2024-02-15T09:30:00'),
+    mainContent: {
+      type: 'text',
+      content: '今日のミーム：「プログラマーの日常」が話題に。デバッグに費やす時間の真実が共感を呼ぶ。',
+    },
+    metadata: {
+      likes: 18000,
+      comments: 3200,
+      shares: 9500,
+      views: 200000,
+      tags: ['ミーム', '拡散', 'プログラミング'],
+    }
+  }
 ];
 
 // アニメコンテンツ
@@ -306,7 +339,40 @@ export const animeContents: ContentItem[] = [
       tags: ['アニメ', 'manga', 'otaku'],
     }
   },
-  // ... 他のアニメコンテンツ
+  {
+    id: 'anime2',
+    userId: 'user9',
+    username: '@anime_news',
+    createdAt: new Date('2024-02-15T11:00:00'),
+    mainContent: {
+      type: 'text',
+      content: '【アニメ速報】人気作品の新シリーズが制作決定！詳細は公式サイトをチェック。',
+    },
+    metadata: {
+      likes: 8500,
+      comments: 1200,
+      shares: 3400,
+      views: 65000,
+      tags: ['アニメ', 'ニュース', '新作'],
+    }
+  },
+  {
+    id: 'anime3',
+    userId: 'user10',
+    username: '@manga_updates',
+    createdAt: new Date('2024-02-15T10:30:00'),
+    mainContent: {
+      type: 'text',
+      content: '週刊連載作品の最新話が話題沸騰中！ファンの間で様々な考察が飛び交う。',
+    },
+    metadata: {
+      likes: 6200,
+      comments: 890,
+      shares: 1500,
+      views: 45000,
+      tags: ['アニメ', 'マンガ', '考察'],
+    }
+  }
 ];
 
 // テキスト投稿のダミーデータ
