@@ -31,6 +31,9 @@ const ListView: React.FC<ListViewProps> = ({ onAction, selectedChannelId = '0' }
     alignItems: 'flex-start',
     boxSizing: 'border-box',
     position: 'relative',
+    justifyContent: 'center',
+    maxWidth: '1200px',
+    margin: '0 auto',
   };
 
   const mainContentStyle: React.CSSProperties = {
@@ -39,6 +42,9 @@ const ListView: React.FC<ListViewProps> = ({ onAction, selectedChannelId = '0' }
     flexDirection: 'column',
     gap: '16px',
     alignItems: 'center',
+    width: '100%',
+    maxWidth: '600px',
+    position: 'relative',
     margin: '0 auto',
   };
 

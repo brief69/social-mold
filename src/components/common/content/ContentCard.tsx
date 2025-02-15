@@ -68,8 +68,34 @@ const ContentCard: React.FC<ContentCardProps> = ({
 
   return (
     <div style={containerStyle} className="tap-animation">
+      <ContentMedia
+        type={item.mainContent.type}
+        content={item.mainContent.content}
+        aspectRatio={item.mainContent.aspectRatio}
+        duration={item.mainContent.duration}
+        variant={variant}
+      />
+
+      {item.subContents?.map((subContent, index) => (
+        <ContentMedia
+          key={index}
+          type={subContent.type}
+          content={subContent.content}
+          isSubContent
+          variant={variant}
+        />
+      ))}
+
       {variant !== 'grid' && (
-        <div style={{ marginBottom: '16px' }}>
+        <div style={{ 
+          marginTop: '16px',
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          position: 'relative',
+          left: '50%',
+          transform: 'translateX(-50%)',
+        }}>
           <AutoHideWrapper>
             <SideAction
               orientation="horizontal"
@@ -88,24 +114,6 @@ const ContentCard: React.FC<ContentCardProps> = ({
           </AutoHideWrapper>
         </div>
       )}
-      
-      <ContentMedia
-        type={item.mainContent.type}
-        content={item.mainContent.content}
-        aspectRatio={item.mainContent.aspectRatio}
-        duration={item.mainContent.duration}
-        variant={variant}
-      />
-
-      {item.subContents?.map((subContent, index) => (
-        <ContentMedia
-          key={index}
-          type={subContent.type}
-          content={subContent.content}
-          isSubContent
-          variant={variant}
-        />
-      ))}
     </div>
   );
 };
