@@ -3,7 +3,6 @@ import ListView from './ListView';
 import GridView from './GridView';
 import SwipeView from './SwipeView';
 import SwapActionButton from '../common/SwapActionButton';
-import SideAction from './SideAction';
 import AutoHideWrapper from '../common/AutoHideWrapper';
 import '../../styles/Layout.css';
 
@@ -20,12 +19,6 @@ const Home: React.FC<HomeProps> = ({ onAction }) => {
   const handleAction = (action: 'like' | 'comment' | 'share' | 'profile', itemId: string) => {
     setCurrentItemId(itemId);
     onAction?.(action, itemId);
-  };
-
-  const handleSideAction = (action: 'like' | 'share' | 'comment' | 'profile') => {
-    if (currentItemId) {
-      onAction?.(action, currentItemId);
-    }
   };
 
   const renderContent = () => {
@@ -57,23 +50,6 @@ const Home: React.FC<HomeProps> = ({ onAction }) => {
             />
           </AutoHideWrapper>
           {renderContent()}
-          <AutoHideWrapper style={{
-            position: 'fixed',
-            right: viewMode === 'list' ? '5%' : '20px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            zIndex: 1000,
-          }}>
-            <SideAction
-              isVisible={true}
-              position="right"
-              onLike={() => handleSideAction('like')}
-              onShare={() => handleSideAction('share')}
-              onComment={() => handleSideAction('comment')}
-              onProfile={() => handleSideAction('profile')}
-              onSpread={() => handleSideAction('share')}
-            />
-          </AutoHideWrapper>
         </div>
       </div>
     </div>
