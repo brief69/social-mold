@@ -1,1 +1,113 @@
- 
+.app-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background-color: var(--background-color);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.app-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.app-bar-profile-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.app-bar-username {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-size: 18px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.app-bar-username:hover {
+  background-color: rgba(var(--primary-rgb), 0.1);
+}
+
+.app-bar-username-input {
+  background: none;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  font-size: 18px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 8px;
+  outline: none;
+  width: 100%;
+  max-width: 200px;
+  min-width: 120px;
+}
+
+/* タブレット向け */
+@media (max-width: 768px) {
+  .app-bar {
+    padding: 14px 20px;
+  }
+  
+  .app-bar-username {
+    font-size: 17px;
+    max-width: 160px;
+  }
+  
+  .app-bar-username-input {
+    font-size: 17px;
+    max-width: 160px;
+  }
+  
+  .app-bar-profile-image {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* スマートフォン向け */
+@media (max-width: 480px) {
+  .app-bar {
+    padding: 12px 16px;
+  }
+  
+  .app-bar-left {
+    gap: 12px;
+  }
+  
+  .app-bar-username {
+    font-size: 16px;
+    padding: 6px 10px;
+    max-width: 120px;
+  }
+  
+  .app-bar-username-input {
+    font-size: 16px;
+    padding: 4px 8px;
+    max-width: 120px;
+  }
+  
+  .app-bar-profile-image {
+    width: 32px;
+    height: 32px;
+  }
+} 

@@ -46,12 +46,6 @@ const Profile: React.FC<ProfileProps> = ({
     }
   };
 
-  // CSSカスタムプロパティを設定
-  document.documentElement.style.setProperty(
-    '--swap-button-right',
-    viewMode === 'list' ? '5%' : '20px'
-  );
-
   return (
     <div className="layout-container">
       <AppBar

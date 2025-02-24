@@ -4,7 +4,7 @@
 
 .profile-swap-button-wrapper {
   position: fixed;
-  right: var(--swap-button-right, 20px);
+  right: 20px;
   top: 84px;
   z-index: 1000;
 } 

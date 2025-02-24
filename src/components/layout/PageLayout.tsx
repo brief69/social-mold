@@ -28,7 +28,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({
         <div className="content-inner" style={{ position: 'relative' }}>
           <AutoHideWrapper style={{
             position: 'fixed',
-            right: viewMode === 'list' ? '5%' : '20px',
+            right: '20px',
             top: `${20 + topPadding}px`,
             zIndex: 1000,
           }}>

@@ -5,6 +5,7 @@
 ## 特徴
 
 - 無駄なコンポーネントを排除
+- 無駄なレイアウトの柔軟性を排除
 - etc
 
 ## Components Directory Structure

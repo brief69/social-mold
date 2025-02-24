@@ -52,7 +52,7 @@ const Chat: React.FC<ChatProps> = ({
         <div className="content-inner">
           <AutoHideWrapper style={{
             position: 'fixed',
-            right: viewMode === 'list' ? '5%' : '20px',
+            right: '20px',
             top: '20px',
             zIndex: 1000,
           }}>

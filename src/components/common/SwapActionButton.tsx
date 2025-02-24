@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { IoList, IoGrid } from 'react-icons/io5';
+import { IoSwapHorizontal } from 'react-icons/io5';
 import { useTheme } from '../../theme/ThemeContext';
 import { createIconButtonStyle, createIconStyle } from '../../styles/IconStyles';
 import '../../styles/animations.css';
@@ -9,7 +10,6 @@ type ViewMode = 'list' | 'grid' | 'swipe';
 interface SwapActionButtonProps {
   onViewChange?: (mode: ViewMode) => void;
   defaultViewMode?: ViewMode;
-  mode?: 'direction' | 'play' | 'view-grid' | 'view-swipe';
 }
 
 const SwapActionButton: React.FC<SwapActionButtonProps> = ({
@@ -17,28 +17,56 @@ const SwapActionButton: React.FC<SwapActionButtonProps> = ({
   defaultViewMode = 'list'
 }) => {
   const theme = useTheme();
-  const [isListView, setIsListView] = useState(defaultViewMode === 'list');
+  const [currentView, setCurrentView] = useState<ViewMode>(defaultViewMode);
 
   const handleViewChange = () => {
-    const newViewMode = isListView ? 'grid' : 'list';
-    setIsListView(!isListView);
-    onViewChange?.(newViewMode as ViewMode);
+    const viewOrder: ViewMode[] = ['list', 'grid', 'swipe'];
+    const currentIndex = viewOrder.indexOf(currentView);
+    const nextIndex = (currentIndex + 1) % viewOrder.length;
+    const newViewMode = viewOrder[nextIndex];
+    
+    setCurrentView(newViewMode);
+    onViewChange?.(newViewMode);
+  };
+
+  const getViewIcon = () => {
+    switch (currentView) {
+      case 'list':
+        return <IoList size={theme.icons.sizes.medium} color={theme.primary} />;
+      case 'grid':
+        return <IoGrid size={theme.icons.sizes.medium} color={theme.primary} />;
+      case 'swipe':
+        return <IoSwapHorizontal size={theme.icons.sizes.medium} color={theme.primary} />;
+    }
+  };
+
+  const getViewTitle = () => {
+    switch (currentView) {
+      case 'list':
+        return 'グリッド表示に切り替え';
+      case 'grid':
+        return 'スワイプ表示に切り替え';
+      case 'swipe':
+        return 'リスト表示に切り替え';
+    }
   };
 
   return (
     <button
       className="tap-animation"
       onClick={handleViewChange}
-      style={createIconButtonStyle(theme, 'medium')}
-      title={isListView ? "グリッド表示" : "リスト表示"}
-      aria-label={isListView ? "グリッド表示" : "リスト表示"}
+      style={{
+        ...createIconButtonStyle(theme, 'medium'),
+        transition: 'transform 0.3s ease'
+      }}
+      title={getViewTitle()}
+      aria-label={getViewTitle()}
     >
-      <div style={createIconStyle()}>
-        {isListView ? (
-          <IoGrid size={theme.icons.sizes.medium} color={theme.primary} />
-        ) : (
-          <IoList size={theme.icons.sizes.medium} color={theme.primary} />
-        )}
+      <div style={{
+        ...createIconStyle(),
+        transition: 'transform 0.3s ease'
+      }}>
+        {getViewIcon()}
       </div>
     </button>
   );
