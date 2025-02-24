@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { AiFillHome } from 'react-icons/ai';
-import { BiSearch } from 'react-icons/bi';
-import { IoMdAdd } from 'react-icons/io';
-import { IoChatbubbles } from 'react-icons/io5';
 import { CgProfile } from 'react-icons/cg';
 import { useTheme } from '../../theme/ThemeContext';
 import { createIconButtonStyle, createIconStyle } from '../../styles/IconStyles';
@@ -50,48 +47,6 @@ const NavBar: React.FC<NavBarProps> = ({ onTabChange }) => {
       >
         <div style={createIconStyle()}>
           <AiFillHome size={theme.icons.sizes.medium} color={theme.primary} />
-        </div>
-      </button>
-      <button 
-        className="tap-animation"
-        style={{
-          ...createIconButtonStyle(theme, 'medium'),
-          opacity: activeTab === 'search' ? 1 : 0.6
-        }} 
-        title="Search" 
-        aria-label="Search"
-        onClick={() => handleClick('search')}
-      >
-        <div style={createIconStyle()}>
-          <BiSearch size={theme.icons.sizes.medium} color={theme.primary} />
-        </div>
-      </button>
-      <button 
-        className="tap-animation"
-        style={{
-          ...createIconButtonStyle(theme, 'medium'),
-          opacity: activeTab === 'post' ? 1 : 0.6
-        }} 
-        title="Create Post" 
-        aria-label="Create Post"
-        onClick={() => handleClick('post')}
-      >
-        <div style={createIconStyle()}>
-          <IoMdAdd size={theme.icons.sizes.medium} color={theme.primary} />
-        </div>
-      </button>
-      <button 
-        className="tap-animation"
-        style={{
-          ...createIconButtonStyle(theme, 'medium'),
-          opacity: activeTab === 'chat' ? 1 : 0.6
-        }} 
-        title="Chat" 
-        aria-label="Chat"
-        onClick={() => handleClick('chat')}
-      >
-        <div style={createIconStyle()}>
-          <IoChatbubbles size={theme.icons.sizes.medium} color={theme.primary} />
         </div>
       </button>
       <button 
