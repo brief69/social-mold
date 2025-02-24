@@ -17,6 +17,8 @@ const Chanel: React.FC<ChanelProps> = ({
   const lastActiveChannel = useRef<string | null>(null);
   const passedChannelsCount = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const isUserScrolling = useRef<boolean>(false);
+  const lastScrollTime = useRef<number>(0);
 
   // デフォルトのチャネルリストを使用
   const channelList = channels;
@@ -24,10 +26,11 @@ const Chanel: React.FC<ChanelProps> = ({
   // スクロール位置に基づいて中央のチャンネルを検出
   const detectCenterChannel = useCallback(() => {
     const container = scrollRef.current;
-    if (!container) return;
+    if (!container || !isUserScrolling.current) return;
 
     const containerRect = container.getBoundingClientRect();
     const containerCenter = containerRect.left + containerRect.width / 2;
+    const threshold = 20; // 中央判定の閾値
 
     let closestChannel: Channel | undefined;
     let minDistance = Infinity;
@@ -45,7 +48,8 @@ const Chanel: React.FC<ChanelProps> = ({
       }
     });
 
-    if (closestChannel?.id !== activeChannel) {
+    // 閾値内の場合のみチャネルを切り替え
+    if (closestChannel?.id !== activeChannel && minDistance < threshold) {
       const lastIndex = lastActiveChannel.current ? 
         channelList.findIndex(c => c.id === lastActiveChannel.current) : -1;
       const currentIndex = channelList.findIndex(c => c.id === closestChannel?.id);
@@ -65,33 +69,51 @@ const Chanel: React.FC<ChanelProps> = ({
 
   // スクロールハンドラー
   const handleScroll = useCallback(() => {
+    const now = Date.now();
+    if (now - lastScrollTime.current < 50) return; // スクロールイベントの制限
+    lastScrollTime.current = now;
+
     if (scrollTimeout.current) {
       clearTimeout(scrollTimeout.current);
     }
 
     scrollTimeout.current = setTimeout(() => {
-      detectCenterChannel();
-    }, 100);
+      isUserScrolling.current = false;
+    }, 150);
+
+    detectCenterChannel();
   }, [detectCenterChannel]);
 
   useEffect(() => {
     const container = scrollRef.current;
     if (container) {
+      const handleTouchStart = () => {
+        isUserScrolling.current = true;
+      };
+
+      const handleMouseDown = () => {
+        isUserScrolling.current = true;
+      };
+
       container.addEventListener('scroll', handleScroll);
       container.addEventListener('touchmove', handleScroll);
-    }
+      container.addEventListener('touchstart', handleTouchStart);
+      container.addEventListener('mousedown', handleMouseDown);
 
-    return () => {
-      if (container) {
+      return () => {
         container.removeEventListener('scroll', handleScroll);
         container.removeEventListener('touchmove', handleScroll);
-      }
-    };
+        container.removeEventListener('touchstart', handleTouchStart);
+        container.removeEventListener('mousedown', handleMouseDown);
+      };
+    }
   }, [handleScroll]);
 
   useEffect(() => {
-    if (activeChannel) {
-      const activeElement = document.querySelector(`[data-channel-id="${activeChannel}"]`);
+    if (selectedChannelId !== activeChannel) {
+      setActiveChannel(selectedChannelId);
+      isUserScrolling.current = false; // プログラムによる移動時はスクロール検出を無効化
+      const activeElement = document.querySelector(`[data-channel-id="${selectedChannelId}"]`);
       if (activeElement) {
         activeElement.scrollIntoView({
           behavior: 'smooth',
@@ -100,9 +122,10 @@ const Chanel: React.FC<ChanelProps> = ({
         });
       }
     }
-  }, [activeChannel]);
+  }, [selectedChannelId, activeChannel]);
 
   const handleChannelClick = (channelId: string) => {
+    isUserScrolling.current = false; // クリックによる移動時はスクロール検出を無効化
     setActiveChannel(channelId);
     onChannelChange?.(channelId);
   };
