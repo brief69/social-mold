@@ -26,11 +26,11 @@ const Chanel: React.FC<ChanelProps> = ({
   // スクロール位置に基づいて中央のチャンネルを検出
   const detectCenterChannel = useCallback(() => {
     const container = scrollRef.current;
-    if (!container || !isUserScrolling.current) return;
+    if (!container) return;
 
     const containerRect = container.getBoundingClientRect();
     const containerCenter = containerRect.left + containerRect.width / 2;
-    const threshold = 20; // 中央判定の閾値
+    const threshold = containerRect.width * 0.15; // より広い検出範囲に調整
 
     let closestChannel: Channel | undefined;
     let minDistance = Infinity;
@@ -48,8 +48,8 @@ const Chanel: React.FC<ChanelProps> = ({
       }
     });
 
-    // 閾値内の場合のみチャネルを切り替え
-    if (closestChannel?.id !== activeChannel && minDistance < threshold) {
+    // スクロール中は常にフォーカスを更新
+    if (closestChannel?.id !== activeChannel) {
       const lastIndex = lastActiveChannel.current ? 
         channelList.findIndex(c => c.id === lastActiveChannel.current) : -1;
       const currentIndex = channelList.findIndex(c => c.id === closestChannel?.id);
@@ -61,8 +61,10 @@ const Chanel: React.FC<ChanelProps> = ({
 
       if (closestChannel) {
         setActiveChannel(closestChannel.id);
-        onChannelChange?.(closestChannel.id);
-        lastActiveChannel.current = closestChannel.id;
+        if (minDistance < threshold) {
+          onChannelChange?.(closestChannel.id);
+          lastActiveChannel.current = closestChannel.id;
+        }
       }
     }
   }, [activeChannel, channelList, onChannelChange]);
@@ -70,7 +72,7 @@ const Chanel: React.FC<ChanelProps> = ({
   // スクロールハンドラー
   const handleScroll = useCallback(() => {
     const now = Date.now();
-    if (now - lastScrollTime.current < 50) return; // スクロールイベントの制限
+    if (now - lastScrollTime.current < 16) return; // 60fpsに制限
     lastScrollTime.current = now;
 
     if (scrollTimeout.current) {
@@ -79,10 +81,37 @@ const Chanel: React.FC<ChanelProps> = ({
 
     scrollTimeout.current = setTimeout(() => {
       isUserScrolling.current = false;
+      // スクロール停止時に最後のチャネル変更を確実に適用
+      const container = scrollRef.current;
+      if (container) {
+        const containerRect = container.getBoundingClientRect();
+        const containerCenter = containerRect.left + containerRect.width / 2;
+        let closestChannel: Channel | undefined;
+        let minDistance = Infinity;
+
+        container.querySelectorAll('.channel-item').forEach((element) => {
+          const channelElement = element as HTMLElement;
+          const channelRect = channelElement.getBoundingClientRect();
+          const channelCenter = channelRect.left + channelRect.width / 2;
+          const distance = Math.abs(containerCenter - channelCenter);
+
+          if (distance < minDistance) {
+            minDistance = distance;
+            const channelId = channelElement.getAttribute('data-channel-id');
+            closestChannel = channelList.find(c => c.id === channelId);
+          }
+        });
+
+        if (closestChannel && closestChannel.id !== activeChannel) {
+          setActiveChannel(closestChannel.id);
+          onChannelChange?.(closestChannel.id);
+          lastActiveChannel.current = closestChannel.id;
+        }
+      }
     }, 150);
 
     detectCenterChannel();
-  }, [detectCenterChannel]);
+  }, [detectCenterChannel, activeChannel, channelList, onChannelChange]);
 
   useEffect(() => {
     const container = scrollRef.current;
