@@ -1,12 +1,13 @@
 # social-mold
 
-目的：汎用的なSNSのUIの型（）として、簡単に使用できること。
+目的：汎用的なSNSのUIの型（鋳型）として、必要最小限の機能に収束させた再利用可能なテンプレート。
 
 ## 特徴
 
-- 無駄なコンポーネントを排除
-- 無駄なレイアウトの柔軟性を排除
-- etc
+- 必要最小限のコンポーネント構成
+- 最適化された柔軟性と制約
+- 高い再利用性と拡張性
+- モダンなUI/UXパターン
 
 ## Components Directory Structure
 
@@ -20,23 +21,31 @@ src/components/
 │   │   ├── ContentMetadata.tsx # コンテンツメタデータ
 │   │   └── dummyData.ts    # ダミーデータ
 │   ├── AutoHideWrapper.tsx  # 自動非表示ラッパー
-│   ├── Chanel.tsx       # チャネル選択・検索コンポーネント
+│   ├── Chanel.tsx       # チャネル選択コンポーネント
 │   ├── NavBar.tsx       # ナビゲーションバー
 │   ├── PostButton.tsx   # 投稿ボタン
 │   ├── Profile.tsx      # プロフィール表示
-│   ├── SearchForm.tsx   # 検索フォーム
-│   ├── SideActionButton.tsx  # サイドアクションボタン（いいね、シェアなど）
-│   ├── SwapActionButton.tsx  # スワップアクションボタン(list,grid,swipeview切り替え)
+│   ├── SideAction.tsx   # サイドアクションコンポーネント
+│   └── SwapActionButton.tsx  # 表示モード切替ボタン
 ├── layout/          # レイアウト関連のコンポーネント
+│   ├── AppBar.tsx       # アプリケーションバー
 │   ├── Chat.tsx         # チャット画面レイアウト
-│   └── SideAction.tsx   # サイドアクション領域レイアウト
+│   ├── GridView.tsx     # グリッド表示レイアウト
+│   ├── Home.tsx         # ホーム画面レイアウト
+│   ├── ListView.tsx     # リスト表示レイアウト
+│   ├── PageLayout.tsx   # ページ基本レイアウト
+│   ├── Profile.tsx      # プロフィール画面レイアウト
+│   ├── Search.tsx       # 検索画面レイアウト
+│   └── SwipeView.tsx    # スワイプ表示レイアウト
 └── index.ts        # コンポーネントのエクスポート定義
 ```
 
 ## 使用技術
 
 - React + TypeScript + Vite
-- Tailwind CSS
+- CSS Modules
+- React Spring (アニメーション)
+- React Icons
 
 ## Issueを作成してほしい
 
