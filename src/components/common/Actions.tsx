@@ -23,12 +23,14 @@ const Actions: React.FC<ActionsProps> = ({
       <button
         className="tap-animation post-button"
         onClick={onPostClick}
-        style={createIconButtonStyle(theme, 'medium')}
         title="投稿する"
         aria-label="投稿する"
       >
-        <div style={createIconStyle()}>
-          <IoMdAdd size={theme.icons.sizes.medium} color={theme.primary} />
+        <div style={{
+          ...createIconStyle(1.2),
+          color: '#ffffff'
+        }}>
+          <IoMdAdd size={theme.icons.sizes.large} />
         </div>
       </button>
       <div className="view-mode-button">
