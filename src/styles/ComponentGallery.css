@@ -25,4 +25,10 @@
   color: var(--primary-color);
   font-size: 24px;
   font-weight: bold;
+}
+
+.swap-action-buttons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
 } 

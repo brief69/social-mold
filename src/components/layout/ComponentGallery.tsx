@@ -45,11 +45,10 @@ const ComponentGallery: React.FC = () => {
       {/* SwapActionButton */}
       <div className="gallery-section">
         <h2 className="section-title">SwapActionButton</h2>
-        <div style={{ display: 'flex', gap: '20px' }}>
-          <SwapActionButton mode="direction" />
-          <SwapActionButton mode="play" />
-          <SwapActionButton mode="view-grid" />
-          <SwapActionButton mode="view-swipe" />
+        <div className="swap-action-buttons">
+          <SwapActionButton defaultViewMode="list" />
+          <SwapActionButton defaultViewMode="grid" />
+          <SwapActionButton defaultViewMode="swipe" />
         </div>
       </div>
 
