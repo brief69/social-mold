@@ -5,6 +5,8 @@ import ContentCard from '../common/content/ContentCard';
 import { dummyImageContents } from '../common/content/dummyData';
 import { IoHeartOutline, IoCloseOutline } from 'react-icons/io5';
 import { useTheme } from '../../theme/ThemeContext';
+import SideAction from '../common/SideAction';
+import Chanel from './Chanel';
 import '../../styles/Layout.css';
 import '../../styles/SwipeView.css';
 
@@ -17,6 +19,7 @@ const SwipeView: React.FC<SwipeViewProps> = ({ onAction }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [leaving, setLeaving] = useState(false);
   const [currentX, setCurrentX] = useState(0);
+  const [selectedChannelId, setSelectedChannelId] = useState('recommended');
 
   const currentItem = dummyImageContents[currentIndex];
 
@@ -66,7 +69,14 @@ const SwipeView: React.FC<SwipeViewProps> = ({ onAction }) => {
   };
 
   return (
-    <div className="layout-container">
+    <div className="layout-container swipe-layout">
+      <div className="chanel-wrapper">
+        <Chanel
+          selectedChannelId={selectedChannelId}
+          onChannelSelect={setSelectedChannelId}
+          onAction={handleAction}
+        />
+      </div>
       <div className="content-container">
         <div className="content-inner swipe-container">
           <div className="swipe-card" {...bind()}>
@@ -98,6 +108,13 @@ const SwipeView: React.FC<SwipeViewProps> = ({ onAction }) => {
             </div>
           )}
         </div>
+      </div>
+      <div className="side-action-wrapper">
+        <SideAction
+          contentId={currentItem.id}
+          onAction={handleAction}
+          orientation="vertical"
+        />
       </div>
     </div>
   );

@@ -1,0 +1,53 @@
+.side-action {
+  display: flex;
+  gap: 16px;
+  padding: 8px;
+  background-color: rgba(var(--background-color-rgb), 0.8);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.side-action.vertical {
+  flex-direction: column;
+}
+
+.side-action.horizontal {
+  flex-direction: row;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: none;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.action-button:hover {
+  background-color: rgba(var(--text-color-rgb), 0.1);
+  transform: scale(1.1);
+}
+
+.action-button:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+  .side-action {
+    padding: 4px;
+    gap: 8px;
+  }
+
+  .action-button {
+    width: 36px;
+    height: 36px;
+  }
+} 
