@@ -1,8 +1,9 @@
 import React from 'react';
 import { IoMdAdd } from 'react-icons/io';
 import { useTheme } from '../../theme/ThemeContext';
-import { createIconButtonStyle, createIconStyle } from '../../styles/IconStyles';
+import { createIconStyle } from '../../styles/IconStyles';
 import SwapActionButton from './SwapActionButton';
+import AutoHideWrapper from './AutoHideWrapper';
 import '../../styles/Actions.css';
 
 interface ActionsProps {
@@ -19,7 +20,7 @@ const Actions: React.FC<ActionsProps> = ({
   const theme = useTheme();
 
   return (
-    <div className="actions-container">
+    <AutoHideWrapper className="actions-container">
       <button
         className="tap-animation post-button"
         onClick={onPostClick}
@@ -39,7 +40,7 @@ const Actions: React.FC<ActionsProps> = ({
           defaultViewMode={defaultViewMode}
         />
       </div>
-    </div>
+    </AutoHideWrapper>
   );
 };
 
