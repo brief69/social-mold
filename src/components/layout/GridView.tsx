@@ -1,7 +1,7 @@
 import React from 'react';
 import ContentCard from '../common/content/ContentCard';
 import { dummyImageContents } from '../common/content/dummyData';
-import '../../styles/Layout.css';
+import '../../styles/GridView.css';
 
 /**
  * TODO: グリッドビューの改善点
@@ -49,27 +49,26 @@ interface GridViewProps {
 }
 
 const GridView: React.FC<GridViewProps> = ({ onAction }) => {
-  const containerStyle: React.CSSProperties = {
-    width: '100%',
-    maxWidth: '100%',
-    margin: '0 auto',
-    padding: '0',
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-    gap: '1px',
-    boxSizing: 'border-box',
-    backgroundColor: '#333',
-  };
-
-  const getSpanSize = (aspectRatio: number): { gridRow: string, gridColumn: string } => {
-    // アスペクト比に基づいてグリッドスパンを決定
-    if (aspectRatio >= 2) { // パノラマ画像
-      return { gridColumn: 'span 2', gridRow: 'span 1' };
-    } else if (aspectRatio <= 0.5) { // 縦長画像
-      return { gridColumn: 'span 1', gridRow: 'span 2' };
+  const getItemClassName = (aspectRatio: number) => {
+    let className = 'grid-item';
+    
+    // アスペクト比に基づいてクラスを追加
+    if (aspectRatio > 1.2) {
+      className += ' vertical';
+      if (aspectRatio > 1.8) className += ' extreme';
+    } else if (aspectRatio < 0.8) {
+      className += ' horizontal';
+      if (aspectRatio < 0.5) className += ' extreme';
     } else {
-      return { gridColumn: 'span 1', gridRow: 'span 1' };
+      className += ' square';
     }
+
+    // 注目コンテンツの場合
+    if (aspectRatio > 2.1 || aspectRatio < 0.4) {
+      className = 'grid-item featured';
+    }
+
+    return className;
   };
 
   const handleAction = (action: 'like' | 'comment' | 'share' | 'profile', itemId: string) => {
@@ -77,36 +76,25 @@ const GridView: React.FC<GridViewProps> = ({ onAction }) => {
   };
 
   return (
-    <div className="layout-container">
-      <div className="content-container">
-        <div className="content-inner" style={{ padding: 0 }}>
-          <div style={containerStyle}>
-            {dummyImageContents.map((item) => {
-              const spanSize = getSpanSize(item.mainContent.aspectRatio || 1);
-              return (
-                <div
-                  key={item.id}
-                  style={{
-                    position: 'relative',
-                    width: '100%',
-                    height: '100%',
-                    overflow: 'hidden',
-                    backgroundColor: '#121212',
-                    ...spanSize,
-                  }}
-                >
-                  <div className="grid-card-wrapper">
-                    <ContentCard
-                      item={item}
-                      variant="grid"
-                      onAction={handleAction}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+    <div className="grid-container">
+      <div className="grid-layout">
+        {dummyImageContents.map((item) => {
+          const aspectRatio = item.mainContent.aspectRatio || 1;
+          return (
+            <div
+              key={item.id}
+              className={getItemClassName(aspectRatio)}
+            >
+              <div className="grid-item-content">
+                <ContentCard
+                  item={item}
+                  variant="grid"
+                  onAction={handleAction}
+                />
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
