@@ -30,7 +30,7 @@ const Chanel: React.FC<ChanelProps> = ({
 
     const containerRect = container.getBoundingClientRect();
     const containerCenter = containerRect.left + containerRect.width / 2;
-    const threshold = containerRect.width * 0.15; // より広い検出範囲に調整
+    const threshold = containerRect.width * 0.15;
 
     let closestChannel: Channel | undefined;
     let minDistance = Infinity;
@@ -72,7 +72,7 @@ const Chanel: React.FC<ChanelProps> = ({
   // スクロールハンドラー
   const handleScroll = useCallback(() => {
     const now = Date.now();
-    if (now - lastScrollTime.current < 16) return; // 60fpsに制限
+    if (now - lastScrollTime.current < 16) return;
     lastScrollTime.current = now;
 
     if (scrollTimeout.current) {
