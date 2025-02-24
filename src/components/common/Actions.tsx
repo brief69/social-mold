@@ -27,10 +27,10 @@ const Actions: React.FC<ActionsProps> = ({
         aria-label="投稿する"
       >
         <div style={{
-          ...createIconStyle(1.2),
+          ...createIconStyle(1),
           color: '#ffffff'
         }}>
-          <IoMdAdd size={theme.icons.sizes.large} />
+          <IoMdAdd size={24} />
         </div>
       </button>
       <div className="view-mode-button">

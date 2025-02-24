@@ -9,60 +9,39 @@
 }
 
 .post-button {
-  background: linear-gradient(45deg, var(--primary-color), #8b5cf6);
+  background-color: #1d9bf0;
   border-radius: 50%;
   width: 56px;
   height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3),
-              0 0 0 4px rgba(139, 92, 246, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   border: none;
-  position: relative;
-  overflow: hidden;
-}
-
-.post-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
-  border-radius: 50%;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  cursor: pointer;
 }
 
 .post-button:hover {
-  transform: scale(1.08) translateY(-2px);
-  box-shadow: 0 8px 16px rgba(139, 92, 246, 0.4),
-              0 0 0 6px rgba(139, 92, 246, 0.15);
-}
-
-.post-button:hover::before {
-  opacity: 1;
+  background-color: #1a8cd8;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .post-button:active {
   transform: scale(0.95);
-  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3),
-              0 0 0 3px rgba(139, 92, 246, 0.1);
 }
 
 .view-mode-button {
   background-color: var(--background-color);
   border-radius: 50%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
 }
 
 .view-mode-button:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 @media (max-width: 768px) {
