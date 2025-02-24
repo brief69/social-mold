@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import ListView from './ListView';
 import GridView from './GridView';
 import SwipeView from './SwipeView';
-import SwapActionButton from '../common/SwapActionButton';
-import AutoHideWrapper from '../common/AutoHideWrapper';
+import Actions from '../common/Actions';
 import '../../styles/Layout.css';
 
 type ViewMode = 'list' | 'grid' | 'swipe';
@@ -12,12 +11,14 @@ interface HomeProps {
   onAction?: (action: 'like' | 'comment' | 'share' | 'profile', itemId: string) => void;
   selectedChannelId?: string;
   onChannelChange?: (channelId: string) => void;
+  onPostClick?: () => void;
 }
 
 const Home: React.FC<HomeProps> = ({ 
   onAction,
   selectedChannelId = 'recommended',
   onChannelChange,
+  onPostClick,
 }) => {
   const [viewMode, setViewMode] = useState<ViewMode>('list');
 
@@ -50,18 +51,12 @@ const Home: React.FC<HomeProps> = ({
     <div className="layout-container">
       <div className="content-container">
         <div className="content-inner">
-          <AutoHideWrapper style={{
-            position: 'fixed',
-            right: viewMode === 'list' ? '5%' : '20px',
-            top: '20px',
-            zIndex: 1000,
-          }}>
-            <SwapActionButton
-              onViewChange={setViewMode}
-              defaultViewMode={viewMode}
-            />
-          </AutoHideWrapper>
           {renderContent()}
+          <Actions
+            onPostClick={onPostClick}
+            onViewChange={setViewMode}
+            defaultViewMode={viewMode}
+          />
         </div>
       </div>
     </div>
